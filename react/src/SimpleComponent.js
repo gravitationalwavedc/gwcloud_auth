@@ -45,6 +45,10 @@ class SimpleComponent extends React.Component {
         }
     }
 
+    componentDidMount() {
+        console.log("Mounted", this.props)
+    }
+
     render() {
         return (
             <div>

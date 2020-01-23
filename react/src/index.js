@@ -1,11 +1,5 @@
-import SimpleComponent from "./SimpleComponent"
-
-
-function test() {
-    console.log("hello")
-}
+import getRoutes from "./Routes";
 
 export {
-    test,
-    SimpleComponent
+    getRoutes
 };
