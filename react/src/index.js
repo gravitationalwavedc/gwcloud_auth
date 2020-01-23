@@ -1,4 +1,5 @@
-import SimpleComponent from "./SimpleComponent";
+import SimpleComponent from "./SimpleComponent"
+
 
 function test() {
     console.log("hello")

@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'auth.apps.AuthConfig',
+    'gwauth.apps.AuthConfig',
+    'graphene_django',
 ]
 
 MIDDLEWARE = [
@@ -120,3 +121,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+GRAPHENE = {
+    'SCHEMA': 'gwcloud_auth.schema.schema',
+    'SCHEMA_OUTPUT': 'react/data/schema.json',  # defaults to schema.json,
+    'SCHEMA_INDENT': 2,  # Defaults to None (displays all data on a single line)
+}
+
+AUTH_USER_MODEL = 'gwauth.GWCloudUser'

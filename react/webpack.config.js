@@ -43,7 +43,7 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(png|jp(e*)g|svg)$/,
+                test: /\.(jpg|JPG|jpeg|png|gif|mp3|svg|ttf|woff2|woff|eot)$/,
                 use: [
                     {
                         loader: 'url-loader',
@@ -64,11 +64,11 @@ module.exports = {
     // Server Configuration options
     devServer: {
         host: '0.0.0.0',
-        port: 8081,
+        port: 3001,
         disableHostCheck: true,
         historyApiFallback: true,
         headers: {
-            "Access-Control-Allow-Origin": "http://localhost:8080",
+            "Access-Control-Allow-Origin": "http://localhost:3000",
             "Access-Control-Allow-Credentials": "true",
             "Access-Control-Allow-Headers": "Content-Type, Authorization, x-id, Content-Length, X-Requested-With",
             "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"

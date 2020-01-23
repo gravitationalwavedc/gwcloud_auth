@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --hot ",
     "start_win": "set \"NODE_ENV=development\" && webpack-dev-server --mode development --hot ",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "relay": "relay-compiler --src ./src --schema ./data/schema.json --extensions=js --extensions=jsx"
   },
   "keywords": [],
   "author": "",
@@ -27,5 +28,13 @@
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "babel-plugin-relay": "^8.0.0",
+    "graphql": "^14.5.8",
+    "react-relay": "^8.0.0",
+    "relay-compiler": "^8.0.0",
+    "relay-runtime": "^8.0.0",
+    "semantic-ui-react": "^0.88.2",
+    "url-loader": "^3.0.0"
+  }
 }
