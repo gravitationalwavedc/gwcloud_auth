@@ -2,5 +2,6 @@ node_modules/
 *.pyc
 .idea
 venv
+.venv
 db.sqlite3
 __generated__
