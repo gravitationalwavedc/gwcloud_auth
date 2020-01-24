@@ -53,8 +53,13 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            // fixes https://github.com/graphql/graphql-js/issues/1272
+            {
+                test: /\.mjs$/,
+                include: /node_modules/,
+                type: 'javascript/auto'
             }
-
         ]
     },
     output: {
@@ -82,6 +87,6 @@ module.exports = {
         })
     ],
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx', '.mjs']
     },
 };

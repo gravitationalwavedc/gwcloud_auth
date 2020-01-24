@@ -1,21 +1,7 @@
 import React from "react";
 import {Route} from 'found'
-
-class Login extends React.Component {
-    render() {
-        return (
-            <div>Login!</div>
-        )
-    }
-}
-
-class Register extends React.Component {
-    render() {
-        return (
-            <div>Register</div>
-        )
-    }
-}
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
 
 function getRoutes() {
     return (

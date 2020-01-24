@@ -129,3 +129,5 @@ GRAPHENE = {
 }
 
 AUTH_USER_MODEL = 'gwauth.GWCloudUser'
+
+EMAIL_FROM = "noreply@gwcloud.org"
