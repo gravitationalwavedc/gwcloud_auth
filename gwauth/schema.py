@@ -3,9 +3,10 @@ from graphene import relay, ObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 
 from graphene_django.types import DjangoObjectType
+from graphql_jwt.decorators import login_required
 
 from gwauth.models import GWCloudUser
-from gwauth.views import register
+from gwauth.views import register, verify
 
 
 class GWCloudUserNode(DjangoObjectType):
@@ -45,10 +46,36 @@ class Register(relay.ClientIDMutation):
         )
 
 
+class VerifyResult(ObjectType):
+    result = graphene.Boolean()
+    message = graphene.String()
+
+
+class Verify(relay.ClientIDMutation):
+    class Input:
+        code = graphene.String(required=True)
+
+    result = graphene.Field(VerifyResult)
+
+    @classmethod
+    def mutate_and_get_payload(cls, *args, **kwargs):
+        result, message = verify(kwargs)
+
+        return Verify(result=VerifyResult(
+            result=result,
+            message=message)
+        )
+
+
 class Query(object):
     gwclouduser = relay.Node.Field(GWCloudUserNode)
-    all_gwcloudusers = DjangoFilterConnectionField(GWCloudUserNode, fields=('id', 'username', 'first_name', 'last_name'))
+    #all_gwcloudusers = DjangoFilterConnectionField(GWCloudUserNode, fields=('id', 'username', 'first_name', 'last_name'))
+
+    @login_required
+    def resolve_gwclouduser(self, info, **kwargs):
+        return info.context.user
 
 
 class Mutation(graphene.ObjectType):
     register = Register.Field()
+    verify = Verify.Field()

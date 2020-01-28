@@ -5,7 +5,25 @@ from django.db import models
 
 
 class GWCloudUser(AbstractUser):
-    pass
+    IS_ADMIN = 'Admin'
+    IS_USER = 'User'
+    ROLE_CHOICES = [
+        (IS_ADMIN, IS_ADMIN),
+        (IS_USER, IS_USER),
+    ]
+    role = models.CharField(max_length=5, choices=ROLE_CHOICES, default=IS_USER, blank=False)
+
+    UNVERIFIED = 'Unverified'
+    VERIFIED = 'Verified'
+    CONFIRMED = 'Confirmed'
+    DELETED = 'Deleted'
+    STATUS_CHOICES = [
+        (UNVERIFIED, UNVERIFIED),
+        (VERIFIED, VERIFIED),
+        (CONFIRMED, CONFIRMED),
+        (DELETED, DELETED),
+    ]
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, blank=False, default=UNVERIFIED)
 
 
 class Verification(models.Model):

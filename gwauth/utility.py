@@ -6,6 +6,7 @@ import logging
 
 from datetime import timedelta
 
+from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.conf import settings
 
@@ -71,6 +72,8 @@ def get_information(token):
         return verification.information
     except Verification.DoesNotExist:
         raise ValueError('Invalid or expired verification code')
+    except ValidationError:
+        raise ValueError("Invalid verification code")
     except Exception as e:
         logger.exception(e)  # should notify admins via email
         raise

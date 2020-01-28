@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from datetime import timedelta
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'gwauth.apps.AuthConfig',
     'graphene_django',
+    'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
 ]
 
 MIDDLEWARE = [
@@ -125,9 +128,24 @@ STATIC_URL = '/static/'
 GRAPHENE = {
     'SCHEMA': 'gwcloud_auth.schema.schema',
     'SCHEMA_OUTPUT': 'react/data/schema.json',  # defaults to schema.json,
-    'SCHEMA_INDENT': 2,  # Defaults to None (displays all data on a single line)
+    'SCHEMA_INDENT': 2,  # Defaults to None (displays all data on a single line),
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
 }
 
 AUTH_USER_MODEL = 'gwauth.GWCloudUser'
 
 EMAIL_FROM = "noreply@gwcloud.org"
+
+AUTHENTICATION_BACKENDS = [
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+GRAPHQL_JWT = {
+    'JWT_VERIFY_EXPIRATION': True,
+    'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
+    'JWT_EXPIRATION_DELTA': timedelta(minutes=5),
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+}
