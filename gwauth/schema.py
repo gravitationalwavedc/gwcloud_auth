@@ -67,8 +67,14 @@ class Verify(relay.ClientIDMutation):
         )
 
 
+class UserDetails(ObjectType):
+    username = graphene.String()
+    first_name = graphene.String()
+    last_name = graphene.String()
+
+
 class Query(object):
-    gwclouduser = relay.Node.Field(GWCloudUserNode)
+    gwclouduser = graphene.Field(UserDetails)
     #all_gwcloudusers = DjangoFilterConnectionField(GWCloudUserNode, fields=('id', 'username', 'first_name', 'last_name'))
 
     @login_required

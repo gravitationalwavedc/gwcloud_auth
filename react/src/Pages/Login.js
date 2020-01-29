@@ -9,6 +9,7 @@ import queryString from "query-string";
 
 class Login extends React.Component {
     constructor() {
+        console.log(harnessApi)
         super();
 
         this.state = {
@@ -31,8 +32,9 @@ class Login extends React.Component {
             },
             onCompleted: (response, errors) => {
                 if (response.tokenAuth) {
-                    harnessApi.setAuthTokens(response.tokenAuth.token, response.tokenAuth.refreshToken)
-                    console.log(response.tokenAuth)
+                    harnessApi.setAuthTokens(response.tokenAuth.token, response.tokenAuth.refreshToken);
+                    harnessApi.retryHarnessUserDetails();
+
                     const query = queryString.parse(location.search);
                     this.props.router.replace(query['next'] || "/")
                 }
