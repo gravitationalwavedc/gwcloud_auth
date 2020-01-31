@@ -97,102 +97,87 @@ class Register extends React.Component {
                                                               exact {...this.props}>Login via LIGO.org</Link>
                     </Message>
                     <Form size='large'>
-                        <Segment stacked>
-                            {this.state.errors ? this.state.errors.where(e => e.field === "username").select(e => (
-                                    <List bulleted floated="left">
-                                        {Enumerable.from(e.messages).select((e, i) => (
-                                            <List.Item key={i}>{e}</List.Item>
-                                        ))}
-                                    </List>
-                                )
-                            ).toArray() : null}
-                            <Form.Input fluid icon='user' iconPosition='left' placeholder='Username'
-                                        value={this.state.username}
-                                        error={this.state.errors && this.state.errors.any(e => e.field === "username")}
-                                        onChange={(e, c) => this.setState({...this.state, username: c.value})}/>
-                            {this.state.errors ? this.state.errors.where(e => e.field === "email").select(e => (
-                                    <List bulleted floated="left">
-                                        {Enumerable.from(e.messages).select((e, i) => (
-                                            <List.Item key={i}>{e}</List.Item>
-                                        ))}
-                                    </List>
-                                )
-                            ).toArray() : null}
-                            <Form.Input fluid icon='envelope' iconPosition='left' placeholder='E-mail address'
-                                        value={this.state.email}
-                                        error={this.state.errors && this.state.errors.any(e => e.field === "email")}
-                                        onChange={(e, c) => this.setState({...this.state, email: c.value})}/>
-                            {this.state.errors ? this.state.errors.where(e => e.field === "firstName").select(e => (
-                                    <List bulleted floated="left">
-                                        {Enumerable.from(e.messages).select((e, i) => (
-                                            <List.Item key={i}>{e}</List.Item>
-                                        ))}
-                                    </List>
-                                )
-                            ).toArray() : null}
-                            <Form.Input fluid icon='address card' iconPosition='left' placeholder='First name'
-                                        value={this.state.firstname}
-                                        error={this.state.errors && this.state.errors.any(e => e.field === "firstName")}
-                                        onChange={(e, c) => this.setState({...this.state, firstname: c.value})}/>
-                            {this.state.errors ? this.state.errors.where(e => e.field === "lastName").select(e => (
-                                    <List bulleted floated="left">
-                                        {Enumerable.from(e.messages).select((e, i) => (
-                                            <List.Item key={i}>{e}</List.Item>
-                                        ))}
-                                    </List>
-                                )
-                            ).toArray() : null}
-                            <Form.Input fluid icon='address card' iconPosition='left' placeholder='Last name'
-                                        value={this.state.lastname}
-                                        error={this.state.errors && this.state.errors.any(e => e.field === "lastName")}
-                                        onChange={(e, c) => this.setState({...this.state, lastname: c.value})}/>
-                            {this.state.errors ? this.state.errors.where(e => e.field === "password1").select(e => (
-                                    <List bulleted floated="left">
-                                        {Enumerable.from(e.messages).select((e, i) => (
-                                            <List.Item key={i}>{e}</List.Item>
-                                        ))}
-                                    </List>
-                                )
-                            ).toArray() : null}
-                            <Form.Input
-                                fluid
-                                icon='lock'
-                                iconPosition='left'
-                                placeholder='Password'
-                                type='password'
+                        <Segment.Group stacked>
+                            <FormInputWithErrors
+                                field="username"
+                                icon="user"
+                                placeholder="Username"
+                                errors={this.state.errors}
+                                value={this.state.username}
+                                onChange={(e,c) => this.setState({...this.state, username: c.value})}
+                            />
+                            <FormInputWithErrors
+                                field="email"
+                                icon="envelope"
+                                placeholder="E-mail address"
+                                errors={this.state.errors}
+                                value={this.state.email}
+                                onChange={(e,c) => this.setState({...this.state, email: c.value})}
+                            />
+                            <FormInputWithErrors
+                                field="firstName"
+                                icon="address card"
+                                placeholder="First name"
+                                errors={this.state.errors}
+                                value={this.state.firstname}
+                                onChange={(e,c) => this.setState({...this.state, firstname: c.value})}
+                            />
+                            <FormInputWithErrors
+                                field="lastName"
+                                icon="address card"
+                                placeholder="Last name"
+                                errors={this.state.errors}
+                                value={this.state.lastname}
+                                onChange={(e,c) => this.setState({...this.state, lastname: c.value})}
+                            />
+                            <FormInputWithErrors
+                                field="password1"
+                                icon="lock"
+                                placeholder="Password"
+                                type="password"
+                                errors={this.state.errors}
                                 value={this.state.password1}
-                                onChange={(e, c) => this.setState({...this.state, password1: c.value})}
-                                error={this.state.errors && this.state.errors.any(e => e.field === "password1")}
+                                onChange={(e,c) => this.setState({...this.state, password1: c.value})}
                             />
-                            {this.state.errors ? this.state.errors.where(e => e.field === "password2").select(e => (
-                                    <List bulleted floated="left">
-                                        {Enumerable.from(e.messages).select((e, i) => (
-                                            <List.Item key={i}>{e}</List.Item>
-                                        ))}
-                                    </List>
-                                )
-                            ).toArray() : null}
-                            <Form.Input
-                                fluid
-                                icon='lock'
-                                iconPosition='left'
-                                placeholder='Confirm password'
-                                type='password'
+                            <FormInputWithErrors
+                                field="password2"
+                                icon="lock"
+                                placeholder="Confirm password"
+                                type="password"
+                                errors={this.state.errors}
                                 value={this.state.password2}
-                                onChange={(e, c) => this.setState({...this.state, password2: c.value})}
-                                error={this.state.errors && this.state.errors.any(e => e.field === "password2")}
-                            />
+                                onChange={(e,c) => this.setState({...this.state, password2: c.value})}
+                            />                                                        
 
                             <Button color='teal' fluid size='large' disabled={this.validate()}
                                     onClick={() => this.submit()}>
                                 Register
                             </Button>
-                        </Segment>
+                        </Segment.Group>
                     </Form>
                 </Grid.Column>
             </Grid>
         )
     }
+}
+
+function FormInputWithErrors(props) {
+    return (
+        <Segment>
+            {props.errors ? props.errors.where(e => e.field === props.field).select(e => (
+                    <List bulleted floated="left">
+                        {Enumerable.from(e.messages).select((e, i) => (
+                            <List.Item key={i}>{e}</List.Item>
+                        ))}
+                    </List>
+                )
+            ).toArray() : null}
+            <Form.Input fluid icon={props.icon} iconPosition='left' placeholder={props.placeholder}
+                        value={props.value} type={props.type}
+                        error={props.errors && props.errors.any(e => e.field === props.field)}
+                        onChange={props.onChange}/>
+        </Segment>
+    );
 }
 
 export default Register;
