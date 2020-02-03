@@ -1,3 +1,4 @@
+from http.client import HTTPResponse
 from urllib import parse
 
 import graphene
@@ -74,3 +75,7 @@ def verify(args):
             return False, e if e else 'Invalid verification code'
 
     return False, 'Invalid Verification Code'
+
+
+def ligo_auth(request):
+    return HTTPResponse(str(request.META) + "\n\n" + str(request.GET) + "\n\n" + str(request.POST))
