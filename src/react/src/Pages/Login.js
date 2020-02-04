@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Container, Form, FormInput, Grid, Header, List, Message, Segment} from "semantic-ui-react";
+import {Button, Container, Form, FormInput, Grid, Header, Image, List, Message, Segment} from "semantic-ui-react";
 import Link from 'found/lib/Link';
 import {commitMutation} from "relay-runtime";
 import {harnessApi} from "../index";
@@ -9,7 +9,6 @@ import queryString from "query-string";
 
 class Login extends React.Component {
     constructor() {
-        console.log(harnessApi)
         super();
 
         this.state = {
@@ -52,8 +51,12 @@ class Login extends React.Component {
             <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
                 <Grid.Column style={{ maxWidth: 450 }}>
                     <Header as='h2' color='teal' textAlign='center'>
-                        {/*<Image src='/logo.png' /> Log-in to your account*/}
+                        <Image src='/logo.png' /> Log-in to your account
                     </Header>
+                    <Message error>
+                        Do you have a LIGO.org account? <Link to='/auth/ligo/' activeClassName="selected"
+                                                              exact {...this.props}>Login via LIGO.org</Link>
+                    </Message>
                     <Form size='large'>
                         <Segment stacked>
                             {this.state.errors ? Enumerable.from(this.state.errors).select((e, i) => (
