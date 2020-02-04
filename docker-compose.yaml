@@ -1,0 +1,14 @@
+ version: '3'
+
+services:
+  static:
+    build:
+      dockerfile: ./docker/gwcloud_auth.Dockerfile
+      context: .
+    image: nexus.gw-cloud.org/gwcloud-dev/gwcloud_auth:0.1
+    container_name: gwcloud_auth
+    ports:
+      - "80:80" # Apache conf
+      - "443:443" # Django APP
+    volumes:
+      - ./conf/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
