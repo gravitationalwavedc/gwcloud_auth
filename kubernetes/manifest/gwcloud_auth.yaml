@@ -1,0 +1,29 @@
+---
+# 
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gwcloud-auth
+  namespace: gwcloud
+  labels:
+    name: gwcloud-auth
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: gwcloud-auth
+    spec:
+      containers:
+      - name: gwcloud-auth
+        image: nexus.gw-cloud.org/gwcloud-dev/gwcloud_auth:0.1
+        ports:
+        - name: https
+          containerPort: 443
+        resources: {}
+        tty: true
+      imagePullSecrets:
+      - name: regcred
+      nodeSelector:
+        kubernetes.io/hostname: k8s-3
+... 
