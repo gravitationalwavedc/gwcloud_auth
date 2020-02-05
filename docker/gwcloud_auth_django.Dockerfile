@@ -7,6 +7,8 @@ RUN apt-get -y install shibboleth-sp2-common shibboleth-sp2-utils libapache2-mod
 # Enable mod shibboleth and mod wsgi
 RUN a2enmod shib
 RUN a2enmod wsgi
+RUN a2enmod proxy
+RUN a2enmod proxy_http
 
 # Copy django source
 COPY src /src
@@ -60,5 +62,5 @@ RUN . ~/.nvm/nvm.sh && cd /src/react && nvm install && nvm use && nvm install-la
 RUN rm -Rf /src/react
 RUN rm -Rf ~/.nvm/
 
-EXPOSE 80
+EXPOSE 8000
 CMD [ "/runserver.sh"]

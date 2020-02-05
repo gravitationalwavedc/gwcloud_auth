@@ -14,8 +14,7 @@ services:
       MYSQL_PASSWORD: 76vcqmGKP19Z1AEx
       MYSQL_HOST: db
     ports:
-      - "80:80" # Apache conf
-      - "443:443" # Django APP
+      - "8000:8000"
     volumes:
       - ./conf/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
       - ./logs:/src/logs
