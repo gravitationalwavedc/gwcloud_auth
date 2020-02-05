@@ -3,20 +3,20 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: ligo-auth
-  namespace: bilby
+  name: gwcloud_auth
+  namespace: gwcloud
   labels:
-    name: ligo-auth
+    name: gwcloud_auth
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        name: ligo-auth
+        name: gwcloud_auth
     spec:
       containers:
-      - name: ligo-auth
-        image: nexus.gw-cloud.org/gwcloud-dev/ligo_auth:0.1
+      - name: gwcloud_auth
+        image: nexus.gw-cloud.org/gwcloud-dev/gwcloud_auth:0.1
         ports:
         - name: http
           containerPort: 80
@@ -25,9 +25,9 @@ spec:
         resources: {}
         tty: true
       imagePullSecrets:
-      - name: nexus.gw-cloud.org
+      - name: regcred
     nodeSelector:
-      kubernetes.io/hostname: deployment-3
+      kubernetes.io/hostname: k8s-3
 ---
 # NodePort service
 apiVersion: v1

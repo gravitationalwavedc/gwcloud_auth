@@ -1,4 +1,5 @@
 const webpack = require("webpack");
+const path = require('path');
 
 module.exports = {
     module: {
@@ -65,6 +66,7 @@ module.exports = {
     output: {
         publicPath: "/",
         globalObject: "this",
+	path: path.resolve(__dirname, '../static/')
     },
     // Server Configuration options
     devServer: {
