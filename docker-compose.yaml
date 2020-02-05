@@ -1,14 +1,37 @@
- version: '3'
+version: '3'
 
 services:
-  static:
+  web:
     build:
-      dockerfile: ./docker/gwcloud_auth.Dockerfile
+      dockerfile: ./docker/gwcloud_auth_django.Dockerfile
       context: .
     image: nexus.gw-cloud.org/gwcloud-dev/gwcloud_auth:0.1
-    container_name: gwcloud_auth
+    container_name: gwcloud_auth_django
+    environment:
+      MYSQL_ROOT_PASSWORD: 76vcqmGKP19Z1AEx
+      MYSQL_DATABASE: gwcloud_auth
+      MYSQL_USER: django
+      MYSQL_PASSWORD: 76vcqmGKP19Z1AEx
+      MYSQL_HOST: db
     ports:
       - "80:80" # Apache conf
       - "443:443" # Django APP
     volumes:
       - ./conf/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./logs:/src/logs
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    container_name: gwcloud_auth_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 76vcqmGKP19Z1AEx
+      MYSQL_DATABASE: gwcloud_auth
+      MYSQL_USER: django
+      MYSQL_PASSWORD: 76vcqmGKP19Z1AEx
+    volumes:
+      - var_lib_mysql:/var/lib/mysql
+  
+volumes:
+  var_lib_mysql:

@@ -120,11 +120,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-
-STATIC_URL = '/static/'
-
 GRAPHENE = {
     'SCHEMA': 'gwcloud_auth.schema.schema',
     'SCHEMA_OUTPUT': 'react/data/schema.json',  # defaults to schema.json,
@@ -149,3 +144,73 @@ GRAPHQL_JWT = {
     'JWT_EXPIRATION_DELTA': timedelta(minutes=5),
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
 }
+
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static-files/')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static/"),
+]
+
+EMAIL_FROM = 'no-reply@gw-cloud.org'
+
+PASSWORD_RESET_TIMEOUT_DAYS = 1
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s %(levelname)s (%(name)s): %(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard',
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'gwcloud_auth.log'),
+            'formatter': 'standard',
+            'when': 'midnight',
+            'interval': 1,
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'mail_admins', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'gwauth': {
+            'handlers': ['file', 'mail_admins', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'gwcloud_auth': {
+            'handlers': ['file', 'mail_admins', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
+
