@@ -1,6 +1,9 @@
 from http.client import HTTPResponse
 from urllib import parse
 
+from django.conf import settings
+
+import requests
 import graphene
 
 from gwauth import utility
@@ -13,6 +16,17 @@ def register(args):
     """
     View to process the registration
     """
+
+    r = requests.post(
+        'https://www.google.com/recaptcha/api/siteverify',
+        data={
+            'secret': settings.SECRET_CAPTCHA_KEY,
+            'response': args.get('captcha'),
+        }
+    )
+    
+    if r.json()['success'] == False:
+        return False
 
     # creating the registration form from the data
     form = RegistrationForm(args)

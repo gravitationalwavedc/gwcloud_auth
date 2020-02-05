@@ -34,6 +34,7 @@ class Register(relay.ClientIDMutation):
         last_name = graphene.String(required=True)
         password1 = graphene.String(required=True)
         password2 = graphene.String(required=True)
+        captcha = graphene.String(required=True)
 
     result = graphene.Field(RegisterResult)
 

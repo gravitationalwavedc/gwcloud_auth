@@ -34,6 +34,7 @@
     "graphql": "^14.5.8",
     "linq": "^3.2.1",
     "query-string": "^6.10.1",
+    "react-google-recaptcha": "^2.0.1",
     "react-relay": "^8.0.0",
     "relay-compiler": "^8.0.0",
     "relay-runtime": "^8.0.0",

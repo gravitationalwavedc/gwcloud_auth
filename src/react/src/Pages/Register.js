@@ -5,6 +5,9 @@ import {commitMutation} from "relay-runtime";
 import {harnessApi} from "../index";
 import {graphql} from "graphql";
 import * as Enumerable from "linq";
+import ReCAPTCHA from 'react-google-recaptcha';
+
+const reCAPTCHARef = React.createRef()
 
 class Register extends React.Component {
     constructor() {
@@ -23,10 +26,18 @@ class Register extends React.Component {
     }
 
     validate() {
-        return this.state.username === "" || this.state.email === "" || this.state.firstname === "" || this.state.lastname === "" || this.state.password1.length < 5 || this.state.password2.length < 5 || this.state.password1 !== this.state.password2
+        return this.state.username === "" || this.state.email === "" || this.state.firstname === "" || this.state.lastname === "" || this.state.password1.length < 5 || this.state.password2.length < 5 || this.state.password1 !== this.state.password2 || !this.state.captcha
+    }
+
+    handleCaptcha = (key) => {
+        this.setState({
+            captcha: true,
+            captchaResponse: key
+        })
     }
 
     submit() {
+        console.log(this.state)
         commitMutation(harnessApi.getEnvironment("auth"), {
             mutation: graphql`mutation RegisterMutation($input: RegisterInput!)
                 {
@@ -48,7 +59,8 @@ class Register extends React.Component {
                     firstName: this.state.firstname,
                     lastName: this.state.lastname,
                     password1: this.state.password1,
-                    password2: this.state.password2
+                    password2: this.state.password2,
+                    captcha: this.state.captchaResponse
                 }
             },
             onCompleted: (response, errors) => {
@@ -147,7 +159,19 @@ class Register extends React.Component {
                                 errors={this.state.errors}
                                 value={this.state.password2}
                                 onChange={(e,c) => this.setState({...this.state, password2: c.value})}
-                            />                                                        
+                            />
+                            <Segment>
+                                <ReCAPTCHA
+                                    onChange={this.handleCaptcha}
+                                    ref={reCAPTCHARef}
+                                    sitekey='6Le-4NUUAAAAAHuYJTxXQ2Cjy8Dinw38s-pSfT48'
+                                    theme='light'
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                    }}
+                                />
+                            </Segment>
 
                             <Button color='teal' fluid size='large' disabled={this.validate()}
                                     onClick={() => this.submit()}>
