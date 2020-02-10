@@ -66,7 +66,9 @@ module.exports = {
     output: {
         publicPath: "/",
         globalObject: "this",
-	path: path.resolve(__dirname, '../static/')
+	    path: path.resolve(__dirname, '../static/')
+        library: 'RemoteModule',
+        libraryTarget: 'this'
     },
     // Server Configuration options
     devServer: {
