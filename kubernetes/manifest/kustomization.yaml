@@ -1,0 +1,6 @@
+resources:
+  - secret.yaml
+  - gwcloud_auth_db_deployment.yaml
+  - gwcloud_auth_db_service.yaml
+  - gwcloud_auth_dg_deployment.yaml
+  - gwcloud_auth_dg_service.yaml

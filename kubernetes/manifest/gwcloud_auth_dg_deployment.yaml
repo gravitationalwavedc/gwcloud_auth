@@ -1,0 +1,45 @@
+---
+# 
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gwcloud-auth
+  namespace: gwcloud
+  labels:
+    name: gwcloud-auth
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        name: gwcloud-auth
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          value: gwcloud_auth
+        - name: MYSQL_HOST
+          value: gwcloud-auth-db
+        - name: MYSQL_PASSWORD
+          value: 76vcqmGKP19Z1AEx
+        - name: MYSQL_ROOT_PASSWORD
+          value: 76vcqmGKP19Z1AEx
+        - name: MYSQL_USER
+          value: django
+        name: gwcloud-auth
+        image: nexus.gw-cloud.org/gwcloud-dev/gwcloud_auth:0.7
+        ports:
+        - name: http
+          containerPort: 8000
+        resources: {}
+        tty: true
+      imagePullSecrets:
+      - name: regcred
+      nodeSelector:
+        kubernetes.io/hostname: k8s-3
+... 
