@@ -10,16 +10,11 @@ metadata:
 spec:
   externalTrafficPolicy: Cluster
   ports:
-  - name: port-1
-    nodePort: 31602
-    port: 80
+  - name: port-http
+    nodePort: 31601
+    port: 8000
     protocol: TCP
-    targetPort: 80
-  - name: port-2
-    nodePort: 30201
-    port: 443
-    protocol: TCP
-    targetPort: 443
+    targetPort: 8000
   selector:
     name: gwcloud-auth
   sessionAffinity: None
