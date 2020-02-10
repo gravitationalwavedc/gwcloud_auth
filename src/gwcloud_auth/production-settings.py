@@ -4,6 +4,8 @@ DEBUG = False
 
 SITE_URL = "https://gw-cloud.org"
 
+STATIC_URL = "/auth/static/"
+
 ALLOWED_HOSTS = ['*']
 
 EMAIL_HOST = 'mail.swin.edu.au'
