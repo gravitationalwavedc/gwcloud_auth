@@ -40,6 +40,4 @@ spec:
         tty: true
       imagePullSecrets:
       - name: regcred
-      nodeSelector:
-        kubernetes.io/hostname: k8s-3
 ... 
