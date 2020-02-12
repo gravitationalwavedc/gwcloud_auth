@@ -1,4 +1,4 @@
-from http.client import HTTPResponse
+from django.http import HttpResponse
 from urllib import parse
 
 from django.conf import settings
@@ -92,4 +92,4 @@ def verify(args):
 
 
 def ligo_auth(request):
-    return HTTPResponse(str(request.META) + "\n\n" + str(request.GET) + "\n\n" + str(request.POST))
+    return HttpResponse("META:<br/>" + str(request.META) + "<br/><br/>POST:<br/>" + str(request.POST) + "<br/><br/>GET:<br/>" + str(request.GET))

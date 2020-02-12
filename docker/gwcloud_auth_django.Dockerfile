@@ -9,6 +9,7 @@ RUN a2enmod shib
 RUN a2enmod wsgi
 RUN a2enmod proxy
 RUN a2enmod proxy_http
+RUN a2enmod ssl
 
 # Copy django source
 COPY src /src
@@ -35,9 +36,6 @@ COPY certs/login.ligo.org.cert.LIOGOCA.pem.txt /etc/shibboleth/login.ligo.org.ce
 COPY certs/shibboleth2-version3.xml /etc/shibboleth/shibboleth2.xml 
 COPY certs/attribute-map-ligo.xml /etc/shibboleth/attribute-map.xml
 
-# Copy in the apache configuration 
-COPY conf/000-default.conf /etc/apache2/sites-enabled/000-default.conf
-
 # Workaround
 # COPY certs/gwcloud_auth.crt /etc/ssl/crt/gwcloud_auth.crt
 # COPY certs/gwcloud_auth.key /etc/ssl/crt/gwcloud_auth.key
@@ -50,8 +48,6 @@ RUN apt-get update && \
     openssl req -new -key /etc/ssl/crt/gwcloud_auth.key -out server.csr \
         -subj "/C=AU/ST=Victoria/L=Swinburne/O=OrgName/OU=IT Department/CN=gw-cloud.org" && \
     openssl x509 -req -days 365 -in server.csr -signkey /etc/ssl/crt/gwcloud_auth.key -out /etc/ssl/crt/gwcloud_auth.crt
-    
-RUN a2enmod ssl
 
 # Build webpack bundle
 RUN mkdir /src/static
@@ -61,6 +57,12 @@ RUN . ~/.nvm/nvm.sh && cd /src/react && nvm install && nvm use && nvm install-la
 # Don't need any of the javascipt code now
 RUN rm -Rf /src/react
 RUN rm -Rf ~/.nvm/
+
+# Kube sometimes has trouble downloading this metadata file using shibd
+RUN curl https://liam-saml-metadata.s3.amazonaws.com/ligo-metadata.xml > /var/log/shibboleth/ligo-metadata.xml
+
+# Copy in the apache configuration 
+COPY conf/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
 EXPOSE 8000
 CMD [ "/runserver.sh"]
