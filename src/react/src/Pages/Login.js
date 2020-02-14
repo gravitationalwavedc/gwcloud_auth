@@ -54,8 +54,7 @@ class Login extends React.Component {
                         <Image src='/logo.png' /> Log-in to your account
                     </Header>
                     <Message error>
-                        Do you have a LIGO.org account? <Link to='/auth/ligo/' activeClassName="selected"
-                                                              exact {...this.props}>Login via LIGO.org</Link>
+                        Do you have a LIGO.org account? <a href='/auth/ligo/'>Login via LIGO.org</a>
                     </Message>
                     <Form size='large'>
                         <Segment stacked>

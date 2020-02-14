@@ -37,7 +37,6 @@ class Register extends React.Component {
     }
 
     submit() {
-        console.log(this.state)
         commitMutation(harnessApi.getEnvironment("auth"), {
             mutation: graphql`mutation RegisterMutation($input: RegisterInput!)
                 {
@@ -105,8 +104,7 @@ class Register extends React.Component {
                         <Image src='/logo.png'/> Register an Account
                     </Header>
                     <Message error>
-                        Do you have a LIGO.org account? <Link to='/auth/ligo/' activeClassName="selected"
-                                                              exact {...this.props}>Login via LIGO.org</Link>
+                        Do you have a LIGO.org account? <a href='/auth/ligo/'>Login via LIGO.org</a>
                     </Message>
                     <Form size='large'>
                         <Segment.Group stacked>
@@ -164,7 +162,7 @@ class Register extends React.Component {
                                 <ReCAPTCHA
                                     onChange={this.handleCaptcha}
                                     ref={reCAPTCHARef}
-                                    sitekey='6Le-4NUUAAAAAHuYJTxXQ2Cjy8Dinw38s-pSfT48'
+                                    sitekey='6LeXbtgUAAAAAPZ30BNcghORZcsHzLFeRs3qvrcH'
                                     theme='light'
                                     style={{
                                         display: "flex",

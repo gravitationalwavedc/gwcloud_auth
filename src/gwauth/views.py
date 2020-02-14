@@ -1,15 +1,17 @@
-from django.http import HttpResponse
 from urllib import parse
 
-from django.conf import settings
-
 import requests
-import graphene
+from django.conf import settings
+from django.http import HttpResponse
+from graphql_jwt.refresh_token.shortcuts import refresh_token_lazy
+from graphql_jwt.shortcuts import get_token
 
 from gwauth import utility
 from gwauth.forms import RegistrationForm
 from gwauth.mailer import actions
 from gwauth.models import GWCloudUser
+
+from hashlib import sha3_512
 
 
 def register(args):
@@ -17,6 +19,7 @@ def register(args):
     View to process the registration
     """
 
+    # Verify the captcha
     r = requests.post(
         'https://www.google.com/recaptcha/api/siteverify',
         data={
@@ -24,9 +27,9 @@ def register(args):
             'response': args.get('captcha'),
         }
     )
-    
-    if r.json()['success'] == False:
-        return False
+
+    if not r.json()['success']:
+        return False, []
 
     # creating the registration form from the data
     form = RegistrationForm(args)
@@ -92,4 +95,50 @@ def verify(args):
 
 
 def ligo_auth(request):
-    return HttpResponse("META:<br/>" + str(request.META) + "<br/><br/>POST:<br/>" + str(request.POST) + "<br/><br/>GET:<br/>" + str(request.GET))
+    #  'cn': 'Lewis Lakerink'
+    #  'displayName': 'Lewis Lakerink'
+    #  'eduPersonPrincipalName': 'lewis.lakerink@ligo.org'
+    #  'employeeNumber': '5429'
+    #  'givenName': 'Lewis'
+    #  'mail': 'lewis.lakerink@ligo.org'
+    #  'sn': 'Lakerink'
+    #  'uid': 'lewis.lakerink'
+
+    # This will generate a unique hash that is 128 characters long (Django has 160 limit on username field)
+    username_hash = sha3_512((request.META['uid'] + settings.SECRET_KEY).encode()).hexdigest()
+
+    # Check if a user exists with the specified hash
+    if GWCloudUser.objects.filter(username=username_hash).exists():
+        # Fetch the user
+        user = GWCloudUser.objects.get(username=username_hash)
+    else:
+        # Create a new user
+        user = GWCloudUser(username=username_hash)
+
+    # Update the user with the supplied details
+    user.first_name = request.META['givenName']
+    user.last_name = request.META['sn']
+    user.email = request.META['mail']
+    user.username = username_hash
+    user.is_ligo_user = True
+
+    # Save the user
+    user.save()
+
+    # Authorize the user and get the token details
+    token = get_token(user)
+    refresh_token = refresh_token_lazy(user)
+
+    # Get the next url
+    next_url = request.GET.get('next', '/')
+
+    # Return a response that will set the tokens in localstorage and then redirect the page
+    return HttpResponse(f"""
+    <!DOCTYPE html>
+    <script>
+        localStorage.authToken = "{token}";
+        localStorage.authRefreshToken = "{refresh_token}";
+        window.location = "{next_url}";
+    </script>
+    """)
+
