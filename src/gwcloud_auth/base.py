@@ -134,8 +134,6 @@ GRAPHENE = {
 
 AUTH_USER_MODEL = 'gwauth.GWCloudUser'
 
-EMAIL_FROM = "noreply@gwcloud.org"
-
 AUTHENTICATION_BACKENDS = [
     'graphql_jwt.backends.JSONWebTokenBackend',
     'django.contrib.auth.backends.ModelBackend',
@@ -157,6 +155,8 @@ STATICFILES_DIRS = [
 ]
 
 EMAIL_FROM = 'no-reply@gw-cloud.org'
+EMAIL_HOST = 'mail.swin.edu.au'
+EMAIL_PORT = 25
 
 PASSWORD_RESET_TIMEOUT_DAYS = 1
 

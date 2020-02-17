@@ -6,6 +6,8 @@ venv
 .venv
 db.sqlite3
 __generated__
+certs
+src/logs
 
 # Kube
 secret.yaml
