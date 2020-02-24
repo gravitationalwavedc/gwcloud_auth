@@ -4,7 +4,7 @@ Distributed under the MIT License. See LICENSE.txt for more info.
 
 import logging
 
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from django.core.exceptions import ValidationError
 from django.utils import timezone
@@ -12,6 +12,16 @@ from django.conf import settings
 
 from . import constants
 from .models import Verification
+
+from calendar import timegm
+
+from django.contrib.auth import get_user_model
+from django.utils.translation import gettext as _
+
+import jwt
+
+from graphql_jwt.settings import jwt_settings
+
 
 logger = logging.getLogger(__name__)
 
@@ -77,3 +87,26 @@ def get_information(token):
     except Exception as e:
         logger.exception(e)  # should notify admins via email
         raise
+
+def jwt_payload(user, context=None):
+    username = user.get_username()
+
+    if hasattr(username, 'pk'):
+        username = username.pk
+
+    payload = {
+        user.USERNAME_FIELD: username,
+        'exp': datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA,
+        'userId': user.id
+    }
+
+    if jwt_settings.JWT_ALLOW_REFRESH:
+        payload['origIat'] = timegm(datetime.utcnow().utctimetuple())
+
+    if jwt_settings.JWT_AUDIENCE is not None:
+        payload['aud'] = jwt_settings.JWT_AUDIENCE
+
+    if jwt_settings.JWT_ISSUER is not None:
+        payload['iss'] = jwt_settings.JWT_ISSUER
+
+    return payload

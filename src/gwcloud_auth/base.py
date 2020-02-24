@@ -144,6 +144,7 @@ GRAPHQL_JWT = {
     'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
     'JWT_EXPIRATION_DELTA': timedelta(minutes=5),
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+    'JWT_PAYLOAD_HANDLER': 'gwauth.utility.jwt_payload'
 }
 
 STATIC_URL = '/static/'
@@ -216,4 +217,3 @@ LOGGING = {
         },
     },
 }
-
