@@ -8,8 +8,8 @@ import * as Enumerable from "linq";
 import queryString from "query-string";
 
 class Login extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             username: "",
