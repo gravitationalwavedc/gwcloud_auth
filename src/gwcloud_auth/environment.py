@@ -6,6 +6,10 @@ MYSQL_USER = os.getenv('MYSQL_USER')
 MYSQL_ROOT_PASSWORD = os.getenv('MYSQL_ROOT_PASSWORD')
 MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD')
 
+SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_CAPTCHA_KEY = os.getenv('SECRET_CAPTCHA_KEY')
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
