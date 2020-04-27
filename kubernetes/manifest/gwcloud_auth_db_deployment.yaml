@@ -15,15 +15,27 @@ spec:
         io.kompose.service: gwcloud-auth-db
     spec:
       containers:
-      - env:
+      - env:        
         - name: MYSQL_DATABASE
-          value: gwcloud_auth
+          valueFrom:
+          secretKeyRef:
+            name: django-secret
+            key: MYSQL_DATABASE
         - name: MYSQL_PASSWORD
-          value: 76vcqmGKP19Z1AEx
+          valueFrom:
+          secretKeyRef:
+            name: django-secret
+            key: MYSQL_PASSWORD
         - name: MYSQL_ROOT_PASSWORD
-          value: 76vcqmGKP19Z1AEx
+          valueFrom:
+          secretKeyRef:
+            name: django-secret
+            key: MYSQL_ROOT_PASSWORD
         - name: MYSQL_USER
-          value: django
+          valueFrom:
+          secretKeyRef:
+            name: django-secret
+            key: MYSQL_USER
         image: mysql:5.7
         name: mysql-gwcloud-auth
         resources: {}
