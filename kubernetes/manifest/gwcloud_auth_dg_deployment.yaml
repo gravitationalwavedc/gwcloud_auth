@@ -60,7 +60,7 @@ spec:
               name: django-secret
               key: SECRET_CAPTCHA_KEY
         name: gwcloud-auth
-        image: nexus.gw-cloud.org/gwcloud-dev/gwcloud_auth:0.7
+        image: nexus.gw-cloud.org/gwcloud-dev/gwcloud_auth:0.21
         ports:
         - name: http
           containerPort: 8000
