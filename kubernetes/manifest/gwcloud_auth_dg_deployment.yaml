@@ -1,6 +1,6 @@
 ---
 # 
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gwcloud-auth
@@ -9,6 +9,9 @@ metadata:
     name: gwcloud-auth
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+        name: gwcloud-auth
   strategy:
     type: RollingUpdate
     rollingUpdate:
