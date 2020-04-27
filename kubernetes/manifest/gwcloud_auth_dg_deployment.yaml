@@ -54,11 +54,11 @@ spec:
             secretKeyRef:
               name: django-secret
               key: SECRET_KEY
-        - name: SECRET_CAPTCHA
+        - name: SECRET_CAPTCHA_KEY
           valueFrom:
             secretKeyRef:
               name: django-secret
-              key: SECRET_CAPTCHA
+              key: SECRET_CAPTCHA_KEY
         name: gwcloud-auth
         image: nexus.gw-cloud.org/gwcloud-dev/gwcloud_auth:0.7
         ports:
