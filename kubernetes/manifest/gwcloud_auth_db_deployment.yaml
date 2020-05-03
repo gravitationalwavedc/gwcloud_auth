@@ -18,32 +18,39 @@ spec:
         io.kompose.service: gwcloud-auth-db
     spec:
       containers:
-      - env:        
-        - name: MYSQL_DATABASE
-          valueFrom:
-            secretKeyRef:
-              name: django-secret
-              key: MYSQL_DATABASE
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: django-secret
-              key: MYSQL_PASSWORD
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: django-secret
-              key: MYSQL_ROOT_PASSWORD
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: django-secret
-              key: MYSQL_USER
-        image: mysql:5.7
-        name: mysql-gwcloud-auth
-        resources: {}
-        ports:
-          - name: mysql
-            containerPort: 3306
+        - env:        
+          - name: MYSQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: django-secret
+                key: MYSQL_DATABASE
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: django-secret
+                key: MYSQL_PASSWORD
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: django-secret
+                key: MYSQL_ROOT_PASSWORD
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: django-secret
+                key: MYSQL_USER
+          image: mysql:5.7
+          name: mysql-gwcloud-auth
+          resources: {}
+          ports:
+            - name: mysql
+              containerPort: 3306
+          volumeMounts:
+            - name: gwc-auth
+              mountPath: "/var/lib/mysql"
+      volumes:
+        - name: gwc-auth
+          persistentVolumeClaim:
+            claimName: gwc-auth
       restartPolicy: Always
 status: {}
