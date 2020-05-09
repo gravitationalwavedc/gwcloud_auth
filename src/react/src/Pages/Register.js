@@ -1,6 +1,5 @@
 import React from 'react'
 import {Button, Form, Grid, Header, Image, List, Message, Segment} from "semantic-ui-react";
-import Link from 'found/lib/Link';
 import {commitMutation} from "relay-runtime";
 import {harnessApi} from "../index";
 import {graphql} from "graphql";
@@ -10,8 +9,8 @@ import ReCAPTCHA from 'react-google-recaptcha';
 const reCAPTCHARef = React.createRef()
 
 class Register extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             username: "",

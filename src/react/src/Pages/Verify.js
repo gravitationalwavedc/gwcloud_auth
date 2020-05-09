@@ -5,11 +5,10 @@ import Link from 'found/lib/Link';
 import {commitMutation} from "relay-runtime";
 import {harnessApi} from "../index";
 import {graphql} from "graphql";
-import * as Enumerable from "linq";
 
 class Verify extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         const query = queryString.parse(location.search);
 
