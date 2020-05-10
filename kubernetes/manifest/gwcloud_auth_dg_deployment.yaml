@@ -23,42 +23,11 @@ spec:
         name: gwcloud-auth
     spec:
       containers:
-      - env:
-        - name: MYSQL_DATABASE
-          valueFrom:
-            secretKeyRef:
-              name: django-secret
-              key: MYSQL_DATABASE
-        - name: MYSQL_HOST
-          valueFrom:
-            secretKeyRef:
-              name: django-secret
-              key: MYSQL_HOST
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: django-secret
-              key: MYSQL_PASSWORD
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: django-secret
-              key: MYSQL_ROOT_PASSWORD
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: django-secret
-              key: MYSQL_USER
-        - name: SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: django-secret
-              key: SECRET_KEY
-        - name: SECRET_CAPTCHA_KEY
-          valueFrom:
-            secretKeyRef:
-              name: django-secret
-              key: SECRET_CAPTCHA_KEY
+      - envFrom:
+          - secretRef:
+            name: gwcloud-auth
+          - secretRef:
+            name: common
         name: gwcloud-auth
         image: nexus.gw-cloud.org/gwcloud-dev/gwcloud_auth:0.21
         ports:
