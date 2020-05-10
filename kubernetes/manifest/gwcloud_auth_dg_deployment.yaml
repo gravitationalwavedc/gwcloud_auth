@@ -25,9 +25,9 @@ spec:
       containers:
       - envFrom:
           - secretRef:
-            name: gwcloud-auth
+              name: gwcloud-auth
           - secretRef:
-            name: common
+              name: common
         name: gwcloud-auth
         image: nexus.gw-cloud.org/gwcloud-dev/gwcloud_auth:0.21
         ports:
