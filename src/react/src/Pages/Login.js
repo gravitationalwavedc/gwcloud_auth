@@ -64,13 +64,14 @@ class Login extends React.Component {
                                     </List>
                                 )
                             ).toArray() : null}
-                            <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' value={this.state.username}
+                            <Form.Input disabled={process.env.NODE_ENV === "production"} fluid icon='user' iconPosition='left' placeholder='Username' value={this.state.username}
                             onChange={(e, c) => this.setState({
                                 ...this.state,
                                 username: c.value
                             })}
                             error={!!this.state.errors}/>
                             <Form.Input
+                                disabled={process.env.NODE_ENV === "production"}
                                 fluid
                                 icon='lock'
                                 iconPosition='left'
@@ -84,13 +85,16 @@ class Login extends React.Component {
                                 error={!!this.state.errors}
                             />
 
-                            <Button color='teal' fluid size='large' onClick={() => this.login()}>
+                            <Button disabled={process.env.NODE_ENV === "production"} color='teal' fluid size='large' onClick={() => this.login()}>
                                 Login
                             </Button>
                         </Segment>
                     </Form>
                     <Message>
-                        New to GW Cloud? <Link to='/auth/register/' activeClassName="selected" exact {...this.props}>Register</Link>
+                        <Message error>
+                            Non LIGO users are not enabled at this time
+                        </Message>
+                        {/*New to GW Cloud? <Link to='/auth/register/' activeClassName="selected" exact {...this.props}>Register</Link>*/}
                     </Message>
                 </Grid.Column>
             </Grid>

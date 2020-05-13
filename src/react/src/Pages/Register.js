@@ -108,6 +108,7 @@ class Register extends React.Component {
                     <Form size='large'>
                         <Segment.Group stacked>
                             <FormInputWithErrors
+                                disabled
                                 field="username"
                                 icon="user"
                                 placeholder="Username"
@@ -116,6 +117,7 @@ class Register extends React.Component {
                                 onChange={(e,c) => this.setState({...this.state, username: c.value})}
                             />
                             <FormInputWithErrors
+                                disabled
                                 field="email"
                                 icon="envelope"
                                 placeholder="E-mail address"
@@ -124,6 +126,7 @@ class Register extends React.Component {
                                 onChange={(e,c) => this.setState({...this.state, email: c.value})}
                             />
                             <FormInputWithErrors
+                                disabled
                                 field="firstName"
                                 icon="address card"
                                 placeholder="First name"
@@ -132,6 +135,7 @@ class Register extends React.Component {
                                 onChange={(e,c) => this.setState({...this.state, firstname: c.value})}
                             />
                             <FormInputWithErrors
+                                disabled
                                 field="lastName"
                                 icon="address card"
                                 placeholder="Last name"
@@ -149,6 +153,7 @@ class Register extends React.Component {
                                 onChange={(e,c) => this.setState({...this.state, password1: c.value})}
                             />
                             <FormInputWithErrors
+                                disabled
                                 field="password2"
                                 icon="lock"
                                 placeholder="Confirm password"
@@ -169,8 +174,8 @@ class Register extends React.Component {
                                     }}
                                 />
                             </Segment>
-
-                            <Button color='teal' fluid size='large' disabled={this.validate()}
+                            <Button disabled color='teal' fluid size='large'
+                                    // disabled={this.validate()}
                                     onClick={() => this.submit()}>
                                 Register
                             </Button>
@@ -193,7 +198,7 @@ function FormInputWithErrors(props) {
                     </List>
                 )
             ).toArray() : null}
-            <Form.Input fluid icon={props.icon} iconPosition='left' placeholder={props.placeholder}
+            <Form.Input disabled={props.disabled} fluid icon={props.icon} iconPosition='left' placeholder={props.placeholder}
                         value={props.value} type={props.type}
                         error={props.errors && props.errors.any(e => e.field === props.field)}
                         onChange={props.onChange}/>

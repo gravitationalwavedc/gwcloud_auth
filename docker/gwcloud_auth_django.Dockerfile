@@ -17,6 +17,7 @@ COPY ./runserver.sh /runserver.sh
 RUN chmod +x /runserver.sh
 
 # Create python virtualenv
+RUN rm -Rf /src/venv
 RUN virtualenv -p python3 /src/venv
 
 # Activate and install the django requirements (mysqlclient requires python3-dev and build-essential)
