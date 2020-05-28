@@ -5,10 +5,12 @@ Distributed under the MIT License. See LICENSE.txt for more info.
 import logging
 
 from datetime import timedelta, datetime
+from functools import wraps
 
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.conf import settings
+import jwt
 
 from . import constants
 from .models import Verification
@@ -21,6 +23,7 @@ from django.utils.translation import gettext as _
 import jwt
 
 from graphql_jwt.settings import jwt_settings
+from graphql_jwt import exceptions, decorators
 
 
 logger = logging.getLogger(__name__)
@@ -110,3 +113,32 @@ def jwt_payload(user, context=None):
         payload['iss'] = jwt_settings.JWT_ISSUER
 
     return payload
+
+
+def jwt_authentication(secret, exc=exceptions.PermissionDenied()):
+    """
+    Provide authentication for a view that must have a valid JWT token for the provided secret key
+    :param secret: The secret key that validates the jwt token provided in the request headers
+    :param exc: The exception to throw if the token is not valid
+    :return: The request result
+    """
+    def decorator(f):
+        @wraps(f)
+        @decorators.context(f)
+        def wrapper(context, *args, **kwargs):
+            # Get the auth header
+            token = context.headers.get('Authorization', None)
+            if not token:
+                raise exc
+
+            # Validate the token
+            try:
+                token = token.encode('utf-8')
+                jwt.decode(token, key=secret, verify=True, algorithms='HS256')
+            except jwt.DecodeError:
+                raise exc
+
+            # Token was valid, call the wrapped function
+            return f(*args, **kwargs)
+        return wrapper
+    return decorator
