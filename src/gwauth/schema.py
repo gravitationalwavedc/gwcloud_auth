@@ -74,6 +74,7 @@ class Verify(relay.ClientIDMutation):
 
 
 class UserDetails(ObjectType):
+    user_id = graphene.Int()
     username = graphene.String()
     first_name = graphene.String()
     last_name = graphene.String()
@@ -85,7 +86,12 @@ class Query(object):
 
     @login_required
     def resolve_gwclouduser(self, info, **kwargs):
-        return info.context.user
+        return {
+            'user_id': info.context.user.id,
+            'username': info.context.user.username,
+            'first_name': info.context.user.first_name,
+            'last_name': info.context.user.last_name,
+        }
 
 
 class Mutation(graphene.ObjectType):
