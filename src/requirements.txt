@@ -8,20 +8,20 @@ aniso8601==7.0.0          # via graphene
 certifi==2019.11.28       # via requests
 chardet==3.0.4            # via requests
 click==7.0                # via pip-tools
-django-cors-headers==3.2.1
-django-filter==2.2.0
-django-graphql-jwt==0.3.0
-django==2.2.10
-graphene-django==2.8.0
+django-cors-headers==3.2.1  # via -r requirements.in
+django-filter==2.2.0      # via -r requirements.in
+django-graphql-jwt==0.3.0  # via -r requirements.in
+django==2.2.13            # via -r requirements.in, django-cors-headers, django-filter, django-graphql-jwt, graphene-django
+graphene-django==2.8.0    # via -r requirements.in, django-graphql-jwt
 graphene==2.1.8           # via graphene-django
 graphql-core==2.3.1       # via django-graphql-jwt, graphene, graphene-django, graphql-relay
 graphql-relay==2.0.1      # via graphene
 idna==2.8                 # via requests
-pip-tools==4.4.1
+pip-tools==4.4.1          # via -r requirements.in
 promise==2.3              # via graphene-django, graphql-core, graphql-relay
 pyjwt==1.7.1              # via django-graphql-jwt
 pytz==2019.3              # via django
-requests==2.22.0
+requests==2.22.0          # via -r requirements.in
 rx==1.6.1                 # via graphql-core
 singledispatch==3.4.0.3   # via graphene-django
 six==1.14.0               # via graphene, graphene-django, graphql-core, graphql-relay, pip-tools, promise, singledispatch
