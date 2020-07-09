@@ -1,5 +1,6 @@
 from urllib import parse
 
+import jwt
 import requests
 from django.conf import settings
 from django.http import HttpResponse
@@ -104,41 +105,65 @@ def ligo_auth(request):
     #  'sn': 'Lakerink'
     #  'uid': 'lewis.lakerink'
 
-    # This will generate a unique hash that is 128 characters long (Django has 160 limit on username field)
-    username_hash = sha3_512((request.META['uid'] + settings.SECRET_KEY).encode()).hexdigest()
+    # Check if 'special' was passed through to the view - this is currently used by the ozstar accounts portal to verify
+    # that a user is a valid ligo user
+    if 'special' in request.GET:
+        # The 'special' get parameter is a JWT encoded token containing a callback url and a payload
+        payload = jwt.decode(request.GET['special'], settings.ACCOUNTS_PORTAL_LIGO_AUTH_SECRET_KEY, algorithms='HS256')
 
-    # Check if a user exists with the specified hash
-    if GWCloudUser.objects.filter(username=username_hash).exists():
-        # Fetch the user
-        user = GWCloudUser.objects.get(username=username_hash)
+        # Generate the response token to send back to the accounts portal
+        response_token = jwt.encode(
+            {
+                "verified": True,
+                "project_join_request_id": payload['project_join_request_id']
+            },
+            settings.ACCOUNTS_PORTAL_LIGO_AUTH_SECRET_KEY,
+            algorithm='HS256'
+        )
+
+        # Return a response that will redirect to the callback url with the verification token
+        return HttpResponse(f"""
+                <!DOCTYPE html>
+                <script>
+                    window.location = "{payload['callback_url']}{response_token.decode()}";
+                </script>
+                """)
     else:
-        # Create a new user
-        user = GWCloudUser(username=username_hash)
+        # This will generate a unique hash that is 128 characters long (Django has 160 limit on username field)
+        username_hash = sha3_512((request.META['uid'] + settings.SECRET_KEY).encode()).hexdigest()
 
-    # Update the user with the supplied details
-    user.first_name = request.META['givenName']
-    user.last_name = request.META['sn']
-    user.email = request.META['mail']
-    user.username = username_hash
-    user.is_ligo_user = True
+        # Check if a user exists with the specified hash
+        if GWCloudUser.objects.filter(username=username_hash).exists():
+            # Fetch the user
+            user = GWCloudUser.objects.get(username=username_hash)
+        else:
+            # Create a new user
+            user = GWCloudUser(username=username_hash)
 
-    # Save the user
-    user.save()
+        # Update the user with the supplied details
+        user.first_name = request.META['givenName']
+        user.last_name = request.META['sn']
+        user.email = request.META['mail']
+        user.username = username_hash
+        user.is_ligo_user = True
 
-    # Authorize the user and get the token details
-    token = get_token(user)
-    refresh_token = refresh_token_lazy(user)
+        # Save the user
+        user.save()
 
-    # Get the next url
-    next_url = request.GET.get('next', '/')
+        # Authorize the user and get the token details
+        token = get_token(user)
+        refresh_token = refresh_token_lazy(user)
 
-    # Return a response that will set the tokens in localstorage and then redirect the page
-    return HttpResponse(f"""
-    <!DOCTYPE html>
-    <script>
-        localStorage.authToken = "{token}";
-        localStorage.authRefreshToken = "{refresh_token}";
-        window.location = "{next_url}";
-    </script>
-    """)
+        # Get the next url
+        next_url = request.GET.get('next', '/')
+
+        # Return a response that will set the tokens in localStorage and then redirect the page
+        return HttpResponse(f"""
+        <!DOCTYPE html>
+        <script>
+            localStorage.authToken = "{token}";
+            localStorage.authRefreshToken = "{refresh_token}";
+            window.location = "{next_url}";
+        </script>
+        """)
 
