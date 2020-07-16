@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'gwauth.apps.AuthConfig',
     'graphene_django',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
+    'django_jenkins'
 ]
 
 MIDDLEWARE = [
@@ -64,8 +65,7 @@ ROOT_URLCONF = 'gwcloud_auth.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

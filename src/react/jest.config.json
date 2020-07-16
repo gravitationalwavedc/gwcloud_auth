@@ -1,0 +1,6 @@
+{
+  "collectCoverage": true,
+  "reporters": ["default", "jest-junit"],
+  "coverageReporters": ["text", "cobertura"],
+  "setupFiles": ["<rootDir>src/setupTest.js"]
+}

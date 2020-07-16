@@ -11,3 +11,9 @@ src/logs
 
 # Kube
 secret.yaml
+
+.coverage
+junit.xml
+/src/react/coverage/
+/src/reports/
+/src/react/data/schema.json

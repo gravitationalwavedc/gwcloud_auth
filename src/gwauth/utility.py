@@ -3,28 +3,19 @@ Distributed under the MIT License. See LICENSE.txt for more info.
 """
 
 import logging
-
+from calendar import timegm
 from datetime import timedelta, datetime
 from functools import wraps
 
+import jwt
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-from django.conf import settings
-import jwt
+from graphql_jwt import exceptions, decorators
+from graphql_jwt.settings import jwt_settings
 
 from . import constants
 from .models import Verification
-
-from calendar import timegm
-
-from django.contrib.auth import get_user_model
-from django.utils.translation import gettext as _
-
-import jwt
-
-from graphql_jwt.settings import jwt_settings
-from graphql_jwt import exceptions, decorators
-
 
 logger = logging.getLogger(__name__)
 
@@ -63,7 +54,7 @@ def get_token(information, validity=None):
     try:
         verification = Verification.objects.create(information=information, expiry=expiry)
         return verification.id.__str__()
-    except:
+    except Exception:
         logger.info("Failure generating Verification token with {}".format(information))
         raise
 
@@ -91,11 +82,15 @@ def get_information(token):
         logger.exception(e)  # should notify admins via email
         raise
 
-def jwt_payload(user, context=None):
-    username = user.get_username()
 
-    if hasattr(username, 'pk'):
-        username = username.pk
+def jwt_payload(user, context=None):
+    """
+    Generates the JWT payload to be included in the body of generated tokens
+    :param user: The GWCloudUser to generate the token for
+    :param context: an optional context (unused)
+    :return: A dictionary representing the payload to be used in the JWT body
+    """
+    username = user.get_username()
 
     payload = {
         user.USERNAME_FIELD: username,

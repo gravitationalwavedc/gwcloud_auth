@@ -5,3 +5,8 @@ django-filter
 django-cors-headers
 django-graphql-jwt
 requests
+django-jenkins
+pep8
+pyflakes
+flake8
+coverage<5

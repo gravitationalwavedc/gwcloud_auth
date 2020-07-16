@@ -1,6 +1,5 @@
 import React from 'react'
-import {Button, Container, Form, FormInput, Grid, Header, Image, List, Message, Segment} from "semantic-ui-react";
-import Link from 'found/lib/Link';
+import {Button, Form, Grid, Header, Image, List, Message, Segment} from "semantic-ui-react";
 import {commitMutation} from "relay-runtime";
 import {harnessApi} from "../index";
 import {graphql} from "graphql";
