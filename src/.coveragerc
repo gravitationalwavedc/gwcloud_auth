@@ -1,0 +1,17 @@
+[run]
+omit =
+    # Omit the virtual env
+    */venv*
+
+    # Ignore manage.py files
+    ./*manage.py
+
+    # Ignore settings.py files
+    gw_auth/*settings.py
+
+    # Ignore local.py if one exists
+    gw_auth/local.py
+
+    # Ignore environment and base settings
+    gw_auth/base.py
+    gw_auth/environment.py

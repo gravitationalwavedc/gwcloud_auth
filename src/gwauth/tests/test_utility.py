@@ -2,10 +2,11 @@ import datetime
 from calendar import timegm
 
 from django.test import TestCase
+from django.utils import timezone
 from graphql_jwt.settings import jwt_settings
 
-from gwauth.models import GWCloudUser
-from gwauth.utility import jwt_payload
+from gwauth.models import GWCloudUser, Verification
+from gwauth.utility import jwt_payload, get_token
 
 
 class TestUtils(TestCase):
@@ -37,3 +38,24 @@ class TestUtils(TestCase):
             delta=5,
             msg="Issued at time was not the expected value"
         )
+
+    def test_get_token(self):
+        # First test success
+
+        _id = get_token("myinfo", None)
+        v = Verification.objects.filter(id=_id)
+        self.assertTrue(v.exists())
+        v = v.first()
+        self.assertEqual(v.information, "myinfo")
+        self.assertEqual(v.expiry, None)
+        self.assertEqual(v.verified, False)
+
+        _id = get_token("myinfo", 60)
+        v = Verification.objects.filter(id=_id)
+        self.assertTrue(v.exists())
+        v = v.first()
+        self.assertEqual(v.information, "myinfo")
+        now = timezone.localtime(timezone.now())
+        expiry = now + datetime.timedelta(seconds=60)
+        self.assertAlmostEqual(v.expiry, expiry, delta=datetime.timedelta(seconds=5))
+        self.assertEqual(v.verified, False)

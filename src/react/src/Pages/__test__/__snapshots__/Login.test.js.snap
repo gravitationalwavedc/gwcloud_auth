@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test File Result 1`] = `
+<div
+  className="ui center aligned middle aligned grid"
+  style={
+    Object {
+      "height": "100vh",
+    }
+  }
+>
+  <div
+    className="column"
+    style={
+      Object {
+        "maxWidth": 450,
+      }
+    }
+  >
+    <h2
+      className="ui teal center aligned header"
+    >
+      <img
+        className="ui image"
+        src="/logo.png"
+      />
+       Log-in to your account
+    </h2>
+    <div
+      className="ui error message"
+    >
+      Do you have a LIGO.org account? 
+      <a
+        href="/auth/ligo/"
+      >
+        Login via LIGO.org
+      </a>
+    </div>
+    <form
+      className="ui large form"
+      onSubmit={[Function]}
+    >
+      <div
+        className="ui stacked segment"
+      >
+        <div
+          className="field"
+        >
+          <div
+            className="ui fluid left icon input"
+          >
+            <input
+              aria-describedby={null}
+              aria-invalid={true}
+              disabled={false}
+              onChange={[Function]}
+              placeholder="Username"
+              type="text"
+              value=""
+            />
+            <i
+              aria-hidden="true"
+              className="user icon"
+              onClick={[Function]}
+            />
+          </div>
+        </div>
+        <div
+          className="field"
+        >
+          <div
+            className="ui fluid left icon input"
+          >
+            <input
+              aria-describedby={null}
+              aria-invalid={true}
+              disabled={false}
+              onChange={[Function]}
+              placeholder="Password"
+              type="password"
+              value=""
+            />
+            <i
+              aria-hidden="true"
+              className="lock icon"
+              onClick={[Function]}
+            />
+          </div>
+        </div>
+        <button
+          className="ui teal large fluid button"
+          onClick={[Function]}
+        >
+          Login
+        </button>
+      </div>
+    </form>
+    <div
+      className="ui message"
+    >
+      <div
+        className="ui error message"
+      >
+        Non LIGO users are not enabled at this time
+      </div>
+    </div>
+  </div>
+</div>
+`;
