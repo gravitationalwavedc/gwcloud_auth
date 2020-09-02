@@ -34,7 +34,7 @@ COPY certs/selfsignedkey.pem /etc/shibboleth/sp-key.pem
 RUN chown _shibd:_shibd /etc/shibboleth/sp-key.pem
 RUN chmod 0600 /etc/shibboleth/sp-key.pem
 
-COPY certs/login.ligo.org.cert.LIOGOCA.pem.txt /etc/shibboleth/login.ligo.org.cert.LIGOCA.pem
+COPY certs/login.ligo.org.cert.LIGOCA.pem.txt /etc/shibboleth/login.ligo.org.cert.LIGOCA.pem
 COPY certs/shibboleth2-version3.xml /etc/shibboleth/shibboleth2.xml 
 COPY certs/attribute-map-ligo.xml /etc/shibboleth/attribute-map.xml
 
