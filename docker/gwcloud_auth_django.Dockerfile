@@ -1,8 +1,9 @@
-FROM debian:buster
+# Build the base image
+FROM debian:buster AS base
 
-# Update the container and install the required packages
+# Update the container and install common packages
 RUN apt-get update
-RUN apt-get -y install shibboleth-sp2-common shibboleth-sp2-utils libapache2-mod-shib2 libshibresolver2 python-virtualenv python3 libapache2-mod-wsgi-py3 default-libmysqlclient-dev python3-dev build-essential curl
+RUN apt-get -y install python-virtualenv python3 default-libmysqlclient-dev shibboleth-sp2-common shibboleth-sp2-utils libapache2-mod-shib2 libshibresolver2 libapache2-mod-wsgi-py3 curl
 
 # Enable mod shibboleth and mod wsgi
 RUN a2enmod shib
@@ -10,23 +11,6 @@ RUN a2enmod wsgi
 RUN a2enmod proxy
 RUN a2enmod proxy_http
 RUN a2enmod ssl
-
-# Copy django source
-COPY src /src
-COPY ./runserver.sh /runserver.sh
-RUN chmod +x /runserver.sh
-
-# Create python virtualenv
-RUN rm -Rf /src/venv
-RUN virtualenv -p python3 /src/venv
-
-# Activate and install the django requirements (mysqlclient requires python3-dev and build-essential)
-RUN . /src/venv/bin/activate && pip install -r /src/requirements.txt && pip install mysqlclient 
-RUN . /src/venv/bin/activate && cd src && python production-manage.py graphql_schema
-
-# Clean up unneeded packages
-RUN apt-get remove --purge -y build-essential python3-dev
-RUN apt-get autoremove --purge -y
 
 # Configure shibboleth certificates
 COPY certs/selfsignedcert.pem /etc/shibboleth/sp-cert.pem
@@ -37,10 +21,9 @@ RUN chmod 0600 /etc/shibboleth/sp-key.pem
 COPY certs/login.ligo.org.cert.LIGOCA.pem.txt /etc/shibboleth/login.ligo.org.cert.LIGOCA.pem
 COPY certs/shibboleth2-version3.xml /etc/shibboleth/shibboleth2.xml 
 COPY certs/attribute-map-ligo.xml /etc/shibboleth/attribute-map.xml
+RUN chmod +r /etc/shibboleth/shibboleth2.xml
 
-# Workaround
-# COPY certs/gwcloud_auth.crt /etc/ssl/crt/gwcloud_auth.crt
-# COPY certs/gwcloud_auth.key /etc/ssl/crt/gwcloud_auth.key
+# Generate a self signed certificate for the internal http -> https proxy
 RUN apt-get update && \
     apt-get install -y openssl && \
     mkdir -p /etc/ssl/crt/ && \
@@ -51,20 +34,61 @@ RUN apt-get update && \
         -subj "/C=AU/ST=Victoria/L=Swinburne/O=OrgName/OU=IT Department/CN=gw-cloud.org" && \
     openssl x509 -req -days 365 -in server.csr -signkey /etc/ssl/crt/gwcloud_auth.key -out /etc/ssl/crt/gwcloud_auth.crt
 
-# Build webpack bundle
-RUN mkdir /src/static
-RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
-RUN . ~/.nvm/nvm.sh && cd /src/react && nvm install && nvm use && nvm install-latest-npm && npm install && npm run relay && npm run build
-
-# Don't need any of the javascipt code now
-RUN rm -Rf /src/react
-RUN rm -Rf ~/.nvm/
-
 # Kube sometimes has trouble downloading this metadata file using shibd
 RUN curl https://liam-saml-metadata.s3.amazonaws.com/ligo-metadata.xml > /var/log/shibboleth/ligo-metadata.xml
 
 # Copy in the apache configuration 
 COPY conf/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
+# Set up the python project
+FROM base AS python
+
+# Copy django source
+COPY src /src
+
+# Remove the react source
+RUN rm -Rf /src/react
+
+# Create python virtualenv
+RUN virtualenv -p python3 /src/venv
+
+# Activate and install the django requirements (mysqlclient requires python3-dev and build-essential)
+RUN apt-get install -y python3-dev build-essential
+
+RUN mkdir -p /src/react/data/
+RUN . /src/venv/bin/activate && pip install -r /src/requirements.txt && pip install mysqlclient 
+RUN . /src/venv/bin/activate && cd src && python production-manage.py graphql_schema
+
+# Cleanup
+RUN apt-get remove -y --purge python3-dev build-essential
+RUN apt-get autoremove -y --purge
+
+# Build the javascript bundle
+FROM python AS javascript
+
+# Copy the react source code
+COPY src/react /tmp/react
+ 
+# Build webpack bundle
+RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+RUN . ~/.nvm/nvm.sh && cd /tmp/react && nvm install && nvm use && nvm install-latest-npm && npm install
+COPY --from=python /src/react/data/schema.json /tmp/react/data/
+RUN . ~/.nvm/nvm.sh && cd /tmp/react && nvm use && npm run relay && npm run build
+
+# Build the final project
+FROM python AS final_image
+
+# Copy the javascript bundle
+COPY --from=javascript /tmp/static/main.js /src/static/main.js
+
+# Copy django source
+COPY ./runserver.sh /runserver.sh
+RUN chmod +x /runserver.sh
+
+# Final cleanup
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Build the final image
+FROM final_image
 EXPOSE 8000
 CMD [ "/runserver.sh"]

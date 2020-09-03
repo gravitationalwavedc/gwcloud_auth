@@ -12,7 +12,6 @@ ACCOUNTS_PORTAL_LIGO_AUTH_SECRET_KEY = os.getenv('ACCOUNTS_PORTAL_LIGO_AUTH_SECR
 
 SECRET_CAPTCHA_KEY = os.getenv('SECRET_CAPTCHA_KEY')
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
