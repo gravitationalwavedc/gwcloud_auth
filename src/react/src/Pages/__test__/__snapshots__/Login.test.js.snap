@@ -2,106 +2,212 @@
 
 exports[`Test File Result 1`] = `
 <div
-  className="ui center aligned middle aligned grid"
-  style={
-    Object {
-      "height": "100vh",
-    }
-  }
+  className="h-100 container-fluid"
 >
   <div
-    className="column"
-    style={
-      Object {
-        "maxWidth": 450,
-      }
-    }
+    className="h-100 row"
   >
-    <h2
-      className="ui teal center aligned header"
+    <div
+      className="text-center col"
+      style={
+        Object {
+          "background": "url(ligo-livingston-blue.png) no-repeat center",
+          "backgroundSize": "cover",
+        }
+      }
+    >
+      <h1
+        style={
+          Object {
+            "color": "#F0FAFF",
+            "marginTop": "230px",
+          }
+        }
+      >
+        <img
+          src="GWC-Green192-768x521.png"
+          style={
+            Object {
+              "height": "32px",
+              "marginBottom": "8px",
+            }
+          }
+        />
+         GWCloud
+      </h1>
+    </div>
+    <div
+      className="h-100 col"
     >
       <img
-        className="ui image"
-        src="/logo.png"
+        src="GWDC_grey_full_571x150.png"
+        style={
+          Object {
+            "height": "40px",
+            "marginTop": "10px",
+            "position": "absolute",
+          }
+        }
       />
-       Log-in to your account
-    </h2>
-    <div
-      className="ui error message"
-    >
-      Do you have a LIGO.org account? 
-      <a
-        href="/auth/ligo/"
-      >
-        Login via LIGO.org
-      </a>
-    </div>
-    <form
-      className="ui large form"
-      onSubmit={[Function]}
-    >
       <div
-        className="ui stacked segment"
+        className="justify-content-md-center row"
       >
         <div
-          className="field"
+          className="col-md-8"
+          style={
+            Object {
+              "marginTop": "230px",
+            }
+          }
         >
-          <div
-            className="ui fluid left icon input"
+          <h2
+            className="mb-4"
           >
-            <input
-              aria-describedby={null}
-              aria-invalid={true}
-              disabled={false}
-              onChange={[Function]}
-              placeholder="Username"
-              type="text"
-              value=""
-            />
-            <i
-              aria-hidden="true"
-              className="user icon"
-              onClick={[Function]}
-            />
-          </div>
-        </div>
-        <div
-          className="field"
-        >
-          <div
-            className="ui fluid left icon input"
+            Sign in
+          </h2>
+          <a
+            className="mb-4 btn btn-primary btn-block btn-lg"
+            href="/auth/ligo"
+            onClick={[Function]}
+            onKeyDown={[Function]}
           >
-            <input
-              aria-describedby={null}
-              aria-invalid={true}
+            Continue with LIGO authentication
+          </a>
+          <p>
+            Interested in joining the LIGO Scientific Collaboration? 
+            <a
+              href="https://www.ligo.org/about/join.php"
+            >
+              Apply to join
+            </a>
+          </p>
+          <form
+            className=""
+            size="large"
+          >
+            <hr />
+            <h6
+              className="mb-4"
+            >
+              Continue with GWCloud credientials
+            </h6>
+            
+            <div
+              className="form-group"
+            >
+              <label
+                className="form-label"
+                htmlFor="username"
+              >
+                Username
+              </label>
+              <input
+                className="form-control"
+                error={false}
+                id="username"
+                onChange={[Function]}
+                placeholder="Username"
+                value=""
+              />
+            </div>
+            <div
+              className="form-group"
+            >
+              <label
+                className="form-label"
+                htmlFor="password"
+              >
+                Password
+              </label>
+              <input
+                className="form-control"
+                error={false}
+                id="password"
+                onChange={[Function]}
+                placeholder="Password"
+                type="password"
+                value=""
+              />
+            </div>
+            <button
+              className="mb-4 btn btn-primary"
               disabled={false}
-              onChange={[Function]}
-              placeholder="Password"
-              type="password"
-              value=""
-            />
-            <i
-              aria-hidden="true"
-              className="lock icon"
               onClick={[Function]}
-            />
-          </div>
+              type="button"
+            >
+              Login
+            </button>
+            <p>
+              <a
+                onClick={[Function]}
+              >
+                Need a GWCloud account?
+              </a>
+            </p>
+          </form>
         </div>
-        <button
-          className="ui teal large fluid button"
-          onClick={[Function]}
-        >
-          Login
-        </button>
       </div>
-    </form>
+    </div>
+  </div>
+  <div
+    className="fixed-bottom row"
+  >
     <div
-      className="ui message"
+      className="col"
+    />
+    <div
+      className="col"
     >
       <div
-        className="ui error message"
+        className="justify-content-md-center mb-5 row"
       >
-        Non LIGO users are not enabled at this time
+        <div
+          className="col-md-8"
+        >
+          <div
+            className="align-items-end row"
+          >
+            <div
+              className="col"
+            >
+              <img
+                src="ncris_logo.png"
+                style={
+                  Object {
+                    "maxHeight": "70px",
+                    "maxWidth": "100%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="text-center col"
+            >
+              <img
+                src="ozgrav-logo-array-tk005-final-invert-textedit.png"
+                style={
+                  Object {
+                    "maxHeight": "100px",
+                    "maxWidth": "100%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="text-right col"
+            >
+              <img
+                src="aal-logo-rp-revised-wwording-800px.png"
+                style={
+                  Object {
+                    "maxHeight": "48px",
+                    "maxWidth": "100%",
+                  }
+                }
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

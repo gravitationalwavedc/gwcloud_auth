@@ -7,12 +7,28 @@ import TestRenderer from 'react-test-renderer';
 import Login from "../Login";
 
 setHarnessApi({
-    getEnvironment: name => {
+    getEnvironment: () => {
         return createMockEnvironment();
     }
 })
+// router={{createHref: () => {}, createLocation: () => {}}}
 
 test('Test File Result', () => {
-    const renderer = TestRenderer.create(<Login />);
+  const router = {
+    push: jest.fn(),
+    replace: jest.fn(),
+    go: jest.fn(),
+    createHref: jest.fn(),
+    createLocation: jest.fn(),
+    isActive: jest.fn(),
+    matcher: {
+      match: jest.fn(),
+      getRoutes: jest.fn(),
+      isActive: jest.fn(),
+      format: jest.fn()
+    },
+    addTransitionHook: jest.fn()
+  };
+  const renderer = TestRenderer.create(<Login router={router}  match={{}} />);
     expect(renderer).toMatchSnapshot();
 });

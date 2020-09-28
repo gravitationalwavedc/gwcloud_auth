@@ -1,4 +1,5 @@
 const webpack = require("webpack");
+const ModuleReplaceWebpackPlugin = require('module-replace-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -88,6 +89,22 @@ module.exports = {
             'process.env': {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
             }
+        }),
+        new ModuleReplaceWebpackPlugin({
+            modules: [
+                {
+                    test: /React/,
+                    replace: './src/Lib/ReactShim.js'
+                },
+                {
+                    test: /^react$/,
+                    replace: './src/Lib/ReactShim.js'
+                }
+            ],
+            exclude: [
+                /ReactShim.js$/,
+                /node_modules\/react\/index.js$/
+            ]
         })
     ],
     resolve: {
