@@ -161,7 +161,7 @@ def ligo_auth(request):
         response_token = jwt.encode(
             {
                 "token": token,
-                "refresh_token": refresh_token,
+                "refresh_token": str(refresh_token),
                 "next_url": next_url
             },
             settings.SECRET_KEY,
