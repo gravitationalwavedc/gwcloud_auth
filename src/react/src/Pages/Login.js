@@ -22,7 +22,7 @@ const Login = (props) =>  {
             <Row className="justify-content-md-center">
               <Col md={8} style={{marginTop: "230px"}}>
                 <h2 className="mb-4">Sign in</h2>
-                <Button className="mb-4" variant="primary" href="/auth/ligo" block size="lg">Continue with LIGO authentication</Button>
+                <Button className="mb-4" variant="primary" href="/auth/ligo/" block size="lg">Continue with LIGO authentication</Button>
                 <p>Interested in joining the LIGO Scientific Collaboration? <a href="https://www.ligo.org/about/join.php">Apply to join</a></p>
                 {!isProduction && <LoginForm {...props} />}
               </Col>

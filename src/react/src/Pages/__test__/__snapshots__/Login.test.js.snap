@@ -67,7 +67,7 @@ exports[`Test File Result 1`] = `
           </h2>
           <a
             className="mb-4 btn btn-primary btn-block btn-lg"
-            href="/auth/ligo"
+            href="/auth/ligo/"
             onClick={[Function]}
             onKeyDown={[Function]}
           >
