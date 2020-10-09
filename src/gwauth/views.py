@@ -174,7 +174,7 @@ def ligo_auth(request):
         # url containing the token. So the ligo_continue url will be hit under the new domain
         # with the correct token, ligo_continue will then correctly set the auth tokens in
         # localstorage and redirect to the correct page for the user.
-        return HttpResponseRedirect(reverse('ligo_continue'), args=[response_token.decode()])
+        return HttpResponseRedirect(reverse('ligo_continue', args=[response_token.decode()]))
 
 
 def ligo_continue(request, token):
