@@ -8,19 +8,21 @@ exports[`Test File Result 1`] = `
     className="h-100 row"
   >
     <div
-      className="text-center col"
+      className="text-center col-lg-6 col-md-12"
       style={
         Object {
           "background": "url(ligo-livingston-blue.png) no-repeat center",
           "backgroundSize": "cover",
+          "minHeight": "100px",
         }
       }
     >
       <h1
+        className="login-logo d-none d-lg-block"
         style={
           Object {
             "color": "#F0FAFF",
-            "marginTop": "230px",
+            "marginTop": "197px",
           }
         }
       >
@@ -28,7 +30,31 @@ exports[`Test File Result 1`] = `
           src="GWC-Green192-768x521.png"
           style={
             Object {
-              "height": "32px",
+              "height": "4rem",
+              "marginBottom": "8px",
+            }
+          }
+        />
+         GWCloud
+      </h1>
+    </div>
+    <div
+      className="text-center d-none d-md-block d-lg-none bg-blue-400 col-md-12"
+    >
+      <h1
+        className="login-logo p-2"
+        style={
+          Object {
+            "color": "#F0FAFF",
+            "margin": "0 -15px",
+          }
+        }
+      >
+        <img
+          src="GWC-Green192-768x521.png"
+          style={
+            Object {
+              "height": "4rem",
               "marginBottom": "8px",
             }
           }
@@ -53,7 +79,7 @@ exports[`Test File Result 1`] = `
         className="justify-content-md-center row"
       >
         <div
-          className="col-md-8"
+          className="col-lg-8 col-md-10"
           style={
             Object {
               "marginTop": "230px",
@@ -61,7 +87,7 @@ exports[`Test File Result 1`] = `
           }
         >
           <h2
-            className="mb-4"
+            c4assName="mb-4"
           >
             Sign in
           </h2>
@@ -75,10 +101,11 @@ exports[`Test File Result 1`] = `
           </a>
           <p>
             Interested in joining the LIGO Scientific Collaboration? 
+            <br />
             <a
               href="https://www.ligo.org/about/join.php"
             >
-              Apply to join
+               Apply to join
             </a>
           </p>
           <form
@@ -153,10 +180,7 @@ exports[`Test File Result 1`] = `
     className="fixed-bottom row"
   >
     <div
-      className="col"
-    />
-    <div
-      className="col"
+      className="col-lg-6 col-md-12 offset-lg-6"
     >
       <div
         className="justify-content-md-center mb-5 row"
