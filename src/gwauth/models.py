@@ -25,6 +25,7 @@ class GWCloudUser(AbstractUser):
     ]
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, blank=False, default=UNVERIFIED)
     is_ligo_user = models.BooleanField(default=False)
+    email = models.EmailField(unique=True)
 
 
 class Verification(models.Model):

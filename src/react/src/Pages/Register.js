@@ -1,209 +1,83 @@
-import React from 'react'
-import {Button, Form, Grid, Header, Image, List, Message, Segment} from "semantic-ui-react";
-import {commitMutation} from "relay-runtime";
-import {harnessApi} from "../index";
-import {graphql} from "graphql";
-import * as Enumerable from "linq";
-import ReCAPTCHA from 'react-google-recaptcha';
+import React, {useState} from 'react';
+import {Alert, Col, Container, Row} from 'react-bootstrap';
+import livingstonBackground from '../Assets/ligo-livingston-blue.png';
+import gwdcLogo from '../Assets/GWDC_grey_full_571x150.png';
+import gwcloudLogo from '../Assets/GWC-Green192-768x521.png';
+import ncrisLogo from '../Assets/ncris_logo.png';
+import ozgravLogo from '../Assets/ozgrav-logo-array-tk005-final-invert-textedit.png';
+import aalLogo from '../Assets/aal-logo-rp-revised-wwording-800px.png';
+import RegisterForm from '../Components/RegisterForm';
+import {Link} from 'found';
 
-const reCAPTCHARef = React.createRef()
+const bigBrandStyle = {marginTop: '197px', color: '#F0FAFF'};
+const smallBrandStyle = {color: '#F0FAFF', margin: '0 -15px'};
+const signInStyle = {position: 'absolute', height: '40px', marginTop: '10px'};
+const backgroundStyle = {
+    background: `url(${livingstonBackground}) no-repeat center`,
+    backgroundSize: 'cover',
+    minHeight: '100px'
+};
+const logoIconStyle = {height: '4rem', marginBottom: '8px'};
 
-class Register extends React.Component {
-    constructor(props) {
-        super(props);
+const Register = (props) => {
+    const [verify, setVerify] = useState(false);
 
-        this.state = {
-            username: "",
-            email: "",
-            firstname: "",
-            lastname: "",
-            password1: "",
-            password2: "",
-            verify: false,
-            errors: null
-        };
-    }
-
-    validate() {
-        return this.state.username === "" || this.state.email === "" || this.state.firstname === "" || this.state.lastname === "" || this.state.password1.length < 5 || this.state.password2.length < 5 || this.state.password1 !== this.state.password2 || !this.state.captcha
-    }
-
-    handleCaptcha = (key) => {
-        this.setState({
-            captcha: true,
-            captchaResponse: key
-        })
-    }
-
-    submit() {
-        commitMutation(harnessApi.getEnvironment("auth"), {
-            mutation: graphql`mutation RegisterMutation($input: RegisterInput!)
-                {
-                  register(input: $input) 
-                  {
-                    result {
-                      result
-                      errors {
-                        field,
-                        messages
-                      }
-                    }
-                  }
-                }`,
-            variables: {
-                input: {
-                    username: this.state.username,
-                    email: this.state.email,
-                    firstName: this.state.firstname,
-                    lastName: this.state.lastname,
-                    password1: this.state.password1,
-                    password2: this.state.password2,
-                    captcha: this.state.captchaResponse
-                }
-            },
-            onCompleted: (response, errors) => {
-                if (response.register.result.result)
-                    this.setState({
-                        ...this.state,
-                        verify: true
-                    });
-                else
-                    this.setState({
-                        ...this.state,
-                        errors: Enumerable.from(response.register.result.errors)
-                    })
-            },
-        });
-    }
-
-    render() {
-        return this.state.verify ? this.renderVerify() : this.renderForm()
-    }
-
-    renderVerify() {
-        return (
-            <Grid textAlign='center' style={{height: '100vh'}} verticalAlign='middle'>
-                <Grid.Column style={{maxWidth: 450}}>
-                    <Header as='h2' color='teal' textAlign='center'>
-                        <Image src='/logo.png'/> Check Your Email
-                    </Header>
-                    <Message success>
-                        Registration submitted. Please check your email.
-                    </Message>
-                </Grid.Column>
-            </Grid>
-        )
-    }
-
-    renderForm() {
-        return (
-            <Grid textAlign='center' style={{height: '100vh'}} verticalAlign='middle'>
-                <Grid.Column style={{maxWidth: 450}}>
-                    <Header as='h2' color='teal' textAlign='center'>
-                        <Image src='/logo.png'/> Register an Account
-                    </Header>
-                    <Message error>
-                        Do you have a LIGO.org account? <a href='/auth/ligo/'>Login via LIGO.org</a>
-                    </Message>
-                    <Form size='large'>
-                        <Segment.Group stacked>
-                            <FormInputWithErrors
-                                disabled
-                                field="username"
-                                icon="user"
-                                placeholder="Username"
-                                errors={this.state.errors}
-                                value={this.state.username}
-                                onChange={(e,c) => this.setState({...this.state, username: c.value})}
-                            />
-                            <FormInputWithErrors
-                                disabled
-                                field="email"
-                                icon="envelope"
-                                placeholder="E-mail address"
-                                errors={this.state.errors}
-                                value={this.state.email}
-                                onChange={(e,c) => this.setState({...this.state, email: c.value})}
-                            />
-                            <FormInputWithErrors
-                                disabled
-                                field="firstName"
-                                icon="address card"
-                                placeholder="First name"
-                                errors={this.state.errors}
-                                value={this.state.firstname}
-                                onChange={(e,c) => this.setState({...this.state, firstname: c.value})}
-                            />
-                            <FormInputWithErrors
-                                disabled
-                                field="lastName"
-                                icon="address card"
-                                placeholder="Last name"
-                                errors={this.state.errors}
-                                value={this.state.lastname}
-                                onChange={(e,c) => this.setState({...this.state, lastname: c.value})}
-                            />
-                            <FormInputWithErrors
-                                field="password1"
-                                icon="lock"
-                                placeholder="Password"
-                                type="password"
-                                errors={this.state.errors}
-                                value={this.state.password1}
-                                onChange={(e,c) => this.setState({...this.state, password1: c.value})}
-                            />
-                            <FormInputWithErrors
-                                disabled
-                                field="password2"
-                                icon="lock"
-                                placeholder="Confirm password"
-                                type="password"
-                                errors={this.state.errors}
-                                value={this.state.password2}
-                                onChange={(e,c) => this.setState({...this.state, password2: c.value})}
-                            />
-                            <Segment>
-                                <ReCAPTCHA
-                                    onChange={this.handleCaptcha}
-                                    ref={reCAPTCHARef}
-                                    sitekey='6LeXbtgUAAAAAPZ30BNcghORZcsHzLFeRs3qvrcH'
-                                    theme='light'
-                                    style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                    }}
-                                />
-                            </Segment>
-                            <Button disabled color='teal' fluid size='large'
-                                    // disabled={this.validate()}
-                                    onClick={() => this.submit()}>
-                                Register
-                            </Button>
-                        </Segment.Group>
-                    </Form>
-                </Grid.Column>
-            </Grid>
-        )
-    }
-}
-
-function FormInputWithErrors(props) {
     return (
-        <Segment>
-            {props.errors ? props.errors.where(e => e.field === props.field).select(e => (
-                    <List bulleted floated="left">
-                        {Enumerable.from(e.messages).select((e, i) => (
-                            <List.Item key={i}>{e}</List.Item>
-                        ))}
-                    </List>
-                )
-            ).toArray() : null}
-            <Form.Input disabled={props.disabled} fluid icon={props.icon} iconPosition='left' placeholder={props.placeholder}
-                        value={props.value} type={props.type}
-                        error={props.errors && props.errors.any(e => e.field === props.field)}
-                        onChange={props.onChange}/>
-        </Segment>
+        <Container className="h-100" fluid>
+            <Row className="h-100">
+                <Col style={backgroundStyle} md={12} lg={6} className="text-center">
+                    <h1
+                        className="login-logo d-none d-lg-block"
+                        style={bigBrandStyle}><img style={logoIconStyle} src={gwcloudLogo}/> GWCloud</h1>
+                </Col>
+                <Col md={12} className="text-center d-none d-md-block d-lg-none bg-blue-400">
+                    <h1
+                        className="login-logo p-2"
+                        style={smallBrandStyle}><img style={logoIconStyle} src={gwcloudLogo}/> GWCloud</h1>
+                </Col>
+                <Col className="h-100">
+                    <img src={gwdcLogo} style={signInStyle}/>
+                    <Row className="justify-content-md-center">
+                        <Col lg={8} md={10}>
+                            <h2 className="mb-4">Register</h2>
+                            <Link to='/auth/' activeClassName="selected" exact {...props}>
+                                Back to login
+                            </Link>
+                            <hr/>
+                            {
+                                verify ?
+                                    <React.Fragment>
+                                        <h3>Check Your Email</h3>
+                                        <Alert variant='success'>
+                                            Registration submitted. Please check your email.
+                                        </Alert>
+                                    </React.Fragment> : <RegisterForm setVerify={setVerify}/>
+                            }
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
+            <Row className="fixed-bottom">
+                <Col lg={{offset: 6, span: 6}} md={12}>
+                    <Row className="justify-content-md-center mb-5">
+                        <Col md={8}>
+                            <Row className="align-items-end">
+                                <Col>
+                                    <img src={ncrisLogo} style={{maxWidth: '100%', maxHeight: '70px'}}/>
+                                </Col>
+                                <Col className="text-center">
+                                    <img src={ozgravLogo} style={{maxWidth: '100%', maxHeight: '100px'}}/>
+                                </Col>
+                                <Col className="text-right">
+                                    <img src={aalLogo} style={{maxWidth: '100%', maxHeight: '48px'}}/>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
+        </Container>
     );
-}
+};
 
 export default Register;

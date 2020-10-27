@@ -31,7 +31,9 @@ def register(args):
     )
 
     if not r.json()['success']:
-        return False, []
+        return False, [(
+            'captcha', ["Captcha was invalid"]
+        )]
 
     # creating the registration form from the data
     form = RegistrationForm(args)

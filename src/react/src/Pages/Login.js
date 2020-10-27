@@ -8,8 +8,6 @@ import ncrisLogo from '../Assets/ncris_logo.png';
 import ozgravLogo from '../Assets/ozgrav-logo-array-tk005-final-invert-textedit.png';
 import aalLogo from '../Assets/aal-logo-rp-revised-wwording-800px.png';
 
-const isProduction = process.env.NODE_ENV === 'production';
-
 const bigBrandStyle = {marginTop: '197px', color:'#F0FAFF'};
 const smallBrandStyle = {color:'#F0FAFF', margin: '0 -15px'};
 const signInStyle = {position:'absolute', height:'40px', marginTop:'10px'};
@@ -33,7 +31,7 @@ const Login = (props) =>  (
                 <img src={gwdcLogo} style={signInStyle}/>
                 <Row className="justify-content-md-center">
                     <Col lg={8} md={10} style={{marginTop: '230px'}}>
-                        <h2 c4assName="mb-4">Sign in</h2>
+                        <h2 className="mb-4">Sign in</h2>
                         <Button 
                             className="mb-4" 
                             variant="primary" 
@@ -44,7 +42,8 @@ const Login = (props) =>  (
                           Interested in joining the LIGO Scientific Collaboration? <br/>
                             <a href="https://www.ligo.org/about/join.php"> Apply to join</a>
                         </p>
-                        {!isProduction && <LoginForm {...props} />}
+                        <hr/>
+                        <LoginForm {...props} />
                     </Col>
                 </Row>
             </Col>

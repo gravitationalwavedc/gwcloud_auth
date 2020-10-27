@@ -27,7 +27,7 @@ AUTH_SERVICE_JWT_SECRET = SECRET_KEY
 ACCOUNTS_PORTAL_LIGO_AUTH_SECRET_KEY = SECRET_KEY
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_CAPTCHA_KEY = '6LeXbtgUAAAAAGLRdczfRwQGBWcBFBC3gfJY2ZWA'
+SECRET_CAPTCHA_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

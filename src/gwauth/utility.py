@@ -68,11 +68,8 @@ def get_information(token):
     now = timezone.localtime(timezone.now())
     try:
         verification = Verification.objects.get(id=token, expiry__gte=now)
-        if verification.verified:
-            raise ValueError('Already verified')
-        else:
-            verification.verified = True
-            verification.save()
+        verification.verified = True
+        verification.save()
         return verification.information
     except Verification.DoesNotExist:
         raise ValueError('Invalid or expired verification code')

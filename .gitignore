@@ -8,6 +8,7 @@ db.sqlite3
 __generated__
 certs
 src/logs
+src/gwcloud_auth/local.py
 
 # Kube
 secret.yaml

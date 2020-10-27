@@ -36,16 +36,11 @@ class Register(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, *args, **kwargs):
-        return Register(
-            result=RegisterResult(result=False, errors=[
-                FormError(field="username", messages=["Registration is currently disabled"])
-            ])
+        result, errors = register(kwargs)
+        return Register(result=RegisterResult(
+            result=result,
+            errors=[FormError(field=k, messages=v) for k, v in errors])
         )
-        # result, errors = register(kwargs)
-        # return Register(result=RegisterResult(
-        #     result=result,
-        #     errors=[FormError(field=k, messages=v) for k, v in errors])
-        # )
 
 
 class VerifyResult(ObjectType):
