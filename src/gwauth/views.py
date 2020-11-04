@@ -35,8 +35,17 @@ def register(args):
             'captcha', ["Captcha was invalid"]
         )]
 
+    form_args = {
+        'username': args.get('email'),
+        'email': args.get('email'),
+        'first_name': args.get('first_name'),
+        'last_name': args.get('last_name'),
+        'password1': args.get('password'),
+        'password2': args.get('password')
+    }
+
     # creating the registration form from the data
-    form = RegistrationForm(args)
+    form = RegistrationForm(form_args)
 
     # if form is valid save the information
     if form.is_valid():

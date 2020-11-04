@@ -2,11 +2,7 @@ import graphene
 from django.conf import settings
 from django.db.models import Q
 from graphene import relay, ObjectType
-from graphene_django.filter import DjangoFilterConnectionField
-
-from graphene_django.types import DjangoObjectType
 from graphql_jwt.decorators import login_required
-
 from gwauth.models import GWCloudUser
 from gwauth.utility import jwt_authentication
 from gwauth.views import register, verify
@@ -24,12 +20,10 @@ class RegisterResult(ObjectType):
 
 class Register(relay.ClientIDMutation):
     class Input:
-        username = graphene.String(required=True)
         email = graphene.String(required=True)
         first_name = graphene.String(required=True)
         last_name = graphene.String(required=True)
-        password1 = graphene.String(required=True)
-        password2 = graphene.String(required=True)
+        password = graphene.String(required=True)
         captcha = graphene.String(required=True)
 
     result = graphene.Field(RegisterResult)

@@ -99,7 +99,9 @@ exports[`loginTests login page renders correctly 1`] = `
           >
             Continue with LIGO authentication
           </a>
-          <p>
+          <p
+            className="pb-5"
+          >
             Interested in joining the LIGO Scientific Collaboration? 
             <br />
             <a
@@ -108,12 +110,11 @@ exports[`loginTests login page renders correctly 1`] = `
                Apply to join
             </a>
           </p>
-          <hr />
-          <h6
-            className="mb-4"
+          <h5
+            className="mb-4 mt-5"
           >
-            Continue with GWCloud credentials
-          </h6>
+            Continue with your GWCloud account
+          </h5>
           <form
             className=""
           >
@@ -130,7 +131,6 @@ exports[`loginTests login page renders correctly 1`] = `
                 className="form-control"
                 id="username"
                 onChange={[Function]}
-                placeholder="Username"
                 value=""
               />
               <div
@@ -150,7 +150,6 @@ exports[`loginTests login page renders correctly 1`] = `
                 className="form-control"
                 id="password"
                 onChange={[Function]}
-                placeholder="Password"
                 type="password"
                 value=""
               />
@@ -159,12 +158,12 @@ exports[`loginTests login page renders correctly 1`] = `
               />
             </div>
             <button
-              className="mb-4 btn btn-primary"
+              className="mb-4 btn btn-primary btn-block btn-lg"
               disabled={false}
               onClick={[Function]}
               type="submit"
             >
-              Login
+              Log in
             </button>
           </form>
           <a

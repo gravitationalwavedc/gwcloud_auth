@@ -1,5 +1,5 @@
-import {Form} from 'react-bootstrap';
 import React from 'react';
+import { Form } from 'react-bootstrap';
 
 const FormikInput = ({formikProps, formikKey, label, placeholder, ...rest}) => {
     const _error = !!(formikProps.touched[formikKey] && formikProps.errors[formikKey]);

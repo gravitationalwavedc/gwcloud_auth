@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql } from 'graphql';
-import { Button, Form } from 'react-bootstrap';
+import { Col, Button, Form } from 'react-bootstrap';
 import { commitMutation } from 'relay-runtime';
 import { Link } from 'found';
 import { harnessApi } from '../index';
@@ -57,7 +57,7 @@ const LoginForm = ({router, ...rest}) =>
     >
         {formikProps => (
             <React.Fragment>
-                <h5 className="mb-4 mt-5">Continue with your GWCloud account</h5>
+                <h5 className="mb-4 mt-5">Login with a GWCloud account</h5>
                 {
                     formikProps.errors['general'] ?
                         <p className='text-danger'>
@@ -85,7 +85,7 @@ const LoginForm = ({router, ...rest}) =>
                         size="lg"
                         block
                     >
-                        Log in
+                        Login
                     </Button>
                 </Form>
                 <Link to='/auth/register/' activeClassName="selected" exact router={router} {...rest}>
