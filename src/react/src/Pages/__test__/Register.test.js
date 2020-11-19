@@ -1,17 +1,17 @@
-import {createMockEnvironment} from 'relay-test-utils';
-import {setHarnessApi} from '../../index';
+import { createMockEnvironment } from 'relay-test-utils';
+import { setHarnessApi } from '../../index';
 import React from 'react';
-import {describe, expect, it, jest} from '@jest/globals';
+import { describe, expect, it, jest } from '@jest/globals';
 import TestRenderer from 'react-test-renderer';
-import Login from '../Login';
+import Register from '../Register';
 
 // Set the harnessApi
 setHarnessApi({
     getEnvironment: () => createMockEnvironment()
 });
-// router={{createHref: () => {}, createLocation: () => {}}}
-describe('loginTests', () => {
-    it('login page renders correctly', () => {
+
+describe('registerTests', () => {
+    it('register page renders correctly', () => {
         expect.hasAssertions();
 
         const router = {
@@ -29,7 +29,7 @@ describe('loginTests', () => {
             },
             addTransitionHook: jest.fn()
         };
-        const renderer = TestRenderer.create(<Login router={router} match={{}}/>);
+        const renderer = TestRenderer.create(<Register router={router} match={{}}/>);
         expect(renderer).toMatchSnapshot();
     });
 });

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loginTests login page renders correctly 1`] = `
+exports[`loginTests login page renders correctly for gwcloud 1`] = `
 <div
   className="h-100 container-fluid"
 >
@@ -93,7 +93,244 @@ exports[`loginTests login page renders correctly 1`] = `
           </h2>
           <a
             className="mb-4 btn btn-primary btn-block btn-lg"
-            href="/auth/ligo/"
+            href="/auth/ligo/?domain=gwcloud/"
+            onClick={[Function]}
+            onKeyDown={[Function]}
+          >
+            Continue with LIGO authentication
+          </a>
+          <p
+            className="pb-5"
+          >
+            Interested in joining the LIGO Scientific Collaboration? 
+            <br />
+            <a
+              href="https://www.ligo.org/about/join.php"
+            >
+               Apply to join
+            </a>
+          </p>
+          <h5
+            className="mb-4 mt-5"
+          >
+            Continue with your GWCloud account
+          </h5>
+          <form
+            className=""
+          >
+            <div
+              className="form-group"
+            >
+              <label
+                className="form-label"
+                htmlFor="username"
+              >
+                Username
+              </label>
+              <input
+                className="form-control"
+                id="username"
+                onChange={[Function]}
+                value=""
+              />
+              <div
+                className="invalid-feedback"
+              />
+            </div>
+            <div
+              className="form-group"
+            >
+              <label
+                className="form-label"
+                htmlFor="password"
+              >
+                Password
+              </label>
+              <input
+                className="form-control"
+                id="password"
+                onChange={[Function]}
+                type="password"
+                value=""
+              />
+              <div
+                className="invalid-feedback"
+              />
+            </div>
+            <button
+              className="mb-4 btn btn-primary btn-block btn-lg"
+              disabled={false}
+              onClick={[Function]}
+              type="submit"
+            >
+              Log in
+            </button>
+          </form>
+          <a
+            onClick={[Function]}
+          >
+            Need a GWCloud account?
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="fixed-bottom row"
+  >
+    <div
+      className="col-lg-6 col-md-12 offset-lg-6"
+    >
+      <div
+        className="justify-content-md-center mb-5 row"
+      >
+        <div
+          className="col-md-8"
+        >
+          <div
+            className="align-items-end row"
+          >
+            <div
+              className="col"
+            >
+              <img
+                src="ncris_logo.png"
+                style={
+                  Object {
+                    "maxHeight": "70px",
+                    "maxWidth": "100%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="text-center col"
+            >
+              <img
+                src="ozgrav-logo-array-tk005-final-invert-textedit.png"
+                style={
+                  Object {
+                    "maxHeight": "100px",
+                    "maxWidth": "100%",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="text-right col"
+            >
+              <img
+                src="aal-logo-rp-revised-wwording-800px.png"
+                style={
+                  Object {
+                    "maxHeight": "48px",
+                    "maxWidth": "100%",
+                  }
+                }
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`loginTests login page renders correctly for gwlab 1`] = `
+<div
+  className="h-100 container-fluid"
+>
+  <div
+    className="h-100 row"
+  >
+    <div
+      className="text-center col-lg-6 col-md-12"
+      style={
+        Object {
+          "background": "url(ligo-livingston-blue.png) no-repeat center",
+          "backgroundSize": "cover",
+          "minHeight": "100px",
+        }
+      }
+    >
+      <h1
+        className="login-logo d-none d-lg-block"
+        style={
+          Object {
+            "color": "#F0FAFF",
+            "marginTop": "197px",
+          }
+        }
+      >
+        <img
+          src="GWC-Green192-768x521.png"
+          style={
+            Object {
+              "height": "4rem",
+              "marginBottom": "8px",
+            }
+          }
+        />
+         GWCloud
+      </h1>
+    </div>
+    <div
+      className="text-center d-none d-md-block d-lg-none bg-blue-400 col-md-12"
+    >
+      <h1
+        className="login-logo p-2"
+        style={
+          Object {
+            "color": "#F0FAFF",
+            "margin": "0 -15px",
+          }
+        }
+      >
+        <img
+          src="GWC-Green192-768x521.png"
+          style={
+            Object {
+              "height": "4rem",
+              "marginBottom": "8px",
+            }
+          }
+        />
+         GWCloud
+      </h1>
+    </div>
+    <div
+      className="h-100 col"
+    >
+      <img
+        src="GWDC_grey_full_571x150.png"
+        style={
+          Object {
+            "height": "40px",
+            "marginTop": "10px",
+            "position": "absolute",
+          }
+        }
+      />
+      <div
+        className="justify-content-md-center row"
+      >
+        <div
+          className="col-lg-8 col-md-10"
+          style={
+            Object {
+              "marginTop": "230px",
+            }
+          }
+        >
+          <h2
+            className="mb-4"
+          >
+            Sign in
+          </h2>
+          <a
+            className="mb-4 btn btn-primary btn-block btn-lg"
+            href="/auth/ligo/?domain=gwlab/"
             onClick={[Function]}
             onKeyDown={[Function]}
           >
