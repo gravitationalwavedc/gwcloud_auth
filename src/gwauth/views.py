@@ -50,7 +50,11 @@ def register(args):
     # if form is valid save the information
     if form.is_valid():
         data = form.cleaned_data
-        form.save()
+        user = form.save()
+
+        # Make sure the user is not active
+        user.is_active = False
+        user.save()
 
         # generating verification link
         verification_link = utility.get_absolute_site_url() + '/auth/verify/?code=' + utility.get_token(
@@ -101,7 +105,6 @@ def verify(args):
                 except GWCloudUser.DoesNotExist:
                     return False, 'The requested user account to verify does not exist'
         except ValueError as e:
-            print("Value Error")
             return False, e if e else 'Invalid verification code'
 
     return False, 'Invalid Verification Code'

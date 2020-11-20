@@ -67,7 +67,7 @@ def get_information(token):
     """
     now = timezone.localtime(timezone.now())
     try:
-        verification = Verification.objects.get(id=token, expiry__gte=now)
+        verification = Verification.objects.get(id=token, expiry__gte=now, verified=False)
         verification.verified = True
         verification.save()
         return verification.information
