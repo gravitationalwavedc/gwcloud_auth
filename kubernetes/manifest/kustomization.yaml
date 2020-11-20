@@ -1,4 +1,5 @@
 resources:
-  # - secret.yaml # implies secret has been predeployed
+  - gwcloud_auth_secrets_integrator.yaml
+  - gwcloud_auth_vault_rbac.yaml
   - gwcloud_auth_dg_deployment.yaml
   - gwcloud_auth_dg_service.yaml
