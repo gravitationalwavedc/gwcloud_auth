@@ -93,7 +93,7 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
           </h2>
           <a
             className="mb-4 btn btn-primary btn-block btn-lg"
-            href="/auth/ligo/?domain=gwcloud/"
+            href="/auth/ligo/?domain=gwcloud"
             onClick={[Function]}
             onKeyDown={[Function]}
           >
@@ -330,7 +330,7 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
           </h2>
           <a
             className="mb-4 btn btn-primary btn-block btn-lg"
-            href="/auth/ligo/?domain=gwlab/"
+            href="/auth/ligo/?domain=gwlab"
             onClick={[Function]}
             onKeyDown={[Function]}
           >
