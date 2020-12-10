@@ -320,5 +320,6 @@ class TestRegistration(AuthTestCase):
             first_name="Bill",
             last_name="Nye",
             status=get_user_model().UNVERIFIED,
-            is_active=False
+            is_active=False,
+            is_ligo_user=False
         )

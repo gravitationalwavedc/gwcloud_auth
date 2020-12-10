@@ -24,6 +24,7 @@ class TestUtils(TestCase):
         self.assertIn(self.user.USERNAME_FIELD, result, "username was not in generated JWT payload")
         self.assertIn("exp", result, "expiry was not in generated JWT payload")
         self.assertIn("userId", result, "user id was not in generated JWT payload")
+        self.assertIn("isLigo", result, "is ligo user was not in generated JWT payload")
 
         self.assertEqual(result[self.user.USERNAME_FIELD], self.user.username, "username was not the expected value")
         self.assertAlmostEqual(
@@ -38,6 +39,14 @@ class TestUtils(TestCase):
             delta=5,
             msg="Issued at time was not the expected value"
         )
+        self.assertEqual(result['isLigo'], False, "isLigo was incorrect")
+
+        # Check that isLigo updates as expected
+        self.user.is_ligo_user = True
+        self.user.save()
+
+        result = jwt_payload(self.user)
+        self.assertEqual(result['isLigo'], True, "isLigo was incorrect")
 
     def test_get_token(self):
         # First test success
