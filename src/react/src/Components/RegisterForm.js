@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import FormikInput from './FormikInput';
 import FormikPasswordInput from './FormikPasswordInput';
 import ReCAPTCHA from 'react-google-recaptcha';
+import 'regenerator-runtime/runtime';
 
 const reCAPTCHARef = React.createRef();
 

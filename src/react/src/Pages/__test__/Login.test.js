@@ -18,7 +18,8 @@ const router = {
         isActive: jest.fn(),
         format: jest.fn()
     },
-    addTransitionHook: jest.fn()
+    addTransitionHook: jest.fn(),
+    addNavigationListener: jest.fn()
 };
 
 describe('loginTests', () => {

@@ -27,7 +27,8 @@ describe('registerTests', () => {
                 isActive: jest.fn(),
                 format: jest.fn()
             },
-            addTransitionHook: jest.fn()
+            addTransitionHook: jest.fn(),
+            addNavigationListener: jest.fn()
         };
         const renderer = TestRenderer.create(<Register router={router} match={{}}/>);
         expect(renderer).toMatchSnapshot();

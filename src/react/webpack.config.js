@@ -1,6 +1,7 @@
-const webpack = require("webpack");
-const ModuleReplaceWebpackPlugin = require('module-replace-webpack-plugin');
+const webpack = require('webpack');
 const path = require('path');
+const {ModuleFederationPlugin} = require('webpack').container;
+const deps = require('./package.json').dependencies;
 
 module.exports = {
     module: {
@@ -9,14 +10,14 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader",
+                    loader: 'babel-loader',
                     options: {
                         presets: [
-                            "@babel/preset-env",
-                            "@babel/preset-react"
+                            '@babel/preset-env',
+                            '@babel/preset-react'
                         ],
                         plugins: [
-                            "@babel/plugin-proposal-class-properties"
+                            '@babel/plugin-proposal-class-properties'
                         ]
                     }
                 }
@@ -25,16 +26,16 @@ module.exports = {
                 test: /\.html$/,
                 use: [
                     {
-                        loader: "html-loader"
+                        loader: 'html-loader'
                     }
                 ]
             },
             {
                 test: /\.scss$/,
                 use: [
-                    "style-loader",
-                    "css-loader",
-                    "sass-loader"
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader'
                 ]
             },
             {
@@ -56,20 +57,17 @@ module.exports = {
                     }
                 ]
             },
-            // fixes https://github.com/graphql/graphql-js/issues/1272
             {
-                test: /\.mjs$/,
-                include: /node_modules/,
-                type: 'javascript/auto'
+                test: /\.m?jsx?$/,
+                resolve: {
+                    fullySpecified: false
+                },
             }
         ]
     },
     output: {
-        publicPath: "/",
-        globalObject: "this",
+        publicPath: 'auto',
         path: path.resolve(__dirname, '../static/'),
-        library: 'RemoteModule',
-        libraryTarget: 'this'
     },
     // Server Configuration options
     devServer: {
@@ -78,10 +76,10 @@ module.exports = {
         disableHostCheck: true,
         historyApiFallback: true,
         headers: {
-            "Access-Control-Allow-Origin": "http://localhost:3000",
-            "Access-Control-Allow-Credentials": "true",
-            "Access-Control-Allow-Headers": "Content-Type, Authorization, x-id, Content-Length, X-Requested-With",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-id, Content-Length, X-Requested-With',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
         }
     },
     plugins: [
@@ -90,22 +88,17 @@ module.exports = {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
             }
         }),
-        new ModuleReplaceWebpackPlugin({
-            modules: [
-                {
-                    test: /React/,
-                    replace: './src/Lib/ReactShim.js'
-                },
-                {
-                    test: /^react$/,
-                    replace: './src/Lib/ReactShim.js'
-                }
-            ],
-            exclude: [
-                /ReactShim.js$/,
-                /node_modules\/react\/index.js$/
-            ]
-        })
+        new ModuleFederationPlugin({
+            name: 'auth',
+            library: { type: 'var', name: 'auth' },
+            filename: 'remoteEntry.js',
+            exposes: {
+                index: './src/index',
+            },
+            shared: {
+                ...deps
+            }
+        }),
     ],
     resolve: {
         extensions: ['.js', '.jsx', '.mjs']

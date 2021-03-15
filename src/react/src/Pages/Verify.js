@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import queryString from 'query-string';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
 import { commitMutation } from 'relay-runtime';
 import { harnessApi } from '../index';
 import { graphql } from 'graphql';
