@@ -63,6 +63,7 @@ class UserDetails(ObjectType):
     username = graphene.String()
     first_name = graphene.String()
     last_name = graphene.String()
+    is_ligo_user = graphene.Boolean()
 
     def resolve_user_id(self, info, **kwargs):
         return self.id
