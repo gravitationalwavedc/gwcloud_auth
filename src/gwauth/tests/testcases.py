@@ -8,13 +8,21 @@ from graphql_jwt.settings import jwt_settings
 class AuthJSONWebTokenClient(JSONWebTokenClient):
     """Auth test client with a custom authentication method."""
 
-    def authenticate(self, user):
+    def authenticate(self, user=None, token=None):
         """Payload for authentication in auth requires a special userID parameter."""
-        self._credentials = {
-            jwt_settings.JWT_AUTH_HEADER_NAME: "{0} {1}".format(
-                jwt_settings.JWT_AUTH_HEADER_PREFIX, get_token(user, userId=user.id)
-            ),
-        }
+        if user is not None:
+            token = get_token(user, userId=user.id)
+
+            self._credentials = {
+                jwt_settings.JWT_AUTH_HEADER_NAME: "{0} {1}".format(
+                    jwt_settings.JWT_AUTH_HEADER_PREFIX, token
+                ),
+            }
+        else:
+            # Internal API requests don't required "JWT " as a prefix
+            self._credentials = {
+                jwt_settings.JWT_AUTH_HEADER_NAME: token.decode('utf-8'),
+            }
 
 
 class AuthTestCase(testcases.TestCase):

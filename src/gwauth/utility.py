@@ -52,7 +52,7 @@ def get_token(information, validity=None):
     else:
         expiry = None
     try:
-        verification = Verification.objects.create(information=information, expiry=expiry)
+        verification = Verification.create(information, expiry)
         return verification.id.__str__()
     except Exception:
         logger.info("Failure generating Verification token with {}".format(information))
@@ -65,9 +65,8 @@ def get_information(token):
     :param token: encoded token from email
     :return: the actual information
     """
-    now = timezone.localtime(timezone.now())
     try:
-        verification = Verification.objects.get(id=token, expiry__gte=now, verified=False)
+        verification = Verification.get_unverified(token)
         verification.verified = True
         verification.save()
         return verification.information

@@ -1,8 +1,8 @@
 import graphene
 from django.conf import settings
-from django.db.models import Q
 from graphene import relay, ObjectType
 from graphql_jwt.decorators import login_required
+
 from gwauth.models import GWCloudUser
 from gwauth.utility import jwt_authentication
 from gwauth.views import register, verify
@@ -91,7 +91,7 @@ class Query(object):
     def resolve_username_lookup(self, info, **kwargs):
         # Get the list of ids to map
         ids = kwargs.get("ids")
-        return GWCloudUser.objects.filter(id__in=ids)
+        return GWCloudUser.filter_by_ids(ids)
 
     @jwt_authentication(settings.AUTH_SERVICE_JWT_SECRET)
     def resolve_username_filter(self, info, **kwargs):
@@ -114,11 +114,7 @@ class Query(object):
             terms.append(
                 UserTermFilterType(
                     term=term,
-                    users=GWCloudUser.objects.filter(
-                        Q(username__icontains=term) |
-                        Q(first_name__icontains=term) |
-                        Q(last_name__icontains=term)
-                    )
+                    users=GWCloudUser.filter_by_term(term)
                 )
             )
 

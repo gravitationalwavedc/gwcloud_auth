@@ -97,7 +97,7 @@ def verify(args):
 
                 # Update the user
                 try:
-                    user = GWCloudUser.objects.get(username=username)
+                    user = GWCloudUser.get_by_username(username=username)
                     user.status = user.VERIFIED
                     user.is_active = True
                     user.save()
@@ -147,22 +147,8 @@ def ligo_auth(request):
         # This will generate a unique hash that is 128 characters long (Django has 160 limit on username field)
         username_hash = sha3_512((request.META['uid'] + settings.SECRET_KEY).encode()).hexdigest()
 
-        # Check if a user exists with the specified hash
-        if GWCloudUser.objects.filter(username=username_hash).exists():
-            # Fetch the user
-            user = GWCloudUser.objects.get(username=username_hash)
-        else:
-            # Create a new user
-            user = GWCloudUser(username=username_hash)
-
-        # Update the user with the supplied details
-        user.first_name = request.META['givenName']
-        user.last_name = request.META['sn']
-        user.email = request.META['mail']
-        user.is_ligo_user = True
-
-        # Save the user
-        user.save()
+        # Get and update the user
+        user = GWCloudUser.ligo_update_or_create(username_hash, request.META)
 
         # Authorize the user and get the token details
         token = get_token(user)
