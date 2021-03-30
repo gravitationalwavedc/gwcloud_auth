@@ -79,7 +79,7 @@ RUN . ~/.nvm/nvm.sh && cd /tmp/react && nvm use && npm run relay && npm run buil
 FROM python AS final_image
 
 # Copy the javascript bundle
-COPY --from=javascript /tmp/static/main.js /src/static/main.js
+COPY --from=javascript /tmp/static/* /src/static/
 
 # Copy django source
 COPY ./runserver.sh /runserver.sh
