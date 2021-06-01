@@ -5,7 +5,7 @@ services:
     build:
       dockerfile: ./docker/gwcloud_auth_django.Dockerfile
       context: .
-    image: nexus.gwdc.org.au/docker/gwcloud_auth:0.41
+    image: nexus.gwdc.org.au/docker/gwcloud_auth:0.42
     container_name: gwcloud_auth_django
     environment:
       MYSQL_ROOT_PASSWORD: 76vcqmGKP19Z1AEx

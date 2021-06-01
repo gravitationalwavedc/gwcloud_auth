@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { graphql, commitMutation, createFragmentContainer } from 'react-relay';
+import React, { useState } from 'react';
+import { commitMutation, createFragmentContainer, graphql } from 'react-relay';
 import { harnessApi } from '../index';
 import { Button, Card, Container } from 'react-bootstrap';
 
 
 const APIToken = (props) => {
-    
-    const [token, setToken] = useState(null)
+
+    const [token, setToken] = useState(null);
 
     const createToken = () => {
         commitMutation(harnessApi.getEnvironment('auth'), {
@@ -17,19 +17,18 @@ const APIToken = (props) => {
               }`,
             variables: {
                 input: {
-                    username: harnessApi.currentUser.username,
                     app: 'Bilby'
                 }
             },
             onCompleted: (response, errors) => {
                 if (errors) {
-                    console.log(errors)
+                    console.log(errors);
                 } else {
-                    setToken(response.createApiToken.result)
+                    setToken(response.createApiToken.result);
                 }
             },
-        })
-    }
+        });
+    };
 
     const revokeToken = () => {
         commitMutation(harnessApi.getEnvironment('auth'), {
@@ -40,20 +39,19 @@ const APIToken = (props) => {
               }`,
             variables: {
                 input: {
-                    username: harnessApi.currentUser.username,
                     app: 'Bilby'
                 }
             },
             onCompleted: (response, errors) => {
                 if (errors) {
-                    console.log(errors)
+                    console.log(errors);
                 } else {
-                    setToken(response.revokeApiToken.result)
+                    setToken(response.revokeApiToken.result);
                 }
             },
-        })
-    }
-    
+        });
+    };
+
     return (
         <Container>
             <Card className="text-center">
@@ -68,7 +66,7 @@ const APIToken = (props) => {
     );
 };
 
-export default createFragmentContainer(APIToken, 
+export default createFragmentContainer(APIToken,
     {
         data: graphql`
             fragment APIToken_data on Query @argumentDefinitions(
@@ -76,6 +74,6 @@ export default createFragmentContainer(APIToken,
             ){
                 apiToken (app: $app)
             }
-        ` 
+        `
     }
 );
