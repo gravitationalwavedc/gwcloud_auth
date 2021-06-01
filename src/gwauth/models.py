@@ -1,9 +1,12 @@
 import uuid
+import hashlib
+from datetime import datetime
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import Q
 from django.utils import timezone
+from django.conf import settings
 
 
 class GWCloudUser(AbstractUser):
@@ -134,3 +137,26 @@ class Verification(models.Model):
         """
         now = timezone.localtime(timezone.now())
         return cls.objects.get(id=vid, expiry__gte=now, verified=False)
+
+
+class APIToken(models.Model):
+    """
+    Model to store unique token for a specific user and app
+    """
+    BILBY = 'Bilby'
+    APP_CHOICES = [
+        (BILBY, BILBY)
+    ]
+    user = models.ForeignKey('GWCloudUser', blank=False, on_delete=models.CASCADE)
+    app = models.CharField(max_length=32, choices=APP_CHOICES, blank=False, default=BILBY)
+    token = models.CharField(max_length=64, unique=True, default=None)
+
+    def save(self, *args, **kwargs):
+        if self.token is None:
+            token_str = self.user.first_name + self.user.last_name + self.app + \
+                datetime.now().strftime("%m%d%Y%H%M%S") + settings.SECRET_KEY
+            self.token = hashlib.sha256(token_str.encode('utf-8')).hexdigest()
+        super().save(*args, **kwargs)
+
+    class Meta:
+        unique_together = ('user', 'app',)

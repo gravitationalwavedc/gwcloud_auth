@@ -117,5 +117,8 @@
       "jest-watch-typeahead/filename",
       "jest-watch-typeahead/testname"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.9"
   }
 }

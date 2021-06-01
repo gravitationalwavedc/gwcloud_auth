@@ -2,10 +2,12 @@ import graphene
 from django.conf import settings
 from graphene import relay, ObjectType
 from graphql_jwt.decorators import login_required
-
-from gwauth.models import GWCloudUser
+from gwauth.models import GWCloudUser, APIToken
 from gwauth.utility import jwt_authentication
 from gwauth.views import register, verify
+from graphql_jwt.refresh_token.shortcuts import refresh_token_lazy
+from graphql_jwt.shortcuts import get_token
+from graphql import GraphQLError
 
 
 class FormError(ObjectType):
@@ -78,10 +80,59 @@ class UserFilterType(graphene.ObjectType):
     terms = graphene.List(UserTermFilterType)
 
 
+class CreateAPIToken(relay.ClientIDMutation):
+    class Input:
+        app = graphene.String(required=True)
+
+    result = graphene.String()
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, app):
+        user = info.context.user
+
+        if not user.is_authenticated:
+            raise GraphQLError('You do not have permission to perform this action')
+
+        token = APIToken(user=user, app=app)
+        token.save()
+
+        return CreateAPIToken(
+            result=token.token
+        )
+
+
+class RevokeAPIToken(relay.ClientIDMutation):
+    class Input:
+        app = graphene.String(required=True)
+
+    result = graphene.String()
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, app):
+        user = info.context.user
+
+        if not user.is_authenticated:
+            raise GraphQLError('You do not have permission to perform this action')
+
+        token = APIToken.objects.get(user=user, app=app)
+        token.delete()
+
+        return RevokeAPIToken(
+            result=f"{user.username}\'s API token for the {app} app has been deleted"
+        )
+
+
+class JWTType(ObjectType):
+    jwt_token = graphene.String()
+    refresh_token = graphene.String()
+
+
 class Query(object):
     gwclouduser = graphene.Field(UserDetails)
     username_filter = graphene.Field(UserFilterType, search=graphene.String())
     username_lookup = graphene.List(UserDetails, ids=graphene.List(graphene.Int))
+    api_token = graphene.String(app=graphene.String(required=True))
+    jwt_token = graphene.Field(JWTType, token=graphene.String(required=True))
 
     @login_required
     def resolve_gwclouduser(self, info, **kwargs):
@@ -120,7 +171,21 @@ class Query(object):
 
         return UserFilterType(terms=terms)
 
+    @login_required
+    def resolve_api_token(self, info, app):
+        return APIToken.objects.get(user=info.context.user, app=app).token
+
+    def resolve_jwt_token(self, info, token):
+        user = APIToken.objects.get(token=token).user
+
+        token = get_token(user)
+        refresh_token = refresh_token_lazy(user)
+
+        return JWTType(jwt_token=token, refresh_token=str(refresh_token))
+
 
 class Mutation(graphene.ObjectType):
     register = Register.Field()
     verify = Verify.Field()
+    create_api_token = CreateAPIToken.Field()
+    revoke_api_token = RevokeAPIToken.Field()
