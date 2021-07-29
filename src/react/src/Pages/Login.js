@@ -8,7 +8,7 @@ import { harnessApi } from '../index';
 const Login = (props) => {
     const query = queryString.parse(location.search);
     const next = query['next'] ? `&next=${query['next']}` : '';
-    const domain = harnessApi.isGwLab() ? 'gwlab' : 'gwcloud';
+    const domain = harnessApi.currentProject().domain;
 
     return (
         <BrandColumns>

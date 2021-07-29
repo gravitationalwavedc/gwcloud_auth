@@ -136,6 +136,14 @@ class TestLigo(TestCase):
         )
         self.assertTrue(response.url.startswith('https://gwlab.org.au/'))
 
+        # Check gwlandscape
+        response = self.client.get(
+            reverse('ligo_auth'),
+            {'domain': 'gwlandscape'},
+            **shibboleth_dict
+        )
+        self.assertTrue(response.url.startswith('https://gwlandscape.org.au/'))
+
     def test_ligo_auth_special(self):
         """
         Checks that the ozstar ligo verification step works as expected

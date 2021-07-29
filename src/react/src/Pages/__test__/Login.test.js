@@ -29,7 +29,7 @@ describe('loginTests', () => {
         // Set the harnessApi
         setHarnessApi({
             getEnvironment: () => createMockEnvironment(),
-            isGwLab: () => true
+            currentProject: () => ({ domain: 'gwlab' })
         });
 
         const renderer = TestRenderer.create(<Login router={router} match={{}}/>);
@@ -42,7 +42,20 @@ describe('loginTests', () => {
         // Set the harnessApi
         setHarnessApi({
             getEnvironment: () => createMockEnvironment(),
-            isGwLab: () => false
+            currentProject: () => ({ domain: 'gwcloud' })
+        });
+
+        const renderer = TestRenderer.create(<Login router={router} match={{}}/>);
+        expect(renderer).toMatchSnapshot();
+    });
+
+    it('login page renders correctly for gwlandscape', () => {
+        expect.hasAssertions();
+
+        // Set the harnessApi
+        setHarnessApi({
+            getEnvironment: () => createMockEnvironment(),
+            currentProject: () => ({ domain: 'gwlandscape' })
         });
 
         const renderer = TestRenderer.create(<Login router={router} match={{}}/>);

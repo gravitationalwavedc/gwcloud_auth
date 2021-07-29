@@ -167,11 +167,16 @@ def ligo_auth(request):
             algorithm='HS256'
         )
 
-        # Now we need to determine if the login was for gwlab or gwcloud and correctly redirect to
+        # Now we need to determine if the login was for gwlab, gwcloud or gwlandscape and correctly redirect to
         # the relevant domain
-        is_gwlab = request.GET.get('domain', 'gwcloud') == "gwlab"
-
-        domain = "https://gwlab.org.au" if is_gwlab else "https://gwcloud.org.au"
+        # todo: Perhaps this can be improved
+        domain_param = request.GET.get('domain', 'gwcloud')
+        if domain_param == 'gwlab':
+            domain = "https://gwlab.org.au"
+        elif domain_param == 'gwcloud':
+            domain = "https://gwcloud.org.au"
+        elif domain_param == 'gwlandscape':
+            domain = "https://gwlandscape.org.au"
 
         # Since the ligo authentication works only under gw-cloud.org, we need to redirect to the
         # calling domain with the provided token. Each of gwcloud/gwlab.org.au exposes an /auth/
