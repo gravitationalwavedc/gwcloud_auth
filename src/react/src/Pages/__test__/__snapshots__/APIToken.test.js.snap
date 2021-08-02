@@ -5,36 +5,81 @@ exports[`registerTests API token page renders correctly 1`] = `
   <div
     class="container"
   >
-    <div
-      class="text-center card"
+    <h1
+      class="pt-5 mb-4"
     >
-      <div
-        class="card-header"
+      API Tokens
+      <span
+        class="float-right"
       >
-        API Token
-      </div>
-      <p
-        class="card-text"
-      >
-        TestTokenHasNoMeaning
-      </p>
-      <div
-        class="text-muted card-footer"
-      >
-        <button
-          class="btn btn-primary"
-          type="button"
+        <div
+          class="dropdown"
         >
-          Create Token
-        </button>
-        <button
-          class="btn btn-primary"
-          type="button"
-        >
-          Revoke Token
-        </button>
-      </div>
-    </div>
+          <button
+            aria-expanded="false"
+            aria-haspopup="true"
+            class="dropdown-toggle btn btn-primary"
+            type="button"
+          >
+            Create Token
+          </button>
+        </div>
+      </span>
+    </h1>
+    <table
+      class="table"
+    >
+      <thead>
+        <tr>
+          <th>
+            App
+          </th>
+          <th>
+            Token
+          </th>
+          <th
+            class="text-center"
+          >
+            Action
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td
+            class="align-middle"
+          >
+            TestTokenHasNoMeaning
+          </td>
+          <td
+            class="align-middle"
+          >
+            <button
+              class="fade show btn btn-text text-secondary"
+              type="button"
+            >
+              Click to show token...
+            </button>
+          </td>
+          <td
+            class="align-middle text-center"
+          >
+            <button
+              class="btn btn-text btn-link"
+              type="button"
+            >
+              Copy Token
+            </button>
+            <button
+              class="btn btn-text text-danger"
+              type="button"
+            >
+              Revoke Token
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </DocumentFragment>
 `;

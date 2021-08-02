@@ -30,7 +30,10 @@ class TestAPIToken(AuthTestCase):
                                 app: "Bilby"
                             })
                             {
-                                result
+                                result {
+                                    app
+                                    token
+                                }
                             }
                         }
                     """
@@ -46,7 +49,7 @@ class TestAPIToken(AuthTestCase):
 
             # User is authenticated, mutation succeeds
             self.assertEqual(
-                run_query().data['createApiToken']['result'],
+                run_query().data['createApiToken']['result']['token'],
                 APIToken.objects.all().last().token,
                 "API token creation mutation does not run correctly."
             )

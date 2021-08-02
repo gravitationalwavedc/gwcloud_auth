@@ -30,16 +30,11 @@ const getRoutes = () =>
             environment={harnessApi.getEnvironment('auth')} 
             query={
                 graphql`
-                    query Routes_APIToken_Query (
-                        $app: String!
-                    ){
-                        ...APIToken_data @arguments(app: $app)
+                    query Routes_APIToken_Query {
+                        ...APIToken_data
                     }
                 `
             }
-            prepareVariables={() => ({
-                app: 'Bilby'
-            })}
             render={handleRender}
         />
     </Route>;

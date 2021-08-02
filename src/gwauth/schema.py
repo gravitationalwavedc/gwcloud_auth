@@ -80,11 +80,16 @@ class UserFilterType(graphene.ObjectType):
     terms = graphene.List(UserTermFilterType)
 
 
+class APITokenType(graphene.ObjectType):
+    app = graphene.String()
+    token = graphene.String()
+
+
 class CreateAPIToken(relay.ClientIDMutation):
     class Input:
         app = graphene.String(required=True)
 
-    result = graphene.String()
+    result = graphene.Field(APITokenType)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, app):
@@ -97,7 +102,7 @@ class CreateAPIToken(relay.ClientIDMutation):
         token.save()
 
         return CreateAPIToken(
-            result=token.token
+            result=APITokenType(app=app, token=token.token)
         )
 
 
@@ -132,6 +137,7 @@ class Query(object):
     username_filter = graphene.Field(UserFilterType, search=graphene.String())
     username_lookup = graphene.List(UserDetails, ids=graphene.List(graphene.Int))
     api_token = graphene.String(app=graphene.String(required=True))
+    api_tokens = graphene.List(APITokenType)
     jwt_token = graphene.Field(JWTType, token=graphene.String(required=True))
 
     @login_required
@@ -174,6 +180,11 @@ class Query(object):
     @login_required
     def resolve_api_token(self, info, app):
         return APIToken.objects.get(user=info.context.user, app=app).token
+
+    @login_required
+    def resolve_api_tokens(self, info):
+        token_dicts = APIToken.objects.filter(user=info.context.user).values('app', 'token')
+        return [APITokenType(**token) for token in token_dicts]
 
     def resolve_jwt_token(self, info, token):
         user = APIToken.objects.get(token=token).user

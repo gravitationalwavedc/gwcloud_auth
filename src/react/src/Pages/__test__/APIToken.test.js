@@ -14,13 +14,10 @@ describe('registerTests', () => {
         <QueryRenderer
             environment={environment}
             query={graphql`
-            query APITokenTestQuery($app: String!) @relay_test_operation {
-              ...APIToken_data @arguments(app: $app)
-            }
-          `}
-            variables={{
-                app: "Bilby"
-            }}
+                query APITokenTestQuery @relay_test_operation {
+                ...APIToken_data
+                }
+            `}
             render={({ error, props }) => {
                 if (props) {
                     return <APIToken data={props} router={router}/>;
