@@ -2,7 +2,7 @@
 FROM debian:buster AS base
 
 # Update the container and install common packages
-RUN apt-get update
+RUN apt-get update && apt-get upgrade -y
 RUN apt-get -y install python-virtualenv python3 default-libmysqlclient-dev shibboleth-sp2-common shibboleth-sp2-utils libapache2-mod-shib2 libshibresolver2 libapache2-mod-wsgi-py3 curl
 
 # Enable mod shibboleth and mod wsgi
