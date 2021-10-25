@@ -28,7 +28,7 @@ global.queryRendererSetup = (inputQuery, componentToRender) => {
         getEnvironment: () => environment,
         currentUser: {
             userId: 1,
-            username: "Bill Nye"
+            username: 'Bill Nye'
         }
     });
 

@@ -8,7 +8,7 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
     className="h-100 row"
   >
     <div
-      className="text-center col-lg-6 col-md-12"
+      className="text-center d-none d-lg-block col-lg-6"
       style={
         Object {
           "background": "url(ligo-livingston-blue.png) no-repeat center",
@@ -18,7 +18,7 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
       }
     >
       <h1
-        className="login-logo d-none d-lg-block"
+        className="login-logo"
         style={
           Object {
             "color": "#F0FAFF",
@@ -38,54 +38,58 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
          GWCloud
       </h1>
     </div>
-    <div
-      className="text-center d-none d-md-block d-lg-none bg-blue-400 col-md-12"
-    >
-      <h1
-        className="login-logo p-2"
-        style={
-          Object {
-            "color": "#F0FAFF",
-            "margin": "0 -15px",
-          }
+    <img
+      className="d-none d-lg-block"
+      src="GWDC_grey_full_571x150.png"
+      style={
+        Object {
+          "height": "3rem",
+          "left": "50%",
+          "margin": "1rem 0 0 1rem",
+          "position": "absolute",
         }
-      >
-        <img
-          src="GWC-Green192-768x521.png"
-          style={
-            Object {
-              "height": "4rem",
-              "marginBottom": "8px",
-            }
-          }
-        />
-         GWCloud
-      </h1>
-    </div>
-    <div
-      className="h-100 col"
-    >
-      <img
-        src="GWDC_grey_full_571x150.png"
-        style={
-          Object {
-            "height": "40px",
-            "marginTop": "10px",
-            "position": "absolute",
-          }
+      }
+    />
+    <img
+      className="d-lg-none d-xs-block"
+      src="GWDC_grey_full_571x150.png"
+      style={
+        Object {
+          "height": "3rem",
+          "margin": "1rem 0 0 1rem",
+          "position": "absolute",
         }
-      />
+      }
+    />
+    <div
+      className="align-self-center col"
+      style={
+        Object {
+          "marginTop": "5rem",
+        }
+      }
+    >
       <div
         className="justify-content-md-center row"
       >
         <div
           className="col-lg-8 col-md-10"
-          style={
-            Object {
-              "marginTop": "230px",
-            }
-          }
         >
+          <h1
+            className="login-logo pb-5 d-xs-block d-lg-none"
+          >
+            <img
+              className="pr-3"
+              src="GWCloud-logo-blue.png"
+              style={
+                Object {
+                  "height": "4rem",
+                  "marginBottom": "8px",
+                }
+              }
+            />
+            GWCloud
+          </h1>
           <h2
             className="mb-4"
           >
@@ -173,16 +177,13 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
           </a>
         </div>
       </div>
-    </div>
-  </div>
-  <div
-    className="fixed-bottom row"
-  >
-    <div
-      className="col-lg-6 col-md-12 offset-lg-6"
-    >
       <div
-        className="justify-content-md-center mb-5 row"
+        className="justify-content-md-center row"
+        style={
+          Object {
+            "margin": "4rem 0 2rem 0",
+          }
+        }
       >
         <div
           className="col-md-8"
@@ -197,7 +198,7 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
                 src="ncris_logo.png"
                 style={
                   Object {
-                    "maxHeight": "70px",
+                    "maxHeight": "4rem",
                     "maxWidth": "100%",
                   }
                 }
@@ -210,7 +211,7 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
                 src="ozgrav-logo-array-tk005-final-invert-textedit.png"
                 style={
                   Object {
-                    "maxHeight": "100px",
+                    "maxHeight": "4.5rem",
                     "maxWidth": "100%",
                   }
                 }
@@ -223,7 +224,7 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
                 src="aal-logo-rp-revised-wwording-800px.png"
                 style={
                   Object {
-                    "maxHeight": "48px",
+                    "maxHeight": "3rem",
                     "maxWidth": "100%",
                   }
                 }
@@ -233,6 +234,13 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
         </div>
       </div>
     </div>
+  </div>
+  <div
+    className="row"
+  >
+    <div
+      className="col-lg-6 col-md-12 offset-lg-6"
+    />
   </div>
 </div>
 `;
@@ -245,7 +253,7 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
     className="h-100 row"
   >
     <div
-      className="text-center col-lg-6 col-md-12"
+      className="text-center d-none d-lg-block col-lg-6"
       style={
         Object {
           "background": "url(ligo-livingston-blue.png) no-repeat center",
@@ -255,7 +263,7 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
       }
     >
       <h1
-        className="login-logo d-none d-lg-block"
+        className="login-logo"
         style={
           Object {
             "color": "#F0FAFF",
@@ -275,54 +283,58 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
          GWCloud
       </h1>
     </div>
-    <div
-      className="text-center d-none d-md-block d-lg-none bg-blue-400 col-md-12"
-    >
-      <h1
-        className="login-logo p-2"
-        style={
-          Object {
-            "color": "#F0FAFF",
-            "margin": "0 -15px",
-          }
+    <img
+      className="d-none d-lg-block"
+      src="GWDC_grey_full_571x150.png"
+      style={
+        Object {
+          "height": "3rem",
+          "left": "50%",
+          "margin": "1rem 0 0 1rem",
+          "position": "absolute",
         }
-      >
-        <img
-          src="GWC-Green192-768x521.png"
-          style={
-            Object {
-              "height": "4rem",
-              "marginBottom": "8px",
-            }
-          }
-        />
-         GWCloud
-      </h1>
-    </div>
-    <div
-      className="h-100 col"
-    >
-      <img
-        src="GWDC_grey_full_571x150.png"
-        style={
-          Object {
-            "height": "40px",
-            "marginTop": "10px",
-            "position": "absolute",
-          }
+      }
+    />
+    <img
+      className="d-lg-none d-xs-block"
+      src="GWDC_grey_full_571x150.png"
+      style={
+        Object {
+          "height": "3rem",
+          "margin": "1rem 0 0 1rem",
+          "position": "absolute",
         }
-      />
+      }
+    />
+    <div
+      className="align-self-center col"
+      style={
+        Object {
+          "marginTop": "5rem",
+        }
+      }
+    >
       <div
         className="justify-content-md-center row"
       >
         <div
           className="col-lg-8 col-md-10"
-          style={
-            Object {
-              "marginTop": "230px",
-            }
-          }
         >
+          <h1
+            className="login-logo pb-5 d-xs-block d-lg-none"
+          >
+            <img
+              className="pr-3"
+              src="GWCloud-logo-blue.png"
+              style={
+                Object {
+                  "height": "4rem",
+                  "marginBottom": "8px",
+                }
+              }
+            />
+            GWCloud
+          </h1>
           <h2
             className="mb-4"
           >
@@ -410,16 +422,13 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
           </a>
         </div>
       </div>
-    </div>
-  </div>
-  <div
-    className="fixed-bottom row"
-  >
-    <div
-      className="col-lg-6 col-md-12 offset-lg-6"
-    >
       <div
-        className="justify-content-md-center mb-5 row"
+        className="justify-content-md-center row"
+        style={
+          Object {
+            "margin": "4rem 0 2rem 0",
+          }
+        }
       >
         <div
           className="col-md-8"
@@ -434,7 +443,7 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
                 src="ncris_logo.png"
                 style={
                   Object {
-                    "maxHeight": "70px",
+                    "maxHeight": "4rem",
                     "maxWidth": "100%",
                   }
                 }
@@ -447,7 +456,7 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
                 src="ozgrav-logo-array-tk005-final-invert-textedit.png"
                 style={
                   Object {
-                    "maxHeight": "100px",
+                    "maxHeight": "4.5rem",
                     "maxWidth": "100%",
                   }
                 }
@@ -460,7 +469,7 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
                 src="aal-logo-rp-revised-wwording-800px.png"
                 style={
                   Object {
-                    "maxHeight": "48px",
+                    "maxHeight": "3rem",
                     "maxWidth": "100%",
                   }
                 }
@@ -470,6 +479,13 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
         </div>
       </div>
     </div>
+  </div>
+  <div
+    className="row"
+  >
+    <div
+      className="col-lg-6 col-md-12 offset-lg-6"
+    />
   </div>
 </div>
 `;
@@ -482,7 +498,7 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
     className="h-100 row"
   >
     <div
-      className="text-center col-lg-6 col-md-12"
+      className="text-center d-none d-lg-block col-lg-6"
       style={
         Object {
           "background": "url(ligo-livingston-blue.png) no-repeat center",
@@ -492,7 +508,7 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
       }
     >
       <h1
-        className="login-logo d-none d-lg-block"
+        className="login-logo"
         style={
           Object {
             "color": "#F0FAFF",
@@ -512,54 +528,58 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
          GWCloud
       </h1>
     </div>
-    <div
-      className="text-center d-none d-md-block d-lg-none bg-blue-400 col-md-12"
-    >
-      <h1
-        className="login-logo p-2"
-        style={
-          Object {
-            "color": "#F0FAFF",
-            "margin": "0 -15px",
-          }
+    <img
+      className="d-none d-lg-block"
+      src="GWDC_grey_full_571x150.png"
+      style={
+        Object {
+          "height": "3rem",
+          "left": "50%",
+          "margin": "1rem 0 0 1rem",
+          "position": "absolute",
         }
-      >
-        <img
-          src="GWC-Green192-768x521.png"
-          style={
-            Object {
-              "height": "4rem",
-              "marginBottom": "8px",
-            }
-          }
-        />
-         GWCloud
-      </h1>
-    </div>
-    <div
-      className="h-100 col"
-    >
-      <img
-        src="GWDC_grey_full_571x150.png"
-        style={
-          Object {
-            "height": "40px",
-            "marginTop": "10px",
-            "position": "absolute",
-          }
+      }
+    />
+    <img
+      className="d-lg-none d-xs-block"
+      src="GWDC_grey_full_571x150.png"
+      style={
+        Object {
+          "height": "3rem",
+          "margin": "1rem 0 0 1rem",
+          "position": "absolute",
         }
-      />
+      }
+    />
+    <div
+      className="align-self-center col"
+      style={
+        Object {
+          "marginTop": "5rem",
+        }
+      }
+    >
       <div
         className="justify-content-md-center row"
       >
         <div
           className="col-lg-8 col-md-10"
-          style={
-            Object {
-              "marginTop": "230px",
-            }
-          }
         >
+          <h1
+            className="login-logo pb-5 d-xs-block d-lg-none"
+          >
+            <img
+              className="pr-3"
+              src="GWCloud-logo-blue.png"
+              style={
+                Object {
+                  "height": "4rem",
+                  "marginBottom": "8px",
+                }
+              }
+            />
+            GWCloud
+          </h1>
           <h2
             className="mb-4"
           >
@@ -647,16 +667,13 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
           </a>
         </div>
       </div>
-    </div>
-  </div>
-  <div
-    className="fixed-bottom row"
-  >
-    <div
-      className="col-lg-6 col-md-12 offset-lg-6"
-    >
       <div
-        className="justify-content-md-center mb-5 row"
+        className="justify-content-md-center row"
+        style={
+          Object {
+            "margin": "4rem 0 2rem 0",
+          }
+        }
       >
         <div
           className="col-md-8"
@@ -671,7 +688,7 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
                 src="ncris_logo.png"
                 style={
                   Object {
-                    "maxHeight": "70px",
+                    "maxHeight": "4rem",
                     "maxWidth": "100%",
                   }
                 }
@@ -684,7 +701,7 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
                 src="ozgrav-logo-array-tk005-final-invert-textedit.png"
                 style={
                   Object {
-                    "maxHeight": "100px",
+                    "maxHeight": "4.5rem",
                     "maxWidth": "100%",
                   }
                 }
@@ -697,7 +714,7 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
                 src="aal-logo-rp-revised-wwording-800px.png"
                 style={
                   Object {
-                    "maxHeight": "48px",
+                    "maxHeight": "3rem",
                     "maxWidth": "100%",
                   }
                 }
@@ -707,6 +724,13 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
         </div>
       </div>
     </div>
+  </div>
+  <div
+    className="row"
+  >
+    <div
+      className="col-lg-6 col-md-12 offset-lg-6"
+    />
   </div>
 </div>
 `;

@@ -29,7 +29,7 @@ const validationSchema = yup.object().shape({
         .required()
 });
 
-const LoginForm = ({router, ...rest}) =>
+const LoginForm = ({ router, ...rest }) =>
     <Formik
         initialValues={{
             username: '',
