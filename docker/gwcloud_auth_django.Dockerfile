@@ -59,6 +59,9 @@ RUN mkdir -p /src/react/data/
 RUN . /src/venv/bin/activate && pip install -r /src/requirements.txt && pip install mysqlclient 
 RUN . /src/venv/bin/activate && cd src && python production-manage.py graphql_schema
 
+# Build clean layer
+FROM python as clean
+
 # Cleanup
 RUN apt-get remove -y --purge python3-dev build-essential
 RUN apt-get autoremove -y --purge
@@ -76,7 +79,7 @@ COPY --from=python /src/react/data/schema.json /tmp/react/data/
 RUN . ~/.nvm/nvm.sh && cd /tmp/react && nvm use && npm run relay && npm run build
 
 # Build the final project
-FROM python AS final_image
+FROM clean AS final_image
 
 # Copy the javascript bundle
 COPY --from=javascript /tmp/static/* /src/static/
