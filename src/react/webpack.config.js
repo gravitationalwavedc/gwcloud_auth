@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const {ModuleFederationPlugin} = require('webpack').container;
+const { ModuleFederationPlugin } = require('webpack').container;
 const deps = require('./package.json').dependencies;
 
 module.exports = {
@@ -46,7 +46,11 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(jpg|JPG|jpeg|png|gif|mp3|svg|ttf|woff2|woff|eot)$/,
+                test: /\.svg$/,
+                use: ['@svgr/webpack']
+            },
+            {
+                test: /\.(jpg|JPG|jpeg|png|gif|mp3|ttf|woff2|woff|eot)$/,
                 use: [
                     {
                         loader: 'url-loader',

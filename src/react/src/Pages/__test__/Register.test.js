@@ -7,7 +7,8 @@ import Register from '../Register';
 
 // Set the harnessApi
 setHarnessApi({
-    getEnvironment: () => createMockEnvironment()
+    getEnvironment: () => createMockEnvironment(),
+    currentProject: () => ({ name: 'GWCloud' })
 });
 
 describe('registerTests', () => {
