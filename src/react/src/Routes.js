@@ -1,29 +1,39 @@
 import React from 'react';
-import {Route} from 'found';
+import ReactGA from 'react-ga';
+import { Route } from 'found';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Verify from './Pages/Verify';
 import APIToken from './Pages/APIToken';
 import { harnessApi } from '.';
-import {graphql} from 'react-relay';
-// import Loading from './Components/Loading';
-import {RedirectException} from 'found';
+import { graphql } from 'react-relay';
+import { RedirectException } from 'found';
 
-const handleRender = ({Component, props}) => {
+
+//Initialise Google Analytics
+const trackingID = 'UA-219714075-1';
+ReactGA.initialize(trackingID);
+
+const renderTrackingRoute = ({ Component, props }) => {
+    ReactGA.pageview(props.location.pathname);
+    return <Component data={props} {...props} />;
+};
+
+const handleRender = ({ Component, props }) => {
     if (!Component || !props)
         return <div>Loading</div>;
 
     if (!harnessApi.hasAuthToken())
         throw new RedirectException('/auth/?next=' + props.match.location.pathname, 401);
   
-    return <Component data={props} {...props}/>;
+    return renderTrackingRoute(Component, props);
 };
 
 const getRoutes = () =>
     <Route>
-        <Route Component={Login}/>
-        <Route path="register" Component={Register}/>
-        <Route path="verify" Component={Verify}/>
+        <Route Component={Login} render={renderTrackingRoute}/>
+        <Route path="register" Component={Register} render={renderTrackingRoute}/>
+        <Route path="verify" Component={Verify} render={renderTrackingRoute}/>
         <Route 
             path="api-token"
             Component={APIToken}
