@@ -12,7 +12,7 @@ import { RedirectException } from 'found';
 
 //Initialise Google Analytics
 const trackingID = 'UA-219714075-1';
-ReactGA.initialize(trackingID);
+ReactGA.initialize(trackingID, { testMode: process.env.NODE_ENV === 'test' });
 
 const renderTrackingRoute = ({ Component, props }) => {
     ReactGA.pageview(props.location.pathname);
