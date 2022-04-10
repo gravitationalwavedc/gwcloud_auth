@@ -7,7 +7,7 @@
     "start": "npm run relay && npx cross-env NODE_ENV=development webpack serve --mode development --hot",
     "build": "npm run relay && npx cross-env NODE_ENV=production webpack --mode production",
     "relay": "relay-compiler --src ./src --schema ./data/schema.json --extensions=js --extensions=jsx",
-    "test": "jest",
+    "test": "npm run relay && jest",
     "test-ci": "jest --ci --reporters=default --reporters=jest-junit"
   },
   "keywords": [],
