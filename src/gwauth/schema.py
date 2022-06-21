@@ -179,7 +179,7 @@ class Query(object):
 
     @login_required
     def resolve_api_token(self, info, app):
-        token = APIToken.objects.get(user=info.context.user, app=app)
+        token = APIToken.objects.filter(user=info.context.user, app=app).first()
         if token:
             return token.token
         return None

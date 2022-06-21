@@ -1,19 +1,4 @@
-import React, {
-    useState,
-    useEffect,
-    useContext,
-    useReducer,
-    useCallback,
-    useMemo,
-    useRef,
-    useImperativeHandle,
-    useLayoutEffect,
-    useDebugValue
-} from 'react';
-import { setHarnessApi } from './index';
-import { render } from '@testing-library/react';
 import { createMockEnvironment } from 'relay-test-utils';
-import { QueryRenderer } from 'react-relay';
 
 // This ignores the jest global variable from eslint errors.
 /* global global */
