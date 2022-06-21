@@ -27,7 +27,7 @@ class TestAPIToken(AuthTestCase):
                     """
                         mutation {
                             createApiToken(input: {
-                                app: "Bilby"
+                                app: "gwcloud"
                             })
                             {
                                 result {
@@ -68,13 +68,13 @@ class TestAPIToken(AuthTestCase):
                     """
                         query {
                             apiToken(
-                                app: "Bilby"
+                                app: "gwcloud"
                             )
                         }
                     """
                 )
 
-            token = APIToken.objects.create(user=self.user, app="Bilby")
+            token = APIToken.objects.create(user=self.user, app="gwcloud")
 
             # User is not authenticated, query fails
             self.assertEqual(
@@ -105,7 +105,7 @@ class TestAPIToken(AuthTestCase):
                     """
                         mutation {
                             revokeApiToken(input: {
-                                app: "Bilby"
+                                app: "gwcloud"
                             })
                             {
                                 result
@@ -114,7 +114,7 @@ class TestAPIToken(AuthTestCase):
                     """
                 )
 
-            APIToken.objects.create(user=self.user, app="Bilby")
+            APIToken.objects.create(user=self.user, app="gwcloud")
 
             # User is not authenticated, mutation fails
             self.assertEqual(
@@ -127,7 +127,7 @@ class TestAPIToken(AuthTestCase):
             # User is authenticated, mutation succeeds
             self.assertEqual(
                 run_query().data['revokeApiToken']['result'],
-                f"{self.user.username}\'s API token for the Bilby app has been deleted",
+                f"{self.user.username}\'s API token for the gwcloud app has been deleted",
                 'No return message upon token deletion'
             )
 
@@ -151,7 +151,7 @@ class TestJWTFromAPIToken(AuthTestCase):
 
         self.token = APIToken.objects.create(
             user=self.user,
-            app="Bilby"
+            app="gwcloud"
         )
 
     def test_jwt_auth(self):
@@ -162,14 +162,15 @@ class TestJWTFromAPIToken(AuthTestCase):
         response = self.client.execute(
             f"""
                 query {{
-                  jwtToken(
-                    token: "{self.token.token}"
-                  ) {{
-                      jwtToken
-                      refreshToken
-                  }}
+                    jwtToken(
+                        token: "{self.token.token}"
+                    ) {{
+                        jwtToken
+                        refreshToken
+                    }}
                 }}
-            """
+            """,
+            HTTP_HOST="gwcloud.org.au"
         )
 
         jwt_token = response.data['jwtToken']['jwtToken']

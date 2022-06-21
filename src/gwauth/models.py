@@ -143,12 +143,13 @@ class APIToken(models.Model):
     """
     Model to store unique token for a specific user and app
     """
-    BILBY = 'Bilby'
     APP_CHOICES = [
-        (BILBY, BILBY)
+        ("gwcloud", "GWCloud"),
+        ("gwlab", "GWLab"),
+        ("gwlandscape", "GWLandscape")
     ]
     user = models.ForeignKey('GWCloudUser', blank=False, on_delete=models.CASCADE)
-    app = models.CharField(max_length=32, choices=APP_CHOICES, blank=False, default=BILBY)
+    app = models.CharField(max_length=32, choices=APP_CHOICES, blank=False, default="gwcloud")
     token = models.CharField(max_length=64, unique=True, default=None)
 
     def save(self, *args, **kwargs):
