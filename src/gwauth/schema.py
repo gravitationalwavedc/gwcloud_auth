@@ -179,7 +179,10 @@ class Query(object):
 
     @login_required
     def resolve_api_token(self, info, app):
-        return APIToken.objects.get(user=info.context.user, app=app).token
+        token = APIToken.objects.filter(user=info.context.user, app=app).first()
+        if token:
+            return token.token
+        return None
 
     @login_required
     def resolve_api_tokens(self, info):
@@ -187,7 +190,9 @@ class Query(object):
         return [APITokenType(**token) for token in token_dicts]
 
     def resolve_jwt_token(self, info, token):
-        user = APIToken.objects.get(token=token).user
+        domain = info.context.get_host()
+        app = domain.split('.')[0]
+        user = APIToken.objects.get(token=token, app=app).user
 
         token = get_token(user)
         refresh_token = refresh_token_lazy(user)

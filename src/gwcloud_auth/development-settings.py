@@ -7,6 +7,8 @@ MIDDLEWARE.append('corsheaders.middleware.CorsMiddleware')
 
 SITE_URL = "http://localhost:3000"
 
+ALLOWED_HOSTS = ['*']
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 try:

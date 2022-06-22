@@ -15,7 +15,7 @@ const trackingID = 'UA-219714075-1';
 ReactGA.initialize(trackingID, { testMode: process.env.NODE_ENV === 'test' });
 
 const renderTrackingRoute = ({ Component, props }) => {
-    ReactGA.pageview(props.location.pathname);
+    ReactGA.pageview(props.match.location.pathname);
     return <Component data={props} {...props} />;
 };
 
@@ -25,8 +25,8 @@ const handleRender = ({ Component, props }) => {
 
     if (!harnessApi.hasAuthToken())
         throw new RedirectException('/auth/?next=' + props.match.location.pathname, 401);
-  
-    return renderTrackingRoute(Component, props);
+    
+    return renderTrackingRoute({ Component, props });
 };
 
 const getRoutes = () =>
@@ -40,11 +40,14 @@ const getRoutes = () =>
             environment={harnessApi.getEnvironment('auth')} 
             query={
                 graphql`
-                    query Routes_APIToken_Query {
-                        ...APIToken_data
+                    query Routes_APIToken_Query ($app: String!){
+                        ...APIToken_data @arguments(app: $app)
                     }
                 `
             }
+            prepareVariables={() => ({
+                app: harnessApi.currentProject().domain
+            })}
             render={handleRender}
         />
     </Route>;
