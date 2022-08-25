@@ -4,9 +4,10 @@ import ncrisLogo from '../Assets/ncris_logo.png';
 import ozgravLogo from '../Assets/ozgrav-logo-array-tk005-final-invert-textedit.png';
 import aalLogo from '../Assets/aal-logo-rp-revised-wwording-800px.png';
 
-const FooterLogos = () => 
+const FooterLogos = ({ width }) => {
+  return (
     <Row className="justify-content-md-center" style={{ margin: '4rem 0 2rem 0' }}>
-        <Col md={8}>
+        <Col {...width}>
             <Row className="align-items-end">
                 <Col>
                     <img src={ncrisLogo} style={{ maxWidth: '100%', maxHeight: '4rem' }}/>
@@ -19,6 +20,12 @@ const FooterLogos = () =>
                 </Col>
             </Row>
         </Col>
-    </Row>;
+    </Row>
+  );
+};
+
+FooterLogos.defaultProps = {
+  width: {md: 8}
+};
 
 export default FooterLogos;
