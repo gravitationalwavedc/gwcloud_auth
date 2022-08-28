@@ -61,7 +61,7 @@ const LoginForm = ({ router, ...rest }) => {
         >
             {formikProps => (
                 <React.Fragment>
-                    <h5 className="mb-4 mt-3">Continue with your {project} account</h5>
+                    <h5 className="mb-2 mt-2">Continue with your {project} account</h5>
                     {
                         formikProps.errors['general'] ?
                             <p className='text-danger'>
@@ -73,15 +73,17 @@ const LoginForm = ({ router, ...rest }) => {
                             label='Username'
                             formikProps={formikProps}
                             formikKey='username'
+                            className="text-left"
                         />
                         <FormikInput
                             label='Password'
                             formikProps={formikProps}
                             formikKey='password'
                             type='password'
+                            className="text-left"
                         />
                         <Button
-                            className="mb-4"
+                            className="mb-1"
                             variant="primary"
                             onClick={formikProps.handleSubmit}
                             disabled={formikProps.isSubmitting}
