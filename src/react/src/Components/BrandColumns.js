@@ -3,7 +3,6 @@ import { Col, Container, Row } from 'react-bootstrap';
 import FooterLogos from './FooterLogos';
 import GWCloudBrandColumn from '../Components/GWCloudBrandColumn';
 import GWLabBrandColumn from '../Components/GWLabBrandColumn';
-import GWLandscapeBrandColumn from '../Components/GWLandscapeBrandColumn';
 import GWlandscapeLogo from '../Assets/GWLandscape-logo.svg';
 import { isGWLab, isGWLandscape } from '../index';
 
@@ -13,7 +12,7 @@ const setProjectColumn = () => {
     }
 
     if (isGWLandscape) {
-        return GWLandscapeBrandColumn;
+        return () => null;
     }
 
     return GWCloudBrandColumn;
