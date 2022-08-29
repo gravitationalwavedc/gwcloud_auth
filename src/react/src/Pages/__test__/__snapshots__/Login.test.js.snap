@@ -91,12 +91,12 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
             GWCloud
           </h1>
           <h2
-            className="mb-4"
+            className="mb-2"
           >
             Sign in
           </h2>
           <a
-            className="mb-4 btn btn-primary btn-block btn-lg"
+            className="mb-1 btn btn-primary btn-block btn-lg"
             href="/auth/ligo/?domain=gwcloud"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -104,7 +104,7 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
             Continue with LIGO authentication
           </a>
           <p
-            className="pb-5"
+            className="pb-4"
           >
             Interested in joining the LIGO Scientific Collaboration? 
             <br />
@@ -115,9 +115,10 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
             </a>
           </p>
           <h5
-            className="mb-4 mt-5"
+            className="mb-2 mt-2"
           >
-            Continue with your GWCloud account
+            Continue with your 
+             account
           </h5>
           <form
             className=""
@@ -132,7 +133,7 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
                 Username
               </label>
               <input
-                className="form-control"
+                className="text-left form-control"
                 id="username"
                 onChange={[Function]}
                 value=""
@@ -151,7 +152,7 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
                 Password
               </label>
               <input
-                className="form-control"
+                className="text-left form-control"
                 id="password"
                 onChange={[Function]}
                 type="password"
@@ -162,7 +163,7 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
               />
             </div>
             <button
-              className="mb-4 btn btn-primary btn-block btn-lg"
+              className="mb-1 btn btn-primary btn-block btn-lg"
               disabled={false}
               onClick={[Function]}
               type="submit"
@@ -173,7 +174,8 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
           <a
             onClick={[Function]}
           >
-            Need a GWCloud account?
+            Need a 
+             account?
           </a>
         </div>
       </div>
@@ -186,7 +188,7 @@ exports[`loginTests login page renders correctly for gwcloud 1`] = `
         }
       >
         <div
-          className="col-md-8"
+          className="col-lg-8 col-md-10"
         >
           <div
             className="align-items-end row"
@@ -336,12 +338,12 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
             GWCloud
           </h1>
           <h2
-            className="mb-4"
+            className="mb-2"
           >
             Sign in
           </h2>
           <a
-            className="mb-4 btn btn-primary btn-block btn-lg"
+            className="mb-1 btn btn-primary btn-block btn-lg"
             href="/auth/ligo/?domain=gwlab"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -349,7 +351,7 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
             Continue with LIGO authentication
           </a>
           <p
-            className="pb-5"
+            className="pb-4"
           >
             Interested in joining the LIGO Scientific Collaboration? 
             <br />
@@ -360,9 +362,10 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
             </a>
           </p>
           <h5
-            className="mb-4 mt-5"
+            className="mb-2 mt-2"
           >
-            Continue with your GWCloud account
+            Continue with your 
+             account
           </h5>
           <form
             className=""
@@ -377,7 +380,7 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
                 Username
               </label>
               <input
-                className="form-control"
+                className="text-left form-control"
                 id="username"
                 onChange={[Function]}
                 value=""
@@ -396,7 +399,7 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
                 Password
               </label>
               <input
-                className="form-control"
+                className="text-left form-control"
                 id="password"
                 onChange={[Function]}
                 type="password"
@@ -407,7 +410,7 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
               />
             </div>
             <button
-              className="mb-4 btn btn-primary btn-block btn-lg"
+              className="mb-1 btn btn-primary btn-block btn-lg"
               disabled={false}
               onClick={[Function]}
               type="submit"
@@ -418,7 +421,8 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
           <a
             onClick={[Function]}
           >
-            Need a GWCloud account?
+            Need a 
+             account?
           </a>
         </div>
       </div>
@@ -431,7 +435,7 @@ exports[`loginTests login page renders correctly for gwlab 1`] = `
         }
       >
         <div
-          className="col-md-8"
+          className="col-lg-8 col-md-10"
         >
           <div
             className="align-items-end row"
@@ -581,12 +585,12 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
             GWCloud
           </h1>
           <h2
-            className="mb-4"
+            className="mb-2"
           >
             Sign in
           </h2>
           <a
-            className="mb-4 btn btn-primary btn-block btn-lg"
+            className="mb-1 btn btn-primary btn-block btn-lg"
             href="/auth/ligo/?domain=gwlandscape"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -594,7 +598,7 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
             Continue with LIGO authentication
           </a>
           <p
-            className="pb-5"
+            className="pb-4"
           >
             Interested in joining the LIGO Scientific Collaboration? 
             <br />
@@ -605,9 +609,10 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
             </a>
           </p>
           <h5
-            className="mb-4 mt-5"
+            className="mb-2 mt-2"
           >
-            Continue with your GWCloud account
+            Continue with your 
+             account
           </h5>
           <form
             className=""
@@ -622,7 +627,7 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
                 Username
               </label>
               <input
-                className="form-control"
+                className="text-left form-control"
                 id="username"
                 onChange={[Function]}
                 value=""
@@ -641,7 +646,7 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
                 Password
               </label>
               <input
-                className="form-control"
+                className="text-left form-control"
                 id="password"
                 onChange={[Function]}
                 type="password"
@@ -652,7 +657,7 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
               />
             </div>
             <button
-              className="mb-4 btn btn-primary btn-block btn-lg"
+              className="mb-1 btn btn-primary btn-block btn-lg"
               disabled={false}
               onClick={[Function]}
               type="submit"
@@ -663,7 +668,8 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
           <a
             onClick={[Function]}
           >
-            Need a GWCloud account?
+            Need a 
+             account?
           </a>
         </div>
       </div>
@@ -676,7 +682,7 @@ exports[`loginTests login page renders correctly for gwlandscape 1`] = `
         }
       >
         <div
-          className="col-md-8"
+          className="col-lg-8 col-md-10"
         >
           <div
             className="align-items-end row"

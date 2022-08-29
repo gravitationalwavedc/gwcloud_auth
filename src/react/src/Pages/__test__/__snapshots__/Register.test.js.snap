@@ -278,7 +278,7 @@ exports[`registerTests register page renders correctly 1`] = `
         }
       >
         <div
-          className="col-md-8"
+          className="col-lg-8 col-md-10"
         >
           <div
             className="align-items-end row"
