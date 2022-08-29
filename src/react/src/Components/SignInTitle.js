@@ -9,6 +9,10 @@ const SignInTitle = () => {
     const Title = () => {
         const projectName = harnessApi.currentProject().name;
 
+        if (projectName === 'GWLandscape'){
+          return null; 
+        }
+
         if (projectName === 'GWLab') {
             return <h1 className="mb-5 title-display">GWLab</h1>;
         }
