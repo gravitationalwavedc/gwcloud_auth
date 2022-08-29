@@ -1,19 +1,18 @@
 import React from 'react';
 import gwcloudLogo from '../Assets/GWCloud-logo-blue.png';
-import { harnessApi } from '../index';
+import { isGWLab, isGWLandscape } from '../index';
 
 const logoIconStyle = { height: '4rem', marginBottom: '8px' };
 
 const SignInTitle = () => {
 
     const Title = () => {
-        const projectName = harnessApi.currentProject().name;
 
-        if (projectName === 'GWLandscape'){
-            return null; 
+        if (isGWLandscape) {
+            return null;
         }
 
-        if (projectName === 'GWLab') {
+        if (isGWLab) {
             return <h1 className="mb-5 title-display">GWLab</h1>;
         }
 
