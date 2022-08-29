@@ -10,7 +10,7 @@ const SignInTitle = () => {
         const projectName = harnessApi.currentProject().name;
 
         if (projectName === 'GWLandscape'){
-          return null; 
+            return null; 
         }
 
         if (projectName === 'GWLab') {

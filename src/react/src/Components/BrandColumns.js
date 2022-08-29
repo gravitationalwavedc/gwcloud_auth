@@ -33,8 +33,9 @@ const BrandColumn = ({ children }) => {
                 <ProjectColumn />
                 <Col className="align-self-center" style={{ marginTop: '5rem' }}>
                     <Row className="justify-content-md-center">
-                        <Col {...colSizes}>
-                            {project.name === 'GWLandscape' && <GWlandscapeLogo style={{width: '100%'}} className="mb-4"/>}
+                        <Col {...colSizes }>
+                            { project.name === 'GWLandscape' && 
+                                <GWlandscapeLogo style={{ width: '100%' }} className="mb-4"/> }
                             { children }
                         </Col>
                     </Row>
