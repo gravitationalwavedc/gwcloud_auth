@@ -5,7 +5,8 @@ import {expect} from "@jest/globals";
 const newApi = {
     getEnvironment: name => {
         return createMockEnvironment();
-    }
+    },
+    currentProject: () => ''
 }
 
 // Test setHarnessApi

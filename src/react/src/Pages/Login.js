@@ -15,9 +15,9 @@ const Login = (props) => {
     return (
         <BrandColumns>
             <SignInTitle />
-            <h2 className="mb-4">Sign in</h2>
+            <h2 className="mb-2">Sign in</h2>
             <Button
-                className="mb-4"
+                className="mb-1"
                 variant="primary"
                 href={`/auth/ligo/?domain=${domain}${next}`}
                 block
@@ -25,7 +25,7 @@ const Login = (props) => {
             >
                 Continue with LIGO authentication
             </Button>
-            <p className="pb-5">
+            <p className="pb-4">
                 Interested in joining the LIGO Scientific Collaboration? <br/>
                 <a href="https://www.ligo.org/about/join.php"> Apply to join</a>
             </p>
