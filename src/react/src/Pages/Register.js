@@ -15,23 +15,23 @@ const Register = (props) => {
                     <React.Fragment>
                         <h2>
                             <HiOutlineCheckCircle className="text-success mb-2 mr-1"/>
-                                            Thanks for registering.
+                            Thanks for registering.
                         </h2>
                         <h4 className="mt-4">
-                                            You will need to verify your email to complete registration.
+                            You will need to verify your email to complete registration.
                         </h4>
                         <p>
-                                          An email has been sent to you with a link to verify your account. 
-                                          If the email doesn't appear within a few minutes try checking your 
-                                          spam folder.
+                            An email has been sent to you with a link to verify your account. 
+                            If the email doesn&post appear within a few minutes try checking your 
+                            spam folder.
                         </p>
                     </React.Fragment> : 
                     <React.Fragment>
-                        <h2 className="mb-4">
-                                          Register
+                        <h2 className="mb-2">
+                            Register
                         </h2>
                         <RegisterForm setVerify={setVerify}/>
-                        <p className="mt-3">
+                        <p className="pb-4">
                             <Link to='/auth/' activeClassName="selected" exact {...props}>
                                           Already have an account?
                             </Link>

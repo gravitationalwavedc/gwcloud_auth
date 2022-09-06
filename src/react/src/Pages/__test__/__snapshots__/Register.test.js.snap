@@ -76,10 +76,11 @@ exports[`registerTests register page renders correctly 1`] = `
           className="col-lg-8 col-md-10"
         >
           <h2
-            className="mb-4"
+            className="mb-2"
           >
             Register
           </h2>
+          
           <form
             className=""
           >
@@ -93,7 +94,7 @@ exports[`registerTests register page renders correctly 1`] = `
                 Email
               </label>
               <input
-                className="form-control"
+                className="text-left form-control"
                 id="email"
                 onChange={[Function]}
                 type="email"
@@ -119,7 +120,7 @@ exports[`registerTests register page renders correctly 1`] = `
                     First Name
                   </label>
                   <input
-                    className="form-control"
+                    className="text-left form-control"
                     id="firstName"
                     onChange={[Function]}
                     value=""
@@ -142,7 +143,7 @@ exports[`registerTests register page renders correctly 1`] = `
                     Last Name
                   </label>
                   <input
-                    className="form-control"
+                    className="text-left form-control"
                     id="lastName"
                     onChange={[Function]}
                     value=""
@@ -167,7 +168,7 @@ exports[`registerTests register page renders correctly 1`] = `
               >
                 <input
                   aria-describedby="passwordHelpBlock"
-                  className="form-control"
+                  className="text-left form-control"
                   id="password"
                   label="Password"
                   onChange={[Function]}
@@ -259,7 +260,7 @@ exports[`registerTests register page renders correctly 1`] = `
             </small>
           </form>
           <p
-            className="mt-3"
+            className="pb-4"
           >
             <a
               onClick={[Function]}

@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import {graphql} from 'graphql';
-import {Row, Col, Button, Form} from 'react-bootstrap';
-import {commitMutation} from 'relay-runtime';
-import {harnessApi} from '../index';
-import {Formik} from 'formik';
+import { graphql } from 'graphql';
+import { Row, Col, Button, Form } from 'react-bootstrap';
+import { commitMutation } from 'relay-runtime';
+import { harnessApi } from '../index';
+import { Formik } from 'formik';
 import * as yup from 'yup';
 import FormikInput from './FormikInput';
 import FormikPasswordInput from './FormikPasswordInput';
 import ReCAPTCHA from 'react-google-recaptcha';
-import 'regenerator-runtime/runtime';
+import regeneratorRuntime from 'regenerator-runtime'; // eslint-disable-line 
 
 const reCAPTCHARef = React.createRef();
 
 const registerMutation = graphql`
 mutation RegisterFormMutation($input: RegisterInput!)
 {
-  register(input: $input) 
+  register(input: $input)
   {
     result {
       result
@@ -52,7 +52,7 @@ const validationSchema = yup.object().shape({
 });
 
 
-const RegisterForm = ({setVerify}) => {
+const RegisterForm = ({ setVerify }) => {
     const [serverErrors, setServerErrors] = useState('');
 
     const handleSubmit = async (formikProps) => {
@@ -77,7 +77,7 @@ const RegisterForm = ({setVerify}) => {
                             ...values
                         }
                     },
-                    onCompleted: ({register}) => {
+                    onCompleted: ({ register }) => {
                         if (register.result.result) {
                             setVerify(true);
                         } else {
@@ -104,12 +104,14 @@ const RegisterForm = ({setVerify}) => {
                                     {formikProps.errors['general']}
                                 </p> : null
                         }
+                        { serverErrors && <p className='text-danger'>serverErrors</p> }
                         <Form>
                             <FormikInput
                                 label='Email'
                                 formikProps={formikProps}
                                 formikKey='email'
                                 type='email'
+                                className='text-left'
                             />
                             <Row>
                                 <Col>
@@ -117,6 +119,7 @@ const RegisterForm = ({setVerify}) => {
                                         label='First Name'
                                         formikProps={formikProps}
                                         formikKey='firstName'
+                                        className='text-left'
                                     />
                                 </Col>
                                 <Col>
@@ -124,12 +127,14 @@ const RegisterForm = ({setVerify}) => {
                                         label='Last Name'
                                         formikProps={formikProps}
                                         formikKey='lastName'
+                                        className='text-left'
                                     />
                                 </Col>
                             </Row>
                             <FormikPasswordInput
                                 formikProps={formikProps}
                                 formikKey='password'
+                                className='text-left'
                             />
                             <ReCAPTCHA
                                 onChange={key => formikProps.setFieldValue('captcha', key)}
@@ -150,10 +155,10 @@ const RegisterForm = ({setVerify}) => {
                             >
                               Create new account
                             </Button>
-                            <Form.Text style={{marginTop: '-1rem'}} muted>
+                            <Form.Text style={{ marginTop: '-1rem' }} muted>
                                 This site is protected by reCAPTCHA and the Google
                                 <a href="https://policies.google.com/privacy"> Privacy Policy</a> and
-                                <a href="https://policies.google.com/terms"> Terms of Service</a> apply. 
+                                <a href="https://policies.google.com/terms"> Terms of Service</a> apply.
                             </Form.Text>
                         </Form>
                     </React.Fragment>
