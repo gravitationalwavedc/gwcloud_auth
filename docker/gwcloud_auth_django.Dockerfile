@@ -74,7 +74,7 @@ COPY src/react /tmp/react
  
 # Build webpack bundle
 RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
-RUN . ~/.nvm/nvm.sh && cd /tmp/react && nvm install && nvm use && nvm install-latest-npm && npm install
+RUN . ~/.nvm/nvm.sh && cd /tmp/react && nvm install && nvm use && npm install --legacy-deps
 COPY --from=python /src/react/data/schema.json /tmp/react/data/
 RUN . ~/.nvm/nvm.sh && cd /tmp/react && nvm use && npm run relay && npm run build
 
