@@ -289,7 +289,8 @@ class TestRegistration(AuthTestCase):
                     }
                   }
                 }
-            """
+            """,
+            SERVER_NAME="localhost"
         )
 
         expected = {
@@ -307,7 +308,7 @@ class TestRegistration(AuthTestCase):
 
         # Verify that an email was sent
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, "[GW Cloud] Please verify your email address")
+        self.assertEqual(mail.outbox[0].subject, "[GWCloud] Please verify your email address")
         self.assertTrue("bill@nye.com" in mail.outbox[0].to)
         self.assertTrue("Bill" in mail.outbox[0].body)
         self.assertTrue("Nye" in mail.outbox[0].body)
@@ -323,3 +324,81 @@ class TestRegistration(AuthTestCase):
             is_active=False,
             is_ligo_user=False
         )
+
+    @responses.activate
+    def test_registration_templates(self):
+        """
+        Check that the registration templates are correct
+        """
+        expected = {
+            'gwcloud.org.au': {
+                'site': 'GWCloud',
+                'url': 'https://gwcloud.org.au/',
+                'admin': 'paul.lasky@monash.edu'
+            },
+            'gwlab.org.au': {
+                'site': 'GWLab',
+                'url': 'https://gwlab.org.au/',
+                'admin': 'pclearwater@swin.edu.au'
+            },
+            'gwlandscape.org.au': {
+                'site': 'GWLandscape',
+                'url': 'https://gwlandscape.org.au/',
+                'admin': 'ilya.mandel@monash.edu'
+            }
+        }
+
+        for project_domain, data in expected.items():
+            responses.add(responses.POST, 'https://www.google.com/recaptcha/api/siteverify',
+                          json={'success': True}, status=200)
+
+            response = self.client.execute(
+                """
+                    mutation {
+                      register(input: {
+                        email: "bill@nye.com"
+                        firstName: "Bill"
+                        lastName: "Nye"
+                        password: "billnye123!"
+                        captcha: "captcha123"
+                      })
+                      {
+                        result {
+                          result
+                          errors {
+                            field
+                            messages
+                          }
+                        }
+                      }
+                    }
+                """,
+                SERVER_NAME=project_domain
+            )
+
+            expected = {
+                "register": {
+                    "result": {
+                        "result": True,
+                        "errors": []
+                    }
+                }
+            }
+
+            self.assertDictEqual(
+                expected, response.data, "registration query returned unexpected data."
+            )
+
+            # Verify that an email was sent
+            self.assertEqual(len(mail.outbox), 1)
+            self.assertTrue(data['site'] in mail.outbox[0].subject)
+            self.assertTrue(data['site'] in mail.outbox[0].body)
+            self.assertTrue(data['url'] in mail.outbox[0].body)
+            self.assertTrue(data['admin'] in mail.outbox[0].body)
+
+            # Reset the test state
+            get_user_model().objects.get(
+                username="bill@nye.com"
+            ).delete()
+
+            mail.outbox.clear()

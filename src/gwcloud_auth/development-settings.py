@@ -5,7 +5,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE.append('corsheaders.middleware.CorsMiddleware')
 
-SITE_URL = "http://localhost:3000"
+SITE_URLS['localhost'] = "http://localhost:3000"
 
 ALLOWED_HOSTS = ['*']
 

@@ -30,13 +30,13 @@ def get_email_verification_expiry():
         return constants.EMAIL_VERIFICATION_EXPIRY
 
 
-def get_absolute_site_url():
+def get_absolute_site_url(project):
     """
     Finds the site url that will be used to generate links
     """
 
     # check whether forcefully using a specific url from the settings
-    return settings.SITE_URL
+    return settings.SITE_URLS[project]
 
 
 def get_token(information, validity=None):
@@ -134,3 +134,13 @@ def jwt_authentication(secret, exc=exceptions.PermissionDenied()):
             return f(*args, **kwargs)
         return wrapper
     return decorator
+
+
+def project_from_context(context):
+    """
+    Returns the project name from the host given the provided graphene request context
+
+    :return: The project name, or None
+    """
+    domain = context.get_host()
+    return domain.split('.')[0]

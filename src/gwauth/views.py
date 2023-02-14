@@ -16,7 +16,7 @@ from gwauth.models import GWCloudUser
 from hashlib import sha3_512
 
 
-def register(args):
+def register(args, project):
     """
     View to process the registration
     """
@@ -57,7 +57,7 @@ def register(args):
         user.save()
 
         # generating verification link
-        verification_link = utility.get_absolute_site_url() + '/auth/verify/?code=' + utility.get_token(
+        verification_link = utility.get_absolute_site_url(project) + '/auth/verify/?code=' + utility.get_token(
             information='type=user&username={}'.format(data.get('username')),
             validity=utility.get_email_verification_expiry(),
         )
@@ -68,6 +68,7 @@ def register(args):
             first_name=data.get('first_name'),
             last_name=data.get('last_name'),
             link=verification_link,
+            project=project
         )
 
         return True, []
