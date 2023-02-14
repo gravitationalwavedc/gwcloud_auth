@@ -140,7 +140,7 @@ def project_from_context(context):
     """
     Returns the project name from the host given the provided graphene request context
 
-    :return: The project name, or None
+    :return: The project name
     """
     domain = context.get_host()
     return domain.split('.')[0]
