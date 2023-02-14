@@ -67,7 +67,8 @@ class TestVerify(AuthTestCase):
                     }
                   }
                 }
-            """
+            """,
+            SERVER_NAME="localhost"
         )
 
         # Get the created user

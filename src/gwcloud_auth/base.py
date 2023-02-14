@@ -219,3 +219,9 @@ LOGGING = {
         },
     },
 }
+
+SITE_URLS = {
+    'gwcloud': "https://gwcloud.org.au",
+    'gwlab': "https://gwlab.org.au",
+    'gwlandscape': "https://gwlandscape.org.au",
+}

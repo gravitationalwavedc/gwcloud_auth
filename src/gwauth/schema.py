@@ -3,7 +3,7 @@ from django.conf import settings
 from graphene import relay, ObjectType
 from graphql_jwt.decorators import login_required
 from gwauth.models import GWCloudUser, APIToken
-from gwauth.utility import jwt_authentication
+from gwauth.utility import jwt_authentication, project_from_context
 from gwauth.views import register, verify
 from graphql_jwt.refresh_token.shortcuts import refresh_token_lazy
 from graphql_jwt.shortcuts import get_token
@@ -31,8 +31,10 @@ class Register(relay.ClientIDMutation):
     result = graphene.Field(RegisterResult)
 
     @classmethod
-    def mutate_and_get_payload(cls, *args, **kwargs):
-        result, errors = register(kwargs)
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        project = project_from_context(info.context)
+
+        result, errors = register(kwargs, project)
         return Register(result=RegisterResult(
             result=result,
             errors=[FormError(field=k, messages=v) for k, v in errors])
@@ -190,9 +192,8 @@ class Query(object):
         return [APITokenType(**token) for token in token_dicts]
 
     def resolve_jwt_token(self, info, token):
-        domain = info.context.get_host()
-        app = domain.split('.')[0]
-        user = APIToken.objects.get(token=token, app=app).user
+        project = project_from_context(info.context)
+        user = APIToken.objects.get(token=token, app=project).user
 
         token = get_token(user)
         refresh_token = refresh_token_lazy(user)

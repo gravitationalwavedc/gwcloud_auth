@@ -2,8 +2,6 @@ from .base import *
 
 DEBUG = False
 
-SITE_URL = "https://gw-cloud.org"
-
 STATIC_URL = "/auth/static/"
 
 ALLOWED_HOSTS = ['*']
@@ -15,4 +13,3 @@ try:
     from .environment import *
 except ImportError:
     pass
-
