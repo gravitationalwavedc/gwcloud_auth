@@ -9,7 +9,7 @@ default:
     - apt -y install net-tools python3.12 git curl python3.12-venv
     - apt -y upgrade
     - curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-    - python3 -m venv /src/venv
+    - python -m venv /src/venv
 
 
 django-tests:
