@@ -16,8 +16,8 @@ django-tests:
   stage: test
   script:
     - cd src/
-    - ./venv/bin/pip3 install -r requirements.txt
-    - ./venv/bin/python3 development-manage.py jenkins --enable-coverage --coverage-rcfile=.coveragerc
+    - /src/venv/bin/pip3 install -r requirements.txt
+    - /src/venv/bin/python3 development-manage.py jenkins --enable-coverage --coverage-rcfile=.coveragerc
 
   artifacts:
     reports:
@@ -31,8 +31,8 @@ npm-tests:
   stage: test
   script:
     - cd src/
-    - ./venv/bin/pip3 install -r requirements.txt
-    - ./venv/bin/python3 development-manage.py graphql_schema
+    - /src/venv/bin/pip3 install -r requirements.txt
+    - /src/venv/bin/python3 development-manage.py graphql_schema
     - cd react/
     - export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" --no-use
     - eval "[ -f .nvmrc ] && nvm install && nvm use && nvm install-latest-npm"
