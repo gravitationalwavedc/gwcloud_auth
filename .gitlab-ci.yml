@@ -1,22 +1,23 @@
 default:
   image:
-    name: ubuntu:20.04
+    name: ubuntu:24.04
     entrypoint: ["/usr/bin/env"]
 
   before_script:
     - apt -y update
     - apt -y install apt-utils
-    - apt -y install net-tools python3.8 python3-pip git curl
+    - apt -y install net-tools python3.12 git curl python3.12-venv
     - apt -y upgrade
     - curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+    - /usr/bin/python3.12 -m venv /src/venv
 
 
 django-tests:
   stage: test
   script:
     - cd src/
-    - pip3 install -r requirements.txt
-    - python3 development-manage.py jenkins --enable-coverage --coverage-rcfile=.coveragerc
+    - /src/venv/bin/pip3 install -r requirements.txt
+    - /src/venv/bin/python3 development-manage.py jenkins --enable-coverage --coverage-rcfile=.coveragerc
 
   artifacts:
     reports:
@@ -30,8 +31,8 @@ npm-tests:
   stage: test
   script:
     - cd src/
-    - pip3 install -r requirements.txt
-    - python3 development-manage.py graphql_schema
+    - /src/venv/bin/pip3 install -r requirements.txt
+    - /src/venv/bin/python3 development-manage.py graphql_schema
     - cd react/
     - export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" --no-use
     - eval "[ -f .nvmrc ] && nvm install && nvm use && nvm install-latest-npm"
@@ -48,13 +49,13 @@ npm-tests:
 
 
 code-quality:
-  image: docker:stable
+  image: docker:25
   variables:
     DOCKER_DRIVER: overlay2
     SP_VERSION: 0.85.26
   allow_failure: true
   services:
-    - docker:stable-dind
+    - docker:25-dind
   before_script: []
   script:
     - docker run
@@ -69,8 +70,8 @@ code-quality:
 
 flake8:
   script:
-    - pip3 install flake8-gl-codeclimate
-    - flake8 --exit-zero --format gl-codeclimate --output-file gl-code-quality-report.json src/
+    - /src/venv/bin/pip3 install flake8-gl-codeclimate
+    - /src/venv/bin/flake8 --exit-zero --format gl-codeclimate --output-file gl-code-quality-report.json src/
   artifacts:
     reports:
       codequality: gl-code-quality-report.json
