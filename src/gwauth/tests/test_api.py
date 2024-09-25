@@ -128,7 +128,7 @@ class TestAPIToken(AuthTestCase):
         APIToken.objects.create(user=self.other_user, app="gwlandscape")
 
         # User is authenticated, but no tokens exist for user
-        self.assertEquals(
+        self.assertEqual(
             run_query().data['apiTokens'],
             [],
             "API token query returned data when it shouldn't have."
