@@ -21,7 +21,7 @@ class AuthJSONWebTokenClient(JSONWebTokenClient):
         else:
             # Internal API requests don't required "JWT " as a prefix
             self._credentials = {
-                jwt_settings.JWT_AUTH_HEADER_NAME: token.decode('utf-8'),
+                jwt_settings.JWT_AUTH_HEADER_NAME: token,
             }
 
 

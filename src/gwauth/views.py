@@ -141,7 +141,7 @@ def ligo_auth(request):
         return HttpResponse(f"""
                 <!DOCTYPE html>
                 <script>
-                    window.location = "{payload['callback_url']}{response_token.decode()}";
+                    window.location = "{payload['callback_url']}{response_token}";
                 </script>
                 """)
     else:
@@ -192,7 +192,7 @@ def ligo_auth(request):
                 domain,
                 reverse(
                     'ligo_continue',
-                    args=[response_token.decode()]
+                    args=[response_token]
                 )
             )
         )
