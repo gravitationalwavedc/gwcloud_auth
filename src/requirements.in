@@ -9,6 +9,6 @@ django4-jenkins
 pep8
 pyflakes
 flake8
-coverage
+coverage<5
 responses
 pyjwt
