@@ -157,7 +157,7 @@ class TestLigo(TestCase):
             },
             settings.ACCOUNTS_PORTAL_LIGO_AUTH_SECRET_KEY,
             algorithm='HS256'
-        ).decode()
+        )
 
         response = self.client.get(
             reverse('ligo_auth'),
@@ -176,7 +176,6 @@ class TestLigo(TestCase):
         loc = loc.strip()
         token = loc.split(b"\"")[1]
         token = token.split(b"/")[-1]
-        token = token.decode('utf-8')
 
         # Verify the content in the token
         payload = jwt.decode(token, settings.ACCOUNTS_PORTAL_LIGO_AUTH_SECRET_KEY, algorithms='HS256')

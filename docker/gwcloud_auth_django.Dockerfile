@@ -1,9 +1,9 @@
 # Build the base image
-FROM debian:buster AS base
+FROM debian:bookworm AS base
 
 # Update the container and install common packages
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get -y install python-virtualenv python3 python3-dev default-libmysqlclient-dev shibboleth-sp2-common shibboleth-sp2-utils libapache2-mod-shib2 libshibresolver2 libapache2-mod-wsgi-py3 curl
+RUN apt-get -y install python3-virtualenv python3.11 python3-dev default-libmysqlclient-dev shibboleth-sp-common shibboleth-sp-utils libapache2-mod-shib libshibresolver3 libapache2-mod-wsgi-py3 curl
 
 # Enable mod shibboleth and mod wsgi
 RUN a2enmod shib
@@ -52,8 +52,8 @@ RUN rm -Rf /src/react
 # Create python virtualenv
 RUN virtualenv -p python3 /src/venv
 
-# Activate and install the django requirements (mysqlclient requires python3-dev and build-essential)
-RUN apt-get install -y python3-dev build-essential
+# Activate and install the django requirements (mysqlclient requires python3-dev, pkg-config and build-essential)
+RUN apt-get install -y python3-dev build-essential pkg-config
 
 RUN mkdir -p /src/react/data/
 RUN . /src/venv/bin/activate && pip install -r /src/requirements.txt && pip install mysqlclient 
@@ -73,7 +73,7 @@ FROM python AS javascript
 COPY src/react /tmp/react
  
 # Build webpack bundle
-RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 RUN . ~/.nvm/nvm.sh && cd /tmp/react && nvm install && nvm use && npm install --legacy-deps
 COPY --from=python /src/react/data/schema.json /tmp/react/data/
 RUN . ~/.nvm/nvm.sh && cd /tmp/react && nvm use && npm run relay && npm run build
