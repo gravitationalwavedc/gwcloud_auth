@@ -1,7 +1,9 @@
 from django.test import TestCase
+from django.conf import settings
 
 from gwauth.models import GWCloudUser
 
+from hashlib import sha3_512
 
 class TestGWCloudUserModel(TestCase):
     @classmethod
@@ -85,3 +87,31 @@ class TestGWCloudUserModel(TestCase):
         self.assertEqual(buffy.first_name, payload['givenName'])
         self.assertEqual(buffy.last_name, payload['sn'])
         self.assertEqual(buffy.email, payload['mail'])
+
+    def test_ligo_update_or_create_old_uid(self):
+        userhash = sha3_512(("buffy.summers" + settings.SECRET_KEY).encode()).hexdigest()
+        # Create a user bypassing the normal method, so we can have the old-style
+        # firstname.lastname UID rather than an integer (but actually a string) UID
+        user= GWCloudUser.objects.create(
+            username=userhash,
+            email="buffy.summers@slayer.com"
+        )
+        payload = {
+            'uid': '1234',
+            'givenName': 'buffy',
+            'sn': 'summers',
+            'mail': 'buffy.summers@slayer.com'
+        }
+        new_username_hash = sha3_512((payload['uid'] + settings.SECRET_KEY).encode()).hexdigest()
+
+        tested_user = GWCloudUser.ligo_update_or_create(payload)
+        self.assertEqual(user.id, tested_user.id)
+
+        self.assertEqual(tested_user.first_name, payload['givenName'])
+        self.assertEqual(tested_user.last_name, payload['sn'])
+        self.assertEqual(tested_user.email, payload['mail'])
+        self.assertEqual(tested_user.username, new_username_hash)
+
+
+
+
