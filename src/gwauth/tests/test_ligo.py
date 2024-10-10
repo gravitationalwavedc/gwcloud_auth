@@ -8,13 +8,11 @@ from django.urls import reverse
 
 shibboleth_dict = {
     "cn": "Lewis Lakerink",
-    "displayName": "Lewis Lakerink",
     "eduPersonPrincipalName": "lewis.lakerink@ligo.org",
-    "employeeNumber": "5429",
     "givenName": "Lewis",
     "mail": "lewis.lakerink@ligo.org",
     "sn": "Lakerink",
-    "uid": "lewis.lakerink",
+    "uid": "1234",
 }
 
 

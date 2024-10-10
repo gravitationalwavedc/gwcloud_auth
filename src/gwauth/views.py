@@ -113,13 +113,11 @@ def verify(args):
 
 def ligo_auth(request):
     #  'cn': 'Lewis Lakerink'
-    #  'displayName': 'Lewis Lakerink'
     #  'eduPersonPrincipalName': 'lewis.lakerink@ligo.org'
-    #  'employeeNumber': '5429'
     #  'givenName': 'Lewis'
     #  'mail': 'lewis.lakerink@ligo.org'
     #  'sn': 'Lakerink'
-    #  'uid': 'lewis.lakerink'
+    #  'uid': '1234'
 
     # Check if 'special' was passed through to the view - this is currently used by the ozstar accounts portal to verify
     # that a user is a valid ligo user
