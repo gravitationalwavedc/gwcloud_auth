@@ -13,4 +13,4 @@ class GWCloudUserAdmin(admin.ModelAdmin):
 
 @admin.register(APIToken)
 class APITokenAdmin(admin.ModelAdmin):
-    readonly_fields = ['token']
+    readonly_fields = ["token"]

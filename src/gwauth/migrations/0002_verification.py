@@ -7,17 +7,25 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('gwauth', '0001_initial'),
+        ("gwauth", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Verification',
+            name="Verification",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('information', models.CharField(max_length=1024)),
-                ('expiry', models.DateTimeField(null=True)),
-                ('verified', models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("information", models.CharField(max_length=1024)),
+                ("expiry", models.DateTimeField(null=True)),
+                ("verified", models.BooleanField(default=False)),
             ],
         ),
     ]

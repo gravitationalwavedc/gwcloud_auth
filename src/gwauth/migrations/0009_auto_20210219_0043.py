@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('gwauth', '0008_auto_20210219_0035'),
+        ("gwauth", "0008_auto_20210219_0035"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='apitoken',
-            name='token',
+            model_name="apitoken",
+            name="token",
             field=models.CharField(default=None, max_length=64, unique=True),
         ),
     ]

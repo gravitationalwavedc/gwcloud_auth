@@ -8,17 +8,36 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('gwauth', '0006_auto_20201119_2353'),
+        ("gwauth", "0006_auto_20201119_2353"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='APIToken',
+            name="APIToken",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('app', models.CharField(choices=[('Bilby', 'Bilby')], default='Bilby', max_length=32)),
-                ('token', models.CharField(default=None, max_length=64, unique=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "app",
+                    models.CharField(
+                        choices=[("Bilby", "Bilby")], default="Bilby", max_length=32
+                    ),
+                ),
+                ("token", models.CharField(default=None, max_length=64, unique=True)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

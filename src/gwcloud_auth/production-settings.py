@@ -4,9 +4,9 @@ DEBUG = False
 
 STATIC_URL = "/auth/static/"
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
-EMAIL_HOST = 'mail.swin.edu.au'
+EMAIL_HOST = "mail.swin.edu.au"
 EMAIL_PORT = 25
 
 try:

@@ -11,8 +11,12 @@ class TestRegistration(AuthTestCase):
         """
         Check that invalid captcha fails as expected
         """
-        responses.add(responses.POST, 'https://www.google.com/recaptcha/api/siteverify',
-                      json={'success': False}, status=200)
+        responses.add(
+            responses.POST,
+            "https://www.google.com/recaptcha/api/siteverify",
+            json={"success": False},
+            status=200,
+        )
 
         response = self.client.execute(
             """
@@ -42,13 +46,8 @@ class TestRegistration(AuthTestCase):
                 "result": {
                     "result": False,
                     "errors": [
-                        {
-                            "field": "captcha",
-                            "messages": [
-                                "Captcha was invalid"
-                            ]
-                        }
-                    ]
+                        {"field": "captcha", "messages": ["Captcha was invalid"]}
+                    ],
                 }
             }
         }
@@ -62,8 +61,12 @@ class TestRegistration(AuthTestCase):
         """
         Check that invalid email fails as expected
         """
-        responses.add(responses.POST, 'https://www.google.com/recaptcha/api/siteverify',
-                      json={'success': True}, status=200)
+        responses.add(
+            responses.POST,
+            "https://www.google.com/recaptcha/api/siteverify",
+            json={"success": True},
+            status=200,
+        )
 
         response = self.client.execute(
             """
@@ -93,13 +96,8 @@ class TestRegistration(AuthTestCase):
                 "result": {
                     "result": False,
                     "errors": [
-                        {
-                            "field": "email",
-                            "messages": [
-                                "Enter a valid email address."
-                            ]
-                        }
-                    ]
+                        {"field": "email", "messages": ["Enter a valid email address."]}
+                    ],
                 }
             }
         }
@@ -113,8 +111,12 @@ class TestRegistration(AuthTestCase):
         """
         Check that invalid first name fails as expected
         """
-        responses.add(responses.POST, 'https://www.google.com/recaptcha/api/siteverify',
-                      json={'success': True}, status=200)
+        responses.add(
+            responses.POST,
+            "https://www.google.com/recaptcha/api/siteverify",
+            json={"success": True},
+            status=200,
+        )
 
         response = self.client.execute(
             """
@@ -144,13 +146,8 @@ class TestRegistration(AuthTestCase):
                 "result": {
                     "result": False,
                     "errors": [
-                        {
-                            "field": "first_name",
-                            "messages": [
-                                "This field is required."
-                            ]
-                        }
-                    ]
+                        {"field": "first_name", "messages": ["This field is required."]}
+                    ],
                 }
             }
         }
@@ -164,8 +161,12 @@ class TestRegistration(AuthTestCase):
         """
         Check that invalid last name fails as expected
         """
-        responses.add(responses.POST, 'https://www.google.com/recaptcha/api/siteverify',
-                      json={'success': True}, status=200)
+        responses.add(
+            responses.POST,
+            "https://www.google.com/recaptcha/api/siteverify",
+            json={"success": True},
+            status=200,
+        )
 
         response = self.client.execute(
             """
@@ -195,13 +196,8 @@ class TestRegistration(AuthTestCase):
                 "result": {
                     "result": False,
                     "errors": [
-                        {
-                            "field": "last_name",
-                            "messages": [
-                                "This field is required."
-                            ]
-                        }
-                    ]
+                        {"field": "last_name", "messages": ["This field is required."]}
+                    ],
                 }
             }
         }
@@ -215,8 +211,12 @@ class TestRegistration(AuthTestCase):
         """
         Check that invalid password fails as expected
         """
-        responses.add(responses.POST, 'https://www.google.com/recaptcha/api/siteverify',
-                      json={'success': True}, status=200)
+        responses.add(
+            responses.POST,
+            "https://www.google.com/recaptcha/api/siteverify",
+            json={"success": True},
+            status=200,
+        )
 
         response = self.client.execute(
             """
@@ -250,9 +250,9 @@ class TestRegistration(AuthTestCase):
                             "field": "password2",
                             "messages": [
                                 "This password is too short. It must contain at least 8 characters."
-                            ]
+                            ],
                         }
-                    ]
+                    ],
                 }
             }
         }
@@ -266,8 +266,12 @@ class TestRegistration(AuthTestCase):
         """
         Check that a valid registration succeeds
         """
-        responses.add(responses.POST, 'https://www.google.com/recaptcha/api/siteverify',
-                      json={'success': True}, status=200)
+        responses.add(
+            responses.POST,
+            "https://www.google.com/recaptcha/api/siteverify",
+            json={"success": True},
+            status=200,
+        )
 
         response = self.client.execute(
             """
@@ -290,17 +294,10 @@ class TestRegistration(AuthTestCase):
                   }
                 }
             """,
-            SERVER_NAME="localhost"
+            SERVER_NAME="localhost",
         )
 
-        expected = {
-            "register": {
-                "result": {
-                    "result": True,
-                    "errors": []
-                }
-            }
-        }
+        expected = {"register": {"result": {"result": True, "errors": []}}}
 
         self.assertDictEqual(
             expected, response.data, "registration query returned unexpected data."
@@ -308,7 +305,9 @@ class TestRegistration(AuthTestCase):
 
         # Verify that an email was sent
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, "[GWCloud] Please verify your email address")
+        self.assertEqual(
+            mail.outbox[0].subject, "[GWCloud] Please verify your email address"
+        )
         self.assertTrue("bill@nye.com" in mail.outbox[0].to)
         self.assertTrue("Bill" in mail.outbox[0].body)
         self.assertTrue("Nye" in mail.outbox[0].body)
@@ -322,7 +321,7 @@ class TestRegistration(AuthTestCase):
             last_name="Nye",
             status=get_user_model().UNVERIFIED,
             is_active=False,
-            is_ligo_user=False
+            is_ligo_user=False,
         )
 
     @responses.activate
@@ -331,26 +330,30 @@ class TestRegistration(AuthTestCase):
         Check that the registration templates are correct
         """
         expected = {
-            'gwcloud.org.au': {
-                'site': 'GWCloud',
-                'url': 'https://gwcloud.org.au/',
-                'admin': 'paul.lasky@monash.edu'
+            "gwcloud.org.au": {
+                "site": "GWCloud",
+                "url": "https://gwcloud.org.au/",
+                "admin": "paul.lasky@monash.edu",
             },
-            'gwlab.org.au': {
-                'site': 'GWLab',
-                'url': 'https://gwlab.org.au/',
-                'admin': 'pclearwater@swin.edu.au'
+            "gwlab.org.au": {
+                "site": "GWLab",
+                "url": "https://gwlab.org.au/",
+                "admin": "pclearwater@swin.edu.au",
             },
-            'gwlandscape.org.au': {
-                'site': 'GWLandscape',
-                'url': 'https://gwlandscape.org.au/',
-                'admin': 'ilya.mandel@monash.edu'
-            }
+            "gwlandscape.org.au": {
+                "site": "GWLandscape",
+                "url": "https://gwlandscape.org.au/",
+                "admin": "ilya.mandel@monash.edu",
+            },
         }
 
         for project_domain, data in expected.items():
-            responses.add(responses.POST, 'https://www.google.com/recaptcha/api/siteverify',
-                          json={'success': True}, status=200)
+            responses.add(
+                responses.POST,
+                "https://www.google.com/recaptcha/api/siteverify",
+                json={"success": True},
+                status=200,
+            )
 
             response = self.client.execute(
                 """
@@ -373,17 +376,10 @@ class TestRegistration(AuthTestCase):
                       }
                     }
                 """,
-                SERVER_NAME=project_domain
+                SERVER_NAME=project_domain,
             )
 
-            expected = {
-                "register": {
-                    "result": {
-                        "result": True,
-                        "errors": []
-                    }
-                }
-            }
+            expected = {"register": {"result": {"result": True, "errors": []}}}
 
             self.assertDictEqual(
                 expected, response.data, "registration query returned unexpected data."
@@ -391,14 +387,12 @@ class TestRegistration(AuthTestCase):
 
             # Verify that an email was sent
             self.assertEqual(len(mail.outbox), 1)
-            self.assertTrue(data['site'] in mail.outbox[0].subject)
-            self.assertTrue(data['site'] in mail.outbox[0].body)
-            self.assertTrue(data['url'] in mail.outbox[0].body)
-            self.assertTrue(data['admin'] in mail.outbox[0].body)
+            self.assertTrue(data["site"] in mail.outbox[0].subject)
+            self.assertTrue(data["site"] in mail.outbox[0].body)
+            self.assertTrue(data["url"] in mail.outbox[0].body)
+            self.assertTrue(data["admin"] in mail.outbox[0].body)
 
             # Reset the test state
-            get_user_model().objects.get(
-                username="bill@nye.com"
-            ).delete()
+            get_user_model().objects.get(username="bill@nye.com").delete()
 
             mail.outbox.clear()

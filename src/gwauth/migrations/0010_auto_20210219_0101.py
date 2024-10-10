@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('gwauth', '0009_auto_20210219_0043'),
+        ("gwauth", "0009_auto_20210219_0043"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='apitoken',
-            unique_together={('user', 'app')},
+            name="apitoken",
+            unique_together={("user", "app")},
         ),
     ]
