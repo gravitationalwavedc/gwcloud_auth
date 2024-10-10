@@ -22,7 +22,6 @@ COPY certs/login.ligo.org.cert.LIGOCA.pem.txt /etc/shibboleth/login.ligo.org.cer
 COPY certs/shibboleth2-version3.xml /etc/shibboleth/shibboleth2.xml 
 COPY certs/attribute-map-ligo.xml /etc/shibboleth/attribute-map.xml
 RUN chmod +r /etc/shibboleth/shibboleth2.xml
-COPY certs/ligo-metadata.xml /var/log/shibboleth/
 
 # Generate a self signed certificate for the internal http -> https proxy
 RUN apt-get update && \
@@ -36,7 +35,7 @@ RUN apt-get update && \
     openssl x509 -req -days 365 -in server.csr -signkey /etc/ssl/crt/gwcloud_auth.key -out /etc/ssl/crt/gwcloud_auth.crt
 
 # Kube sometimes has trouble downloading this metadata file using shibd
-# RUN curl https://liam-saml-metadata.s3.amazonaws.com/ligo-metadata.xml > /var/log/shibboleth/ligo-metadata.xml
+RUN curl https://liam-saml-metadata.s3.amazonaws.com/ligo-metadata.xml > /var/log/shibboleth/ligo-metadata.xml
 
 # Copy in the apache configuration 
 COPY conf/000-default.conf /etc/apache2/sites-enabled/000-default.conf
