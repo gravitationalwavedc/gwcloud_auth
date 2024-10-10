@@ -12,11 +12,12 @@ class TestQueriesSchema(AuthTestCase):
     @classmethod
     def setUpTestData(cls):
         payload = {
+            'uid': '1234',
             'givenName': "buffy",
             'sn': "summers",
             'mail': 'buffy@slayer.com'
         }
-        cls.buffy = GWCloudUser.ligo_update_or_create("buffy", payload)
+        cls.buffy = GWCloudUser.ligo_update_or_create(payload)
         cls.bill = GWCloudUser.objects.create(username="bill", first_name="billy", last_name="nye", email="1@2.com")
         cls.sally = GWCloudUser.objects.create(username="sally", first_name="sally", last_name="gold", email="2@2.com")
         cls.mike = GWCloudUser.objects.create(username="mikel73", first_name="Mike", last_name="Pats", email="3@2.com")

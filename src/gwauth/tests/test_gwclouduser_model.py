@@ -64,13 +64,14 @@ class TestGWCloudUserModel(TestCase):
 
     def test_ligo_update_or_create(self):
         payload = {
+            'uid': '1234',
             'givenName': "buffy",
             'sn': "summers",
             'mail': 'buffy@slayer.com'
         }
 
         self.assertFalse(GWCloudUser.does_user_exist("buffy123"))
-        buffy = GWCloudUser.ligo_update_or_create("buffy123", payload)
+        buffy = GWCloudUser.ligo_update_or_create(payload)
 
         self.assertEqual(buffy.first_name, payload['givenName'])
         self.assertEqual(buffy.last_name, payload['sn'])
@@ -78,7 +79,7 @@ class TestGWCloudUserModel(TestCase):
 
         payload['sn'] = "married"
         payload['mail'] = 'buffymarried@slayer.com'
-        GWCloudUser.ligo_update_or_create("buffy123", payload)
+        GWCloudUser.ligo_update_or_create(payload)
 
         buffy.refresh_from_db()
         self.assertEqual(buffy.first_name, payload['givenName'])

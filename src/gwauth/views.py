@@ -13,7 +13,6 @@ from gwauth.forms import RegistrationForm
 from gwauth.mailer import actions
 from gwauth.models import GWCloudUser
 
-from hashlib import sha3_512
 
 
 def register(args, project):
@@ -145,11 +144,10 @@ def ligo_auth(request):
                 </script>
                 """)
     else:
-        # This will generate a unique hash that is 128 characters long (Django has 160 limit on username field)
-        username_hash = sha3_512((request.META['uid'] + settings.SECRET_KEY).encode()).hexdigest()
+
 
         # Get and update the user
-        user = GWCloudUser.ligo_update_or_create(username_hash, request.META)
+        user = GWCloudUser.ligo_update_or_create(request.META)
 
         # Authorize the user and get the token details
         token = get_token(user)

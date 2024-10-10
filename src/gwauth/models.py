@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.utils import timezone
 from django.conf import settings
 
+from hashlib import sha3_512
 
 class GWCloudUser(AbstractUser):
     IS_ADMIN = 'Admin'
@@ -81,7 +82,7 @@ class GWCloudUser(AbstractUser):
         return cls.objects.filter(username=username).exists()
 
     @classmethod
-    def ligo_update_or_create(cls, username, ligo_payload):
+    def ligo_update_or_create(cls, ligo_payload):
         """
         Updates a ligo users details if a user exists with username, otherwise creates a new ligo user with the details
         from the provided payload
@@ -90,15 +91,47 @@ class GWCloudUser(AbstractUser):
         :param ligo_payload: The ligo payload sent from shibboleth
         :return: GWCloudUser
         """
-        return cls.objects.update_or_create(
-            username=username,
-            defaults={
-                "first_name": ligo_payload['givenName'],
-                "last_name": ligo_payload['sn'],
-                "email": ligo_payload['mail'],
-                "is_ligo_user": True
-            }
-        )[0]
+        # check if hash(employe number + secret) resolves to a valid user
+        # if it does
+        #   use that user
+        # else:
+        # check if hash (firstname.lastname + secret) resolves to a valid user:
+        #   migrate to using employee number as hash
+        #   use that user
+        # else it has failed, create new user 
+        # This will generate a unique hash that is 128 characters long (Django has 160 limit on username field)
+        
+        username_hash = sha3_512((ligo_payload['uid'] + settings.SECRET_KEY).encode()).hexdigest()
+        employee_id_user = cls.objects.filter(username=username_hash)
+        if employee_id_user.exists():
+            user = employee_id_user.first()
+            user.first_name = ligo_payload["givenName"]
+            user.last_name = ligo_payload["sn"]
+            user.email = ligo_payload["mail"]
+            user.is_ligo_user = True
+            user.save()
+            return user
+        else:
+            old_uid = ligo_payload['mail'].split("@")[0]
+            old_username_hash = sha3_512((old_uid + settings.SECRET_KEY).encode()).hexdigest()
+            old_id_user= cls.objects.filter(username=old_username_hash)
+            if old_id_user.exists():
+                user = old_id_user.first()
+                user.username = username_hash
+                user.first_name = ligo_payload["givenName"]
+                user.last_name = ligo_payload["sn"]
+                user.email = ligo_payload["mail"]
+                user.is_ligo_user = True
+                user.save()
+                return user
+            
+        return cls.objects.create(
+                username=username_hash,
+                first_name = ligo_payload["givenName"],
+                last_name = ligo_payload["sn"],
+                email = ligo_payload["mail"],
+                is_ligo_user = True
+        )
 
 
 class Verification(models.Model):
