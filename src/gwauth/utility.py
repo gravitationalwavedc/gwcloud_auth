@@ -71,7 +71,7 @@ def get_information(token):
         verification.save()
         return verification.information
     except Verification.DoesNotExist:
-        raise ValueError('Invalid or expired verification code')
+        raise ValueError("Invalid or expired verification code")
     except ValidationError:
         raise ValueError("Invalid verification code")
     except Exception as e:
@@ -90,19 +90,19 @@ def jwt_payload(user, context=None):
 
     payload = {
         user.USERNAME_FIELD: username,
-        'exp': datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA,
-        'userId': user.id,
-        'isLigo': user.is_ligo_user
+        "exp": datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA,
+        "userId": user.id,
+        "isLigo": user.is_ligo_user,
     }
 
     if jwt_settings.JWT_ALLOW_REFRESH:
-        payload['origIat'] = timegm(datetime.utcnow().utctimetuple())
+        payload["origIat"] = timegm(datetime.utcnow().utctimetuple())
 
     if jwt_settings.JWT_AUDIENCE is not None:
-        payload['aud'] = jwt_settings.JWT_AUDIENCE
+        payload["aud"] = jwt_settings.JWT_AUDIENCE
 
     if jwt_settings.JWT_ISSUER is not None:
-        payload['iss'] = jwt_settings.JWT_ISSUER
+        payload["iss"] = jwt_settings.JWT_ISSUER
 
     return payload
 
@@ -114,25 +114,28 @@ def jwt_authentication(secret, exc=exceptions.PermissionDenied()):
     :param exc: The exception to throw if the token is not valid
     :return: The request result
     """
+
     def decorator(f):
         @wraps(f)
         @decorators.context(f)
         def wrapper(context, *args, **kwargs):
             # Get the auth header
-            token = context.headers.get('Authorization', None)
+            token = context.headers.get("Authorization", None)
             if not token:
                 raise exc
 
             # Validate the token
             try:
-                token = token.encode('utf-8')
-                jwt.decode(token, key=secret, verify=True, algorithms='HS256')
+                token = token.encode("utf-8")
+                jwt.decode(token, key=secret, verify=True, algorithms="HS256")
             except jwt.DecodeError:
                 raise exc
 
             # Token was valid, call the wrapped function
             return f(*args, **kwargs)
+
         return wrapper
+
     return decorator
 
 
@@ -143,4 +146,4 @@ def project_from_context(context):
     :return: The project name
     """
     domain = context.get_host()
-    return domain.split('.')[0]
+    return domain.split(".")[0]

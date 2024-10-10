@@ -6,18 +6,31 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('gwauth', '0002_verification'),
+        ("gwauth", "0002_verification"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='gwclouduser',
-            name='role',
-            field=models.CharField(choices=[('Admin', 'Admin'), ('User', 'User')], default='User', max_length=5),
+            model_name="gwclouduser",
+            name="role",
+            field=models.CharField(
+                choices=[("Admin", "Admin"), ("User", "User")],
+                default="User",
+                max_length=5,
+            ),
         ),
         migrations.AddField(
-            model_name='gwclouduser',
-            name='status',
-            field=models.CharField(choices=[('Unverified', 'Unverified'), ('Verified', 'Verified'), ('Confirmed', 'Confirmed'), ('Deleted', 'Deleted')], default='Unverified', max_length=10),
+            model_name="gwclouduser",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("Unverified", "Unverified"),
+                    ("Verified", "Verified"),
+                    ("Confirmed", "Confirmed"),
+                    ("Deleted", "Deleted"),
+                ],
+                default="Unverified",
+                max_length=10,
+            ),
         ),
     ]

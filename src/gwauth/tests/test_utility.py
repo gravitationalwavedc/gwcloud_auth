@@ -15,38 +15,46 @@ class TestUtils(TestCase):
             username="testuser",
             first_name="Bill",
             last_name="Nye",
-            email="billnye@scienceguy.com"
+            email="billnye@scienceguy.com",
         )
 
     def test_jwt_payload(self):
         result = jwt_payload(self.user)
 
-        self.assertIn(self.user.USERNAME_FIELD, result, "username was not in generated JWT payload")
+        self.assertIn(
+            self.user.USERNAME_FIELD,
+            result,
+            "username was not in generated JWT payload",
+        )
         self.assertIn("exp", result, "expiry was not in generated JWT payload")
         self.assertIn("userId", result, "user id was not in generated JWT payload")
         self.assertIn("isLigo", result, "is ligo user was not in generated JWT payload")
 
-        self.assertEqual(result[self.user.USERNAME_FIELD], self.user.username, "username was not the expected value")
+        self.assertEqual(
+            result[self.user.USERNAME_FIELD],
+            self.user.username,
+            "username was not the expected value",
+        )
         self.assertAlmostEqual(
             result["exp"],
             datetime.datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA,
             delta=datetime.timedelta(seconds=5),
-            msg="expiry was not the expected value"
+            msg="expiry was not the expected value",
         )
         self.assertAlmostEqual(
-            result['origIat'],
+            result["origIat"],
             timegm(datetime.datetime.utcnow().utctimetuple()),
             delta=5,
-            msg="Issued at time was not the expected value"
+            msg="Issued at time was not the expected value",
         )
-        self.assertEqual(result['isLigo'], False, "isLigo was incorrect")
+        self.assertEqual(result["isLigo"], False, "isLigo was incorrect")
 
         # Check that isLigo updates as expected
         self.user.is_ligo_user = True
         self.user.save()
 
         result = jwt_payload(self.user)
-        self.assertEqual(result['isLigo'], True, "isLigo was incorrect")
+        self.assertEqual(result["isLigo"], True, "isLigo was incorrect")
 
     def test_get_token(self):
         # First test success

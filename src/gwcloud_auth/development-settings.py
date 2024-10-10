@@ -1,15 +1,15 @@
 from .base import *
 
-INSTALLED_APPS += ('corsheaders', )
+INSTALLED_APPS += ("corsheaders",)
 CORS_ORIGIN_ALLOW_ALL = True
 
-MIDDLEWARE.append('corsheaders.middleware.CorsMiddleware')
+MIDDLEWARE.append("corsheaders.middleware.CorsMiddleware")
 
-SITE_URLS['localhost'] = "http://localhost:3000"
+SITE_URLS["localhost"] = "http://localhost:3000"
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 try:
     from .local import *

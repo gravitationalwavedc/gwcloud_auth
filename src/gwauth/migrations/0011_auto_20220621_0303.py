@@ -6,13 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('gwauth', '0010_auto_20210219_0101'),
+        ("gwauth", "0010_auto_20210219_0101"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='apitoken',
-            name='app',
-            field=models.CharField(choices=[('gwcloud', 'GWCloud'), ('gwlab', 'GWLab'), ('gwlandscape', 'GWLandscape')], default='gwcloud', max_length=32),
+            model_name="apitoken",
+            name="app",
+            field=models.CharField(
+                choices=[
+                    ("gwcloud", "GWCloud"),
+                    ("gwlab", "GWLab"),
+                    ("gwlandscape", "GWLandscape"),
+                ],
+                default="gwcloud",
+                max_length=32,
+            ),
         ),
     ]

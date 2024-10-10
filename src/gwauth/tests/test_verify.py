@@ -44,8 +44,12 @@ class TestVerify(AuthTestCase):
         Check that a valid verification succeeds
         """
         # First create the new user
-        responses.add(responses.POST, 'https://www.google.com/recaptcha/api/siteverify',
-                      json={'success': True}, status=200)
+        responses.add(
+            responses.POST,
+            "https://www.google.com/recaptcha/api/siteverify",
+            json={"success": True},
+            status=200,
+        )
 
         self.client.execute(
             """
@@ -68,7 +72,7 @@ class TestVerify(AuthTestCase):
                   }
                 }
             """,
-            SERVER_NAME="localhost"
+            SERVER_NAME="localhost",
         )
 
         # Get the created user

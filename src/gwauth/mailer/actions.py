@@ -20,15 +20,15 @@ def email_verify_request(to_addresses, first_name, last_name, link, project):
 
     # setting up the context
     context = {
-        'first_name': first_name,
-        'last_name': last_name,
-        'link': link,
+        "first_name": first_name,
+        "last_name": last_name,
+        "link": link,
     }
 
     # Building and sending emails
     email.Email(
-        subject=templates.VERIFY_EMAIL_ADDRESS[project]['subject'],
+        subject=templates.VERIFY_EMAIL_ADDRESS[project]["subject"],
         to_addresses=to_addresses,
-        template=templates.VERIFY_EMAIL_ADDRESS[project]['message'],
+        template=templates.VERIFY_EMAIL_ADDRESS[project]["message"],
         context=context,
     ).send_email()

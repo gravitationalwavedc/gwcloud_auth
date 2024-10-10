@@ -11,13 +11,13 @@ class TestAPIToken(AuthTestCase):
             username="billnye",
             first_name="Bill",
             last_name="Nye",
-            email="billnye@scienceguy.com"
+            email="billnye@scienceguy.com",
         )
         self.other_user = GWCloudUser.objects.create(
             username="buffysummers",
             first_name="Buffy",
             last_name="Summers",
-            email="buffysummers@vampireslayer.com"
+            email="buffysummers@vampireslayer.com",
         )
 
     @silence_errors
@@ -25,6 +25,7 @@ class TestAPIToken(AuthTestCase):
         """
         Check that an API token can be created with a mutation
         """
+
         def run_query():
             return self.client.execute(
                 """
@@ -45,16 +46,16 @@ class TestAPIToken(AuthTestCase):
         # User is not authenticated, mutation fails
         self.assertEqual(
             run_query().errors[0].message,
-            "You do not have permission to perform this action"
+            "You do not have permission to perform this action",
         )
 
         self.client.authenticate(self.user)
 
         # User is authenticated, mutation succeeds
         self.assertEqual(
-            run_query().data['createApiToken']['result']['token'],
+            run_query().data["createApiToken"]["result"]["token"],
             APIToken.objects.all().last().token,
-            "API token creation mutation does not run correctly."
+            "API token creation mutation does not run correctly.",
         )
 
     @silence_errors
@@ -62,6 +63,7 @@ class TestAPIToken(AuthTestCase):
         """
         Check that an API token can be obtained with a query
         """
+
         def run_query():
             return self.client.execute(
                 """
@@ -76,7 +78,7 @@ class TestAPIToken(AuthTestCase):
         # User is not authenticated, query fails
         self.assertEqual(
             run_query().errors[0].message,
-            'You do not have permission to perform this action'
+            "You do not have permission to perform this action",
         )
 
         self.client.authenticate(self.user)
@@ -85,17 +87,17 @@ class TestAPIToken(AuthTestCase):
 
         # User is authenticated, but no token exists for user
         self.assertIsNone(
-            run_query().data['apiToken'],
-            "API token query returned data when it shouldn't have."
+            run_query().data["apiToken"],
+            "API token query returned data when it shouldn't have.",
         )
 
         token = APIToken.objects.create(user=self.user, app="gwcloud")
 
         # User is authenticated, query succeeds
         self.assertEqual(
-            run_query().data['apiToken'],
+            run_query().data["apiToken"],
             token.token,
-            "API token query returned unexpected data."
+            "API token query returned unexpected data.",
         )
 
     @silence_errors
@@ -103,6 +105,7 @@ class TestAPIToken(AuthTestCase):
         """
         Check that multiple API tokens can be obtained with query
         """
+
         def run_query():
             return self.client.execute(
                 """
@@ -118,7 +121,7 @@ class TestAPIToken(AuthTestCase):
         # User is not authenticated, query fails
         self.assertEqual(
             run_query().errors[0].message,
-            'You do not have permission to perform this action'
+            "You do not have permission to perform this action",
         )
 
         self.client.authenticate(self.user)
@@ -129,9 +132,9 @@ class TestAPIToken(AuthTestCase):
 
         # User is authenticated, but no tokens exist for user
         self.assertEqual(
-            run_query().data['apiTokens'],
+            run_query().data["apiTokens"],
             [],
-            "API token query returned data when it shouldn't have."
+            "API token query returned data when it shouldn't have.",
         )
 
         APIToken.objects.create(user=self.user, app="gwcloud")
@@ -140,9 +143,9 @@ class TestAPIToken(AuthTestCase):
 
         # User is authenticated, query succeeds
         self.assertEqual(
-            run_query().data['apiTokens'],
-            list(APIToken.objects.filter(user=self.user).values('app', 'token')),
-            "API token query returned unexpected data."
+            run_query().data["apiTokens"],
+            list(APIToken.objects.filter(user=self.user).values("app", "token")),
+            "API token query returned unexpected data.",
         )
 
     @silence_errors
@@ -150,6 +153,7 @@ class TestAPIToken(AuthTestCase):
         """
         Check that an API token can be revoked with a mutation
         """
+
         def run_query():
             return self.client.execute(
                 """
@@ -169,16 +173,16 @@ class TestAPIToken(AuthTestCase):
         # User is not authenticated, mutation fails
         self.assertEqual(
             run_query().errors[0].message,
-            'You do not have permission to perform this action'
+            "You do not have permission to perform this action",
         )
 
         self.client.authenticate(self.user)
 
         # User is authenticated, mutation succeeds
         self.assertEqual(
-            run_query().data['revokeApiToken']['result'],
-            f"{self.user.username}\'s API token for the gwcloud app has been deleted",
-            'No return message upon token deletion'
+            run_query().data["revokeApiToken"]["result"],
+            f"{self.user.username}'s API token for the gwcloud app has been deleted",
+            "No return message upon token deletion",
         )
 
         self.assertFalse(
@@ -192,15 +196,12 @@ class TestJWTFromAPIToken(AuthTestCase):
             username="testuser",
             first_name="Bill",
             last_name="Nye",
-            email="billnye@scienceguy.com"
+            email="billnye@scienceguy.com",
         )
 
         self.client.authenticate(self.user)
 
-        self.token = APIToken.objects.create(
-            user=self.user,
-            app="gwcloud"
-        )
+        self.token = APIToken.objects.create(user=self.user, app="gwcloud")
 
     def test_jwt_auth(self):
         """
@@ -218,8 +219,12 @@ class TestJWTFromAPIToken(AuthTestCase):
                     }}
                 }}
             """,
-            HTTP_HOST="gwcloud.org.au"
+            HTTP_HOST="gwcloud.org.au",
         )
 
-        jwt_token = response.data['jwtToken']['jwtToken']
-        self.assertEqual(get_user_by_token(jwt_token), self.user, "user not being correctly encoded into jwt")
+        jwt_token = response.data["jwtToken"]["jwtToken"]
+        self.assertEqual(
+            get_user_by_token(jwt_token),
+            self.user,
+            "user not being correctly encoded into jwt",
+        )

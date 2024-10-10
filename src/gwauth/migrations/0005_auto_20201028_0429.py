@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('gwauth', '0004_gwclouduser_is_ligo_user'),
+        ("gwauth", "0004_gwclouduser_is_ligo_user"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='gwclouduser',
-            name='email',
+            model_name="gwclouduser",
+            name="email",
             field=models.EmailField(max_length=254, unique=True),
         ),
     ]

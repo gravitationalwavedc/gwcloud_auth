@@ -10,26 +10,31 @@ from django.conf import settings
 
 from hashlib import sha3_512
 
+
 class GWCloudUser(AbstractUser):
-    IS_ADMIN = 'Admin'
-    IS_USER = 'User'
+    IS_ADMIN = "Admin"
+    IS_USER = "User"
     ROLE_CHOICES = [
         (IS_ADMIN, IS_ADMIN),
         (IS_USER, IS_USER),
     ]
-    role = models.CharField(max_length=5, choices=ROLE_CHOICES, default=IS_USER, blank=False)
+    role = models.CharField(
+        max_length=5, choices=ROLE_CHOICES, default=IS_USER, blank=False
+    )
 
-    UNVERIFIED = 'Unverified'
-    VERIFIED = 'Verified'
-    CONFIRMED = 'Confirmed'
-    DELETED = 'Deleted'
+    UNVERIFIED = "Unverified"
+    VERIFIED = "Verified"
+    CONFIRMED = "Confirmed"
+    DELETED = "Deleted"
     STATUS_CHOICES = [
         (UNVERIFIED, UNVERIFIED),
         (VERIFIED, VERIFIED),
         (CONFIRMED, CONFIRMED),
         (DELETED, DELETED),
     ]
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, blank=False, default=UNVERIFIED)
+    status = models.CharField(
+        max_length=10, choices=STATUS_CHOICES, blank=False, default=UNVERIFIED
+    )
     is_ligo_user = models.BooleanField(default=False)
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=50)
@@ -56,9 +61,9 @@ class GWCloudUser(AbstractUser):
         :return: QuerySet
         """
         return cls.objects.filter(
-            Q(username__icontains=term) |
-            Q(first_name__icontains=term) |
-            Q(last_name__icontains=term)
+            Q(username__icontains=term)
+            | Q(first_name__icontains=term)
+            | Q(last_name__icontains=term)
         )
 
     @classmethod
@@ -98,10 +103,12 @@ class GWCloudUser(AbstractUser):
         # check if hash (firstname.lastname + secret) resolves to a valid user:
         #   migrate to using employee number as hash
         #   use that user
-        # else it has failed, create new user 
+        # else it has failed, create new user
         # This will generate a unique hash that is 128 characters long (Django has 160 limit on username field)
-        
-        username_hash = sha3_512((ligo_payload['uid'] + settings.SECRET_KEY).encode()).hexdigest()
+
+        username_hash = sha3_512(
+            (ligo_payload["uid"] + settings.SECRET_KEY).encode()
+        ).hexdigest()
         employee_id_user = cls.objects.filter(username=username_hash)
         if employee_id_user.exists():
             user = employee_id_user.first()
@@ -112,9 +119,11 @@ class GWCloudUser(AbstractUser):
             user.save()
             return user
         else:
-            old_uid = ligo_payload['mail'].split("@")[0]
-            old_username_hash = sha3_512((old_uid + settings.SECRET_KEY).encode()).hexdigest()
-            old_id_user= cls.objects.filter(username=old_username_hash)
+            old_uid = ligo_payload["mail"].split("@")[0]
+            old_username_hash = sha3_512(
+                (old_uid + settings.SECRET_KEY).encode()
+            ).hexdigest()
+            old_id_user = cls.objects.filter(username=old_username_hash)
             if old_id_user.exists():
                 user = old_id_user.first()
                 user.username = username_hash
@@ -124,13 +133,13 @@ class GWCloudUser(AbstractUser):
                 user.is_ligo_user = True
                 user.save()
                 return user
-            
+
         return cls.objects.create(
-                username=username_hash,
-                first_name = ligo_payload["givenName"],
-                last_name = ligo_payload["sn"],
-                email = ligo_payload["mail"],
-                is_ligo_user = True
+            username=username_hash,
+            first_name=ligo_payload["givenName"],
+            last_name=ligo_payload["sn"],
+            email=ligo_payload["mail"],
+            is_ligo_user=True,
         )
 
 
@@ -139,13 +148,14 @@ class Verification(models.Model):
     Model to store information for email address verification.
     Can also be used for other verifications as well.
     """
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     information = models.CharField(max_length=1024)
     expiry = models.DateTimeField(null=True)
     verified = models.BooleanField(default=False)
 
     def __str__(self):
-        return u'%s' % self.information
+        return "%s" % self.information
 
     @classmethod
     def create(cls, information, expiry):
@@ -176,21 +186,32 @@ class APIToken(models.Model):
     """
     Model to store unique token for a specific user and app
     """
+
     APP_CHOICES = [
         ("gwcloud", "GWCloud"),
         ("gwlab", "GWLab"),
-        ("gwlandscape", "GWLandscape")
+        ("gwlandscape", "GWLandscape"),
     ]
-    user = models.ForeignKey('GWCloudUser', blank=False, on_delete=models.CASCADE)
-    app = models.CharField(max_length=32, choices=APP_CHOICES, blank=False, default="gwcloud")
+    user = models.ForeignKey("GWCloudUser", blank=False, on_delete=models.CASCADE)
+    app = models.CharField(
+        max_length=32, choices=APP_CHOICES, blank=False, default="gwcloud"
+    )
     token = models.CharField(max_length=64, unique=True, default=None)
 
     def save(self, *args, **kwargs):
         if self.token is None:
-            token_str = self.user.first_name + self.user.last_name + self.app + \
-                datetime.now().strftime("%m%d%Y%H%M%S") + settings.SECRET_KEY
-            self.token = hashlib.sha256(token_str.encode('utf-8')).hexdigest()
+            token_str = (
+                self.user.first_name
+                + self.user.last_name
+                + self.app
+                + datetime.now().strftime("%m%d%Y%H%M%S")
+                + settings.SECRET_KEY
+            )
+            self.token = hashlib.sha256(token_str.encode("utf-8")).hexdigest()
         super().save(*args, **kwargs)
 
     class Meta:
-        unique_together = ('user', 'app',)
+        unique_together = (
+            "user",
+            "app",
+        )

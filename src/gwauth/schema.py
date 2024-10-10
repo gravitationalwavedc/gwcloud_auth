@@ -35,9 +35,11 @@ class Register(relay.ClientIDMutation):
         project = project_from_context(info.context)
 
         result, errors = register(kwargs, project)
-        return Register(result=RegisterResult(
-            result=result,
-            errors=[FormError(field=k, messages=v) for k, v in errors])
+        return Register(
+            result=RegisterResult(
+                result=result,
+                errors=[FormError(field=k, messages=v) for k, v in errors],
+            )
         )
 
 
@@ -56,10 +58,7 @@ class Verify(relay.ClientIDMutation):
     def mutate_and_get_payload(cls, *args, **kwargs):
         result, message = verify(kwargs)
 
-        return Verify(result=VerifyResult(
-            result=result,
-            message=message)
-        )
+        return Verify(result=VerifyResult(result=result, message=message))
 
 
 class UserDetails(ObjectType):
@@ -98,14 +97,12 @@ class CreateAPIToken(relay.ClientIDMutation):
         user = info.context.user
 
         if not user.is_authenticated:
-            raise GraphQLError('You do not have permission to perform this action')
+            raise GraphQLError("You do not have permission to perform this action")
 
         token = APIToken(user=user, app=app)
         token.save()
 
-        return CreateAPIToken(
-            result=APITokenType(app=app, token=token.token)
-        )
+        return CreateAPIToken(result=APITokenType(app=app, token=token.token))
 
 
 class RevokeAPIToken(relay.ClientIDMutation):
@@ -119,13 +116,13 @@ class RevokeAPIToken(relay.ClientIDMutation):
         user = info.context.user
 
         if not user.is_authenticated:
-            raise GraphQLError('You do not have permission to perform this action')
+            raise GraphQLError("You do not have permission to perform this action")
 
         token = APIToken.objects.get(user=user, app=app)
         token.delete()
 
         return RevokeAPIToken(
-            result=f"{user.username}\'s API token for the {app} app has been deleted"
+            result=f"{user.username}'s API token for the {app} app has been deleted"
         )
 
 
@@ -161,7 +158,7 @@ class Query(object):
         terms = []
 
         # Iterate over each search term
-        for term in search.split(' '):
+        for term in search.split(" "):
             # Remove any whitespace
             term = term.strip()
 
@@ -171,10 +168,7 @@ class Query(object):
 
             # Search for all users by this term and add the term to the result
             terms.append(
-                UserTermFilterType(
-                    term=term,
-                    users=GWCloudUser.filter_by_term(term)
-                )
+                UserTermFilterType(term=term, users=GWCloudUser.filter_by_term(term))
             )
 
         return UserFilterType(terms=terms)
@@ -188,7 +182,9 @@ class Query(object):
 
     @login_required
     def resolve_api_tokens(self, info):
-        token_dicts = APIToken.objects.filter(user=info.context.user).values('app', 'token')
+        token_dicts = APIToken.objects.filter(user=info.context.user).values(
+            "app", "token"
+        )
         return [APITokenType(**token) for token in token_dicts]
 
     def resolve_jwt_token(self, info, token):
