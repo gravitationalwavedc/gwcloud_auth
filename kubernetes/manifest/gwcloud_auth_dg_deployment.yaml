@@ -29,7 +29,7 @@ spec:
           - secretRef:
               name: common
         name: gwcloud-auth
-        image: nexus.gwdc.org.au/docker/gwcloud_auth:0.58
+        image: nexus.gwdc.org.au/docker/gwcloud_auth:0.59
         ports:
         - name: http
           containerPort: 8000
