@@ -90,7 +90,9 @@ def jwt_payload(user, context=None):
 
     payload = {
         user.USERNAME_FIELD: username,
-        "exp": datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA,
+        "exp": timegm(
+            (datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA).utctimetuple()
+        ),
         "userId": user.id,
         "isLigo": user.is_ligo_user,
     }

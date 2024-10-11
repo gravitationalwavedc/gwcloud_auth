@@ -37,8 +37,12 @@ class TestUtils(TestCase):
         )
         self.assertAlmostEqual(
             result["exp"],
-            datetime.datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA,
-            delta=datetime.timedelta(seconds=5),
+            timegm(
+                (
+                    datetime.datetime.utcnow() + jwt_settings.JWT_EXPIRATION_DELTA
+                ).utctimetuple()
+            ),
+            delta=5,
             msg="expiry was not the expected value",
         )
         self.assertAlmostEqual(
